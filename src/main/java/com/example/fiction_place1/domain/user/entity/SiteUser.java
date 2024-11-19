@@ -11,6 +11,7 @@ import com.example.fiction_place1.global.jpa.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -23,6 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Table(name = "site_user")
 public class SiteUser extends BaseEntity {
     @Column(unique = true)
     private String username;

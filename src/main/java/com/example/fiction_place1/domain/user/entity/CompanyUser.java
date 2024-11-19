@@ -30,9 +30,10 @@ public class CompanyUser extends BaseEntity {
     private String email;
 
     @Column(unique = true)
-    private String nickname;
+    private String businessRegistrationNumber; //사업자등록 번호
 
-    private String thumbnailImg;
+    @Column(nullable = false)
+    private String contactPerson; //담당자 이름
 
     @OneToMany(mappedBy = "companyUser")
     private List<Message> messages;
