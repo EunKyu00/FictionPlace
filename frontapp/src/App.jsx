@@ -7,6 +7,7 @@ import ProfileHome from "./pages/ProfileHome"
 import Toonlist from "./pages/toonlist"
 import ProfileModify from "./pages/ProfileModify"
 import BordList from "./pages/BordList"
+import CompanyUserSignup from "./pages/CompanyUserSignup"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/myprofile" element={<ProfileHome />}></Route>
         <Route path="/myprofile/modify" element={<ProfileModify />}></Route>
         <Route path="/bordlist" element={<BordList />}></Route>
+        <Route path="/signup/company" element={<CompanyUserSignup />}></Route>
       </Routes>
     </BrowserRouter>
   )

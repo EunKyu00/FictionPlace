@@ -32,7 +32,7 @@ function Nav() {
             <Link to="/auth/login">로그인</Link>
           </li>
           <li>
-            <Link to="/signup">회원가입</Link>
+            <Link to="/signup/company">회원가입</Link>
           </li>
         </ul>
       </nav>
