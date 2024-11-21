@@ -1,0 +1,89 @@
+/* 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column; /* 세로 방향으로 정렬 */
+}
+
+/* 제목 스타일 */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px; /* 제목과 폼 간의 간격 추가 */
+    font-size: 24px;
+}
+
+/* 폼 컨테이너 */
+form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* 최대 너비 설정 */
+}
+
+/* 각 폼 그룹 */
+label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* 입력 필드 포커스 시 스타일 */
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* 제출 버튼 스타일 */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* 에러 메시지 스타일 */
+div {
+    text-align: center;
+    color: red;
+    margin-top: 10px;
+}
+/* 공통 에러 메시지 스타일 */
+.error-message {
+    color: red;
+}
