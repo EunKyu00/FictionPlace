@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -32,13 +33,26 @@ public class UserSecurityConfig {
                         .loginProcessingUrl("company/login")
                         .defaultSuccessUrl("/")
                         .failureUrl("/company/login?error=true"))
-
-                // 로그아웃 설정
+                //로그아웃 설정
                 .logout((logout) -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout")) // 일반회원 로그아웃 경로
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/company/logout"))
-                        .logoutSuccessUrl("/") // 로그아웃 후 리다이렉트할 경로
-                        .invalidateHttpSession(true)); // 세션 무효화
+                        .logoutRequestMatcher(new OrRequestMatcher(
+                                new AntPathRequestMatcher("/user/logout"), // 일반회원 로그아웃 경로
+                                new AntPathRequestMatcher("/company/logout") // 기업회원 로그아웃 경로
+                        )) // 두 경로 모두 로그아웃 처리
+                        .logoutSuccessUrl("/") // 로그아웃 후 리다이렉트 경로
+                        .invalidateHttpSession(true) // 세션 무효화
+                        .deleteCookies("JSESSIONID") // 쿠키 삭제
+                        .addLogoutHandler((request, response, authentication) -> {
+                            // 로그아웃 처리가 제대로 되었는지 확인
+                            String logoutPath = request.getRequestURI(); // 요청된 로그아웃 경로 확인
+                            if (logoutPath.equals("/user/logout")) {
+                                // 일반회원 로그아웃 처리
+                                System.out.println("일반회원 로그아웃 처리");
+                            } else if (logoutPath.equals("/company/logout")) {
+                                // 기업회원 로그아웃 처리
+                                System.out.println("기업회원 로그아웃 처리");
+                            }
+                        }));
 
 
         return http.build();
