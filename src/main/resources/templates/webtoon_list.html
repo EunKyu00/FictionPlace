@@ -2,9 +2,9 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Fiction Place</title>
-    <link rel="stylesheet" href="/webtoon_list.css" />
+    <link href="/webtoon_list.css" rel="stylesheet"/>
     <style>
         .dropdown-content {
             position: absolute;
@@ -32,26 +32,43 @@
         .navigation {
             position: relative;
         }
+
     </style>
 </head>
 <body>
 <div class="div">
     <div class="top-bar">
-        <img class="div2" src="div0.png" alt="Logo" />
+        <img alt="Logo" class="div2" src="div0.png"/>
         <div class="div3">Fiction Place</div>
         <div class="navigation">
             <div class="tab">홈</div>
             <div class="tab">프로필</div>
             <div class="tab">게시판</div>
-            <div class="tab">로그인</div>
-            <a href="#" id="signupToggle" class="tab">회원가입 ▼</a>
-            <div id="signupDropdown" class="dropdown-content" style="display: none;">
+            <!-- 로그인되지 않은 상태에서 로그인 링크만 보여줌 -->
+            <div th:if="${session.loginUser == null and session.loginCompanyUser == null}">
+                <a href="/user/login">일반회원 로그인</a>
+                <a href="/company/login">기업회원 로그인</a>
+            </div>
+            <!-- 로그인시 로그인 한 회원 정보와 로그아웃 링크 보여줌 -->
+            <div th:if="${session.loginUser != null}">
+                <p>일반회원: <span th:text="${session.loginUser.username}"></span></p>
+                <a href="/user/logout">로그아웃</a> <!-- 일반회원 로그아웃 -->
+            </div>
+            <div th:if="${session.loginCompanyUser != null}">
+                <p>기업회원: <span th:text="${session.loginCompanyUser.companyName}"></span></p>
+                <a href="/company/logout">로그아웃</a> <!-- 기업회원 로그아웃 -->
+            </div>
+
+            <!--회원가입 토글, 링크 -->
+            <a class="tab" href="#" id="signupToggle">회원가입 ▼</a>
+            <div class="dropdown-content" id="signupDropdown" style="display: none;">
                 <a href="/signup/user">일반 회원가입</a>
                 <a href="/signup/company">기업 회원가입</a>
             </div>
+
             <div class="div4">
                 <div class="text">Search in site</div>
-                <img class="ic-search" src="ic-search0.svg" alt="Search Icon" />
+                <img alt="Search Icon" class="ic-search" src="ic-search0.svg"/>
             </div>
         </div>
     </div>
@@ -67,7 +84,7 @@
                 </div>
             </div>
         </div>
-        <img class="vector-200" src="vector-2000.svg" alt="Decoration" />
+        <img alt="Decoration" class="vector-200" src="vector-2000.svg"/>
     </div>
     <div class="div5">
         <div class="title2">Featured Webtoons</div>
@@ -331,7 +348,7 @@
                 </div>
             </div>
         </div>
-        <img class="vector-2002" src="vector-2001.svg" />
+        <img class="vector-2002" src="vector-2001.svg"/>
     </div>
     <div class="row-bar">
         <div class="container">
@@ -361,6 +378,7 @@
             dropdown.style.display = 'none';
         }
     });
+
 </script>
 </body>
 </html>

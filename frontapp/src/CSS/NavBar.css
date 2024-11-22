@@ -131,6 +131,5 @@ body {
 .search-icon {
   width: 20px;
   height: 20px;
-  background: url("path_to_search_icon"); /* 검색 아이콘의 경로 지정 */
   background-size: contain;
 }
