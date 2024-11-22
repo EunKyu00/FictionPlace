@@ -8,7 +8,6 @@ import Toonlist from "./pages/Toonlist"
 import ProfileModify from "./pages/ProfileModify"
 import BordList from "./pages/BordList"
 import CompanyUserSignup from "./pages/CompanyUserSignup"
-import SignupForm from "./pages/SignupForm"
 
 function App() {
   return (
@@ -22,7 +21,6 @@ function App() {
         <Route path="/myprofile/modify" element={<ProfileModify />}></Route>
         <Route path="/bordlist" element={<BordList />}></Route>
         <Route path="/signup/company" element={<CompanyUserSignup />}></Route>
-        <Route path="/signup/user" element={<SignupForm />}></Route>
       </Routes>
     </BrowserRouter>
   )

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Slider from "react-slick"
 import "../CSS/Toonlist.css"
 import Nav from "../components/Nav.jsx"
@@ -8,6 +8,7 @@ import webtoonImage1 from "../assets/슬릭 가데이터.png"
 import webtoonImage2 from "../assets/슬릭가데이터3.jpg"
 import webtoonImage3 from "../assets/슬릭가데이터4.png"
 import InfiniteScroll from "react-infinite-scroll-component"
+import axios from "axios"
 
 function Toonlist() {
   const sliderSettings = {
@@ -23,6 +24,22 @@ function Toonlist() {
   const [items, setItems] = useState([...Array(30).keys()]) // 초기 30개의 아이템
   const [hasMore, setHasMore] = useState(true)
 
+  const [username, setUsername] = useState("")
+  const [message, setMessage] = useState("")
+
+  useEffect(() => {
+    // 서버에서 데이터를 가져옵니다.
+    axios
+      .get("/data") // Spring Boot 컨트롤러에서 데이터를 가져옴
+      .then((response) => {
+        setUsername(response.data.username)
+        setMessage(response.data.message)
+      })
+      .catch((error) => {
+        console.error("데이터 가져오기 오류:", error)
+      })
+  }, [])
+
   const fetchMoreData = () => {
     if (items.length >= 78) {
       setHasMore(false)
@@ -34,16 +51,6 @@ function Toonlist() {
 
   return (
     <div className="webtoon-list-page">
-      {/* 상단 바 */}
-      <div className="top-bar">
-        <div className="logo">로고</div>
-        <Nav />
-        <div className="search-box">
-          <input type="text" placeholder="검색어를 입력하세요" />
-          <button>검색</button>
-        </div>
-      </div>
-
       <div className="slider-section">
         <Slider {...sliderSettings}>
           <div>

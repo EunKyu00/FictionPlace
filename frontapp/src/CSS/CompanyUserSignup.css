@@ -50,9 +50,10 @@ label {
 }
 
 /* 입력 필드 스타일 */
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
   width: 100%;
   padding: 10px;
   font-size: 14px;

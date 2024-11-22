@@ -28,12 +28,28 @@ function Nav() {
           <li>
             <Link to="/myprofile">프로필</Link>
           </li>
-          <li>
-            <Link to="/auth/login">로그인</Link>
-          </li>
-          <li>
-            <Link to="/signup/company">회원가입</Link>
-          </li>
+          <div className="login-type">
+            로그인
+            <ul>
+              <li>
+                <a href="/login/user">일반 로그인</a>
+              </li>
+              <li>
+                <a href="/login/company">기업 로그인</a>
+              </li>
+            </ul>
+          </div>
+          <div className="signup-type">
+            회원가입
+            <ul>
+              <li>
+                <a href="/signup/user">일반 회원가입</a>
+              </li>
+              <li>
+                <a href="/signup/company">기업 회원가입</a>
+              </li>
+            </ul>
+          </div>
         </ul>
       </nav>
 

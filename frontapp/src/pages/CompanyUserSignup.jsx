@@ -36,6 +36,7 @@ function CompanyUserSignup() {
         <div className="form-group">
           <label htmlFor="companyName">회사 이름</label>
           <input
+            className="signup-input"
             type="text"
             id="companyName"
             value={form.companyName}
@@ -48,6 +49,7 @@ function CompanyUserSignup() {
         <div className="form-group">
           <label htmlFor="businessRegistrationNumber">사업자 등록번호</label>
           <input
+            className="signup-input"
             type="text"
             id="businessRegistrationNumber"
             value={form.businessRegistrationNumber}
@@ -60,6 +62,7 @@ function CompanyUserSignup() {
         <div className="form-group">
           <label htmlFor="email">담당자 이메일</label>
           <input
+            className="signup-input"
             type="email"
             id="email"
             value={form.email}
@@ -72,6 +75,7 @@ function CompanyUserSignup() {
         <div className="form-group">
           <label htmlFor="password">비밀번호</label>
           <input
+            className="signup-input"
             type="password"
             id="password"
             value={form.password}
@@ -84,6 +88,7 @@ function CompanyUserSignup() {
         <div className="form-group">
           <label htmlFor="password2">비밀번호 확인</label>
           <input
+            className="signup-input"
             type="password"
             id="password2"
             value={form.password2}
@@ -96,6 +101,7 @@ function CompanyUserSignup() {
         <div className="form-group">
           <label htmlFor="contactPerson">담당자 이름</label>
           <input
+            className="signup-input"
             type="text"
             id="contactPerson"
             value={form.contactPerson}

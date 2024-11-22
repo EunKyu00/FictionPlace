@@ -94,6 +94,48 @@ body {
   color: #565656; /* 마우스 호버 시 색상 변경 */
 }
 
+.signup-type {
+  list-style-type: none;
+  cursor: pointer;
+}
+
+.signup-type ul {
+  display: none;
+}
+
+.signup-type:hover > ul {
+  list-style-type: none;
+  position: fixed;
+  display: block;
+  width: auto;
+  height: auto;
+  background-color: #ffffff;
+  border-radius: 5px;
+  border: 1px solid #000;
+  padding: 5px 3px 7px 3px;
+}
+
+.login-type {
+  list-style-type: none;
+  cursor: pointer;
+}
+
+.login-type ul {
+  display: none;
+}
+
+.login-type:hover > ul {
+  list-style-type: none;
+  position: fixed;
+  display: block;
+  width: auto;
+  height: auto;
+  background-color: #ffffff;
+  border-radius: 5px;
+  border: 1px solid #000;
+  padding: 5px 3px 7px 3px;
+}
+
 /* 검색창 */
 .search-box {
   box-sizing: border-box;
@@ -111,13 +153,12 @@ body {
   border-radius: 6px;
 
   margin-left: 10px;
-  flex: none;
   order: 3;
 }
 
 .search-input {
-  width: 160px;
-  height: 20px;
+  width: 100%;
+  height: 100%;
   font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 400;
