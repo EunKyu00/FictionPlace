@@ -54,12 +54,12 @@ public class SiteUserController {
         return "redirect:/";
     }
     //일반 회원 회원가입 끝
-    @GetMapping("/user/login")
+    @GetMapping("/login/user")
     public String loginForm(Model model) {
         return "user_login"; // 로그인 페이지로 이동
     }
     //일반 회원 로그인 시작
-    @PostMapping("/user/login")
+    @PostMapping("/login/user")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
                         HttpSession session,

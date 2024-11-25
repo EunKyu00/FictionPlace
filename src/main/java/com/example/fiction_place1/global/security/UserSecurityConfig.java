@@ -25,11 +25,12 @@ public class UserSecurityConfig {
                 .csrf().disable() // CSRF 비활성화 (API 통신을 위해 필요할 수 있음)
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()) // 모든 요청에 대해 허용
+
                 .formLogin((formLogin) -> formLogin
-                        .loginPage("/user/login") // 로그인 페이지 설정
-                        .loginProcessingUrl("/user/login") // 로그인 처리 경로
+                        .loginPage("/login/user") // 로그인 페이지 설정
+                        .loginProcessingUrl("/login/user") // 로그인 처리 경로
                         .defaultSuccessUrl("/") // 로그인 성공 후 기본 페이지로 리다이렉트
-                        .failureUrl("/user/login?error=true")) // 로그인 실패 시 다시 로그인 페이지로 리다이렉트
+                        .failureUrl("/login/user?error=true")) // 로그인 실패 시 다시 로그인 페이지로 리다이렉트
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new OrRequestMatcher(
                                 new AntPathRequestMatcher("/user/logout"), // 일반회원 로그아웃 경로
@@ -74,5 +75,4 @@ public class UserSecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-
 }

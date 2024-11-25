@@ -20,6 +20,15 @@ body {
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.12);
   z-index: 1000;
 }
+/* Auth Info (로그인/회원가입 컨테이너) */
+.auth-info {
+  display: flex !important; /* 강제로 가로 정렬 */
+  flex-direction: row !important; /* 수평 배치 */
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  gap: 20px; /* 버튼 간 간격 */
+  margin-left: 10px;
+}
 
 /* Logo and Project Name */
 .project-brand {
@@ -72,8 +81,9 @@ body {
 .login-type, .signup-type {
   position: relative;
   cursor: pointer;
+  display: flex; /* 드롭다운도 Flexbox */
+  flex-direction: column; /* 드롭다운은 세로로 배치 */
 }
-
 .login-type ul, .signup-type ul {
   position: absolute;
   top: calc(100% + 7px);

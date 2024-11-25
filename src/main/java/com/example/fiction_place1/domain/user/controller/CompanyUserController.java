@@ -1,7 +1,6 @@
 package com.example.fiction_place1.domain.user.controller;
 
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
-import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.user.form.CompanyUserCreateForm;
 import com.example.fiction_place1.domain.user.repository.CompanyUserRepository;
 import com.example.fiction_place1.domain.user.service.CompanyUserService;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -56,12 +54,12 @@ public class CompanyUserController {
 
     //기업 로그인 시작
 
-    @GetMapping("/company/login")
+    @GetMapping("/login/company")
     public String loginForm() {
         return "company_login";
     }
 
-    @PostMapping("/company/login")
+    @PostMapping("/login/company")
     public String login(@RequestParam("companyName") String companyName,
                         @RequestParam("password") String password,
                         HttpSession session,
