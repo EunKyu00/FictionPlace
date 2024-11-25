@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Webtoon List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+    <link rel="stylesheet" href="/CSS/Webtoon_list.css" />
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+<div class="webtoon-list-page">
+    <!-- 슬라이더 섹션 -->
+    <div class="slider-section">
+        <div class="slick-slider">
+            <div>
+                <img src="/images/slick2.png" alt="웹툰 이미지 1" />
+            </div>
+            <div>
+                <img src="/images/slick3.jpg" alt="웹툰 이미지 2" />
+            </div>
+            <div>
+                <img src="/images/slick1.png" alt="웹툰 이미지 3" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Webtoons -->
+    <div class="featured-section">
+        <h2>Featured Webtoons</h2>
+        <div class="button-group">
+            <button class="active-button">연재</button>
+            <button class="active-button">완결</button>
+        </div>
+    </div>
+
+    <!-- 장르 선택 바 -->
+    <div class="genre-bar">
+        <div class="genre-button">성인</div>
+        <div class="genre-button">드라마</div>
+        <div class="genre-button">판타지</div>
+        <div class="genre-button">액션</div>
+        <div class="genre-button">스릴러</div>
+        <div class="genre-button">개그</div>
+    </div>
+
+    <!-- 웹툰 카드 컨테이너 -->
+    <div class="card-container">
+        <!-- 카드 예제 -->
+        <div class="card">
+            <div class="card-image">이미지 1</div>
+            <div class="card-title">웹툰 제목 1</div>
+            <div class="card-description">웹툰 설명 1</div>
+        </div>
+        <div class="card">
+            <div class="card-image">이미지 2</div>
+            <div class="card-title">웹툰 제목 2</div>
+            <div class="card-description">웹툰 설명 2</div>
+        </div>
+        <div class="card">
+            <div class="card-image">이미지 3</div>
+            <div class="card-title">웹툰 제목 3</div>
+            <div class="card-description">웹툰 설명 3</div>
+        </div>
+        <!-- 더 많은 카드 추가 가능 -->
+    </div>
+</div>
+
+<!-- Slick 슬라이더 스크립트 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script>
+    $(document).ready(function () {
+      $(".slick-slider").slick({
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+      });
+    });
+</script>
+<script src="/JS/dropdown.js"></script>
+</body>
+</html>

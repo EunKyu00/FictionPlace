@@ -74,4 +74,5 @@ public class UserSecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
 }

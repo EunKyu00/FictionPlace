@@ -1,11 +1,8 @@
 package com.example.fiction_place1.domain.user.controller;
 
 import com.example.fiction_place1.domain.user.entity.SiteUser;
-import com.example.fiction_place1.domain.user.form.CompanyUserCreateForm;
 import com.example.fiction_place1.domain.user.form.SiteUserCreateForm;
-import com.example.fiction_place1.domain.user.repository.CompanyUserRepository;
 import com.example.fiction_place1.domain.user.repository.SiteUserRepository;
-import com.example.fiction_place1.domain.user.service.CompanyUserService;
 import com.example.fiction_place1.domain.user.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -13,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,6 +28,7 @@ public class SiteUserController {
         model.addAttribute("siteUserCreateForm", new SiteUserCreateForm());
         return "site_user_signup";
     }
+
 
     @PostMapping("/signup/user")
     public String siteUser(@Valid @ModelAttribute("siteUserCreateForm")
