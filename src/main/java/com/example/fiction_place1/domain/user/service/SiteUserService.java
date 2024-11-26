@@ -1,5 +1,6 @@
 package com.example.fiction_place1.domain.user.service;
 
+import com.example.fiction_place1.domain.profile.repository.MyProfileRepository;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.user.form.SiteUserCreateForm;
 import com.example.fiction_place1.domain.user.repository.SiteUserRepository;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public class SiteUserService {
     private final SiteUserRepository siteUserRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final MyProfileRepository myProfileRepository;
 
     @Transactional
     public void siteUser(SiteUserCreateForm siteUserCreateForm) {

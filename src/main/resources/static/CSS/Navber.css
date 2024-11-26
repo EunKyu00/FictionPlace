@@ -1,11 +1,16 @@
 /* 공통 스타일 초기화 */
 body {
   margin: 0;
+
 }
 * {
   box-sizing: border-box;
+  cursor: url('/images/cursor/얼룩냥_일반.cur'), auto;
 }
 
+li, a, button {
+  cursor: url('/images/cursor/얼룩냥_연결.cur'), pointer;
+}
 /* Top Bar */
 .top-bar {
   position: relative;
@@ -28,6 +33,14 @@ body {
   align-items: center; /* 세로 중앙 정렬 */
   gap: 20px; /* 버튼 간 간격 */
   margin-left: 10px;
+}
+
+.logout-button {
+  display: flex !important; /* 강제로 가로 정렬 */
+    flex-direction: row !important; /* 수평 배치 */
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 20px; /* 버튼 간 간격 */
 }
 
 /* Logo and Project Name */
@@ -56,6 +69,7 @@ body {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  align-items: center
 }
 
 .nav-links {

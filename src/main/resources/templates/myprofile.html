@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필 페이지</title>
+    <link rel="stylesheet" href="/CSS/myprofile.css">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<!-- 사이드바 -->
+<div class="sidebar">
+    <div class="sidebar-item">
+        <a th:href="#" class="sidebar-link">
+            <span class="sidebar-icon">🏠</span> 프로필 홈
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a href="/profile/manage" class="sidebar-link">
+            <span class="sidebar-icon">📋</span> 작품 관리
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a href="/profile/upload" class="sidebar-link">
+            <span class="sidebar-icon">✏️</span> 작품 등록
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a href="/profile/favorites" class="sidebar-link">
+            <span class="sidebar-icon">❤️</span> 관심 작품
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a href="/profile/messages" class="sidebar-link">
+            <span class="sidebar-icon">✉️</span> 쪽지함
+        </a>
+    </div>
+
+    <div class="sidebar-item">
+        <a href="/profile/edit" class="sidebar-link">
+            <span class="sidebar-icon">🖊️</span> 정보 수정
+        </a>
+    </div>
+</div>
+
+<!-- 프로필 본문 -->
+<div class="profile-home">
+    <!-- 프로필 이미지 업로드 -->
+    <div class="profile-upload-container" th:style="|background-image: url('${profile.profileImage}');|"></div>
+        <input type="file" id="file-upload" class="upload-input" accept="image/*">
+    </div>
+
+    <!-- 닉네임 -->
+    <div class="profile-nickname">닉네임 :</div>
+    <div id="profile-nickname" th:if="${profile != null}" th:text="${profile.nickname}">닉네임을 불러오는 중...</div>
+    <div id="profile-nickname" th:if="${profile == null}">닉네임이 없습니다.</div>
+
+    <!-- 이메일 -->
+    <div class="email">이메일 :</div>
+    <div id="profile-email" th:if="${profile != null}" th:text="${profile.email}">이메일을 불러오는 중...</div>
+    <div id="profile-email" th:if="${profile == null}">이메일이 없습니다.</div>
+
+    <!-- 자기소개 -->
+    <div class="description-card">
+        <div class="description" th:if="${profile != null}" th:text="${profile.description}">자기소개를 불러오는 중...</div>
+        <div class="description" th:if="${profile == null}">자기소개가 없습니다.</div>
+    </div>
+</div>
+
+<!-- 작품 목록 -->
+<div id="works-container">
+    <h2>작업물</h2>
+
+</div>
+
+<script>
+    // 프로필 이미지 업로드 이벤트 핸들러
+    document.getElementById('file-upload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.querySelector('.profile-upload-container').style.backgroundImage = `url(${e.target.result})`;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+</body>
+</html>

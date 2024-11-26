@@ -23,16 +23,16 @@ public class UserSecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()) // 모든 요청에 대해 허용
                 //일반 회원 로그인
                 .formLogin((formLogin) -> formLogin
-                        .loginPage("/user/login") // 일반 회원 로그인 페이지
-                        .loginProcessingUrl("/user/login") // 로그인 처리 경로
+                        .loginPage("/login/user") // 일반 회원 로그인 페이지
+                        .loginProcessingUrl("/login/user") // 로그인 처리 경로
                         .defaultSuccessUrl("/") // 로그인 성공 후 기본 페이지로 리다이렉트
-                        .failureUrl("/user/login?error=true")) // 로그인 실패 시 다시 로그인 페이지로 리다이렉트
+                        .failureUrl("/login/user?error=true")) // 로그인 실패 시 다시 로그인 페이지로 리다이렉트
 
                 .formLogin((formLogin) -> formLogin
-                        .loginPage("/company/login")
-                        .loginProcessingUrl("company/login")
+                        .loginPage("/login/company")
+                        .loginProcessingUrl("/login/company")
                         .defaultSuccessUrl("/")
-                        .failureUrl("/company/login?error=true"))
+                        .failureUrl("/login/company?error=true"))
                 //로그아웃 설정
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new OrRequestMatcher(

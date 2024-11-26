@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiction Place Navbar</title>
-
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/CSS/Navber.css">
 </head>
@@ -26,7 +25,12 @@
         <ul class="nav-links">
             <li><a href="/">웹툰</a></li>
             <li><a href="/bordlist">게시판</a></li>
-            <li><a href="/myprofile">프로필</a></li>
+            <li th:if="${session.loginUser != null}">
+                <a th:href="@{/profile/user/${username}}">내 프로필</a>
+            </li>
+            <li th:if="${session.loginCompanyUser != null}">
+                <a th:href="@{/profile/company/${email}}">기업 프로필</a>
+            </li>
         </ul>
 
         <!-- 로그인되지 않은 상태에서 로그인 링크만 보여줌 -->
@@ -51,14 +55,14 @@
                 </div>
             </div>
             <!-- 일반회원 로그인 상태 -->
-            <div th:if="${session.loginUser != null}">
-                <p>안녕하세요, <span th:text="${session.loginUser.username}"></span>님</p>
+            <div th:if="${session.loginUser != null}" class="logout-button">
+                <p>안녕하세요 <span th:text="${session.loginUser.nickname}"></span> 님</p>
                 <a href="/user/logout" class="logout-btn">로그아웃</a>
             </div>
 
             <!-- 기업회원 로그인 상태 -->
             <div th:if="${session.loginCompanyUser != null}">
-                <span th:text="${session.loginCompanyUser.companyName}"> 님</span>
+                <p>안녕하세요 <span th:text="${session.loginCompanyUser.companyName}"></span> 님</p>
                 <a href="/company/logout" class="logout-btn">로그아웃</a>
             </div>
         </div>

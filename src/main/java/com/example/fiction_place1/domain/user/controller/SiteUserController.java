@@ -51,6 +51,8 @@ public class SiteUserController {
             return "site_user_signup";
         }
         siteUserService.siteUser(siteUserCreateForm);
+
+
         return "redirect:/";
     }
     //일반 회원 회원가입 끝
@@ -92,6 +94,21 @@ public class SiteUserController {
             model.addAttribute("errorMessage", e.getMessage());
             return "user_login";
         }
+
+
+
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String usernameOrEmail, @RequestParam String password, HttpSession session) {
+        // 예제: 일반 사용자와 기업 사용자 구분
+        if (usernameOrEmail.contains("@")) { // 이메일로 로그인 => 기업 사용자
+            session.setAttribute("loginCompanyUser", usernameOrEmail);
+        } else { // 일반 사용자
+            session.setAttribute("loginUser", usernameOrEmail);
+        }
+
+        return "redirect:/";
     }
 
     @GetMapping("/user/logout")

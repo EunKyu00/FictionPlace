@@ -1,7 +1,7 @@
 /* 전체 페이지 스타일 */
 .webtoon-list-page {
   font-family: "Roboto", sans-serif;
-  padding-top: 100px; /* 상단 바 고정 공간 확보 */
+  padding-top: 30px; /* 상단 바 고정 공간 확보 */
   background: #ffffff;
   overflow-x: hidden;
 }
