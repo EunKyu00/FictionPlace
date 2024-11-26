@@ -39,7 +39,7 @@ body {
 
 .logo-image {
   width: 60px;
-  height: 50px;
+  height: 45px;
 }
 
 .project-name a {
@@ -86,19 +86,16 @@ body {
 }
 .login-type ul, .signup-type ul {
   position: absolute;
-  top: calc(100% + 7px);
   left: 0;
+  display: none;
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-top: 0;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   padding: 5px 0;
-  display: none;
   width: 150px;
   list-style: none;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  top: calc(100% + 7px) !important;
 }
 
 /* 드롭다운 항목 */
@@ -117,14 +114,6 @@ body {
 .login-type ul li a:hover, .signup-type ul li a:hover {
   background-color: #f5f5f5;
   color: #007bff;
-}
-
-/* Hover 상태에서 드롭다운 표시 */
-.login-type:hover ul,
-.signup-type:hover ul {
-  display: block;
-  opacity: 1;
-  transform: translateY(0); /* 부드럽게 내려옴 */
 }
 
 /* 검색창 */

@@ -34,7 +34,7 @@
             <!-- 비로그인 상태 -->
             <div th:if="${session.loginUser == null and session.loginCompanyUser == null}">
                 <div class="login-type">
-                    <span class="login-drop">로그인</span>
+                    <span>로그인</span>
                     <ul>
                         <li><a href="/login/user">일반회원 로그인</a></li>
                         <li><a href="/login/company">기업회원 로그인</a></li>

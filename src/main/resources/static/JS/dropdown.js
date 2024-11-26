@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const ul = dropdown.querySelector('ul');
                 ul.style.display = 'block';
                 ul.style.opacity = '1';
-                ul.style.transform = 'translateY(0)';
                 isShown = true;
             }
         });
@@ -21,9 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const ul = dropdown.querySelector('ul');
                 ul.style.display = 'none';
                 ul.style.opacity = '0';
-                ul.style.transform = 'translateY(-10px)';
                 isShown = false;
-            }, 300); // 300ms 후 숨김
+            }, 400); // 300ms 후 숨김
         });
     });
 });
