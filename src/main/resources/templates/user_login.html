@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>User Login</title>
-    <link rel="stylesheet" href="/user_login.css">
+    <link rel="stylesheet" href="/CSS/userlogin.css">
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
 </head>
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
 <!-- 로그인 폼 -->
-<form th:action="@{/user/login}" method="post">
+<form th:action="@{/login/user}" method="post">
     <h1>일반회원 로그인</h1>
     <label for="username">아이디</label>
     <input type="text" id="username" name="username" placeholder="아이디를 입력해주세요.">
@@ -27,5 +29,6 @@
         <p th:text="${errorMessage}"></p>
     </div>
 </form>
+<script src="/JS/dropdown.js"></script>
 </body>
 </html>

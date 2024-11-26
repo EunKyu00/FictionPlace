@@ -1,8 +1,6 @@
 package com.example.fiction_place1.domain.user.entity;
 
 
-
-
 import com.example.fiction_place1.domain.board.entity.Board;
 import com.example.fiction_place1.domain.comment.entity.Comment;
 import com.example.fiction_place1.domain.message.entity.Message;
@@ -52,7 +50,6 @@ public class SiteUser extends BaseEntity {
 
     @OneToMany(mappedBy = "siteUser")
     private List<Comment> comments;
-
 
 }
 
