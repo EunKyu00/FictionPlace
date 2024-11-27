@@ -20,21 +20,24 @@ public class MyProfile extends BaseEntity {
     @Column(length = 500) // 자기소개 글 (최대 500자)
     private String description;
 
-    // 일반 사용자와 연결 (1:1 관계)
+    //일반유저 id값 매핑
     @OneToOne
-    @JoinColumn(name = "site_user_id", referencedColumnName = "id")
+    @JoinColumn(name = "site_user_id") // 외래 키로 매핑
     private SiteUser siteUser;
 
-    // 기업 사용자와 연결 (1:1 관계)
+    @Transient
+    public String getNickname() {
+        return siteUser != null ? siteUser.getNickname() : null;
+    }
+    //기업 id값
     @OneToOne
-    @JoinColumn(name = "company_user_id", referencedColumnName = "id")
-    private CompanyUser companyUser;
+    @JoinColumn(name = "company_user_id")
+    private CompanyUser companyUser; // CompanyUser와의 연관 관계
 
     // 생성자 추가 (Lombok으로도 가능)
-    public MyProfile(String profileImage, String description, SiteUser siteUser, CompanyUser companyUser) {
+    public MyProfile(String profileImage, String description, CompanyUser companyUser) {
         this.profileImage = profileImage;
         this.description = description;
-        this.siteUser = siteUser;
         this.companyUser = companyUser;
     }
 }

@@ -95,9 +95,16 @@ li, a, button {
 .login-type, .signup-type {
   position: relative;
   cursor: pointer;
-  display: flex; /* 드롭다운도 Flexbox */
+  margin-right: 12px;
+  display: inline-flex; /* 드롭다운도 Flexbox */
   flex-direction: column; /* 드롭다운은 세로로 배치 */
 }
+
+.logout-type {
+    display: inline-flex;
+    align-items: center
+}
+
 .login-type ul, .signup-type ul {
   position: absolute;
   left: 0;

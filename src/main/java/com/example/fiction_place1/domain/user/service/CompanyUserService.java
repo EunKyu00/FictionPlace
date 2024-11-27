@@ -28,13 +28,13 @@ public class CompanyUserService {
         companyUser.setEmail(companyUserCreateForm.getEmail());
         companyUser.setContactPerson(companyUserCreateForm.getContactPerson());
         companyUser.setPassword(encodedPassword);
-
+        companyUser.setRole("COMPANY");
         companyUserRepository.save(companyUser);
 
         // MyProfile 생성 및 저장
         MyProfile profile = new MyProfile();
-        profile.setCompanyUser(companyUser); // CompanyUser와 연관 설정
-        profile.setProfileImage(profile.getProfileImage()); //
+        profile.setCompanyUser(companyUser);
+        profile.setCompanyUser(companyUser.getMyProfile().getCompanyUser()); // CompanyUser와 연관 설정
         profile.setDescription(null); // 기본값
         profile.setProfileImage(null); // 기본값
 

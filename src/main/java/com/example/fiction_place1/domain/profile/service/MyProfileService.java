@@ -18,8 +18,11 @@ public class MyProfileService {
         return myProfileRepository.findByCompanyUser_Email(email);
     }
 
-
     public void saveProfile(MyProfile profile) {
         myProfileRepository.save(profile);
+    }
+
+    public MyProfile getProfileBySiteUser(Long siteUserId) {
+        return myProfileRepository.findBySiteUserId(siteUserId).orElse(null);
     }
 }

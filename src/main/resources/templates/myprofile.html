@@ -47,24 +47,24 @@
 <!-- 프로필 본문 -->
 <div class="profile-home">
     <!-- 프로필 이미지 업로드 -->
-    <div class="profile-upload-container" th:style="|background-image: url('${profile.profileImage}');|"></div>
+    <div class="profile-upload-container" th:style="|background-image: url('${session.loginUser.profileImage}');|">
         <input type="file" id="file-upload" class="upload-input" accept="image/*">
     </div>
 
     <!-- 닉네임 -->
     <div class="profile-nickname">닉네임 :</div>
-    <div id="profile-nickname" th:if="${profile != null}" th:text="${profile.nickname}">닉네임을 불러오는 중...</div>
-    <div id="profile-nickname" th:if="${profile == null}">닉네임이 없습니다.</div>
+    <div id="profile-nickname" th:if="${session.loginUser != null}" th:text="${session.loginUser.nickname}">닉네임을 불러오는 중...</div>
+    <div id="profile-nickname" th:if="${session.loginUser == null}">닉네임이 없습니다.</div>
 
     <!-- 이메일 -->
     <div class="email">이메일 :</div>
-    <div id="profile-email" th:if="${profile != null}" th:text="${profile.email}">이메일을 불러오는 중...</div>
-    <div id="profile-email" th:if="${profile == null}">이메일이 없습니다.</div>
+    <div id="profile-email" th:if="${session.loginUser != null}" th:text="${session.loginUser.email}">이메일을 불러오는 중...</div>
+    <div id="profile-email" th:if="${session.loginUser == null}">이메일이 없습니다.</div>
 
     <!-- 자기소개 -->
     <div class="description-card">
-        <div class="description" th:if="${profile != null}" th:text="${profile.description}">자기소개를 불러오는 중...</div>
-        <div class="description" th:if="${profile == null}">자기소개가 없습니다.</div>
+        <div class="description" th:if="${session.loginUser != null}" th:text="${session.loginUser.description}">자기소개를 불러오는 중...</div>
+        <div class="description" th:if="${session.loginUser == null}">자기소개가 없습니다.</div>
     </div>
 </div>
 

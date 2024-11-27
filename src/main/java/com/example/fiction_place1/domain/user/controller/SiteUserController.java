@@ -99,17 +99,6 @@ public class SiteUserController {
 
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String usernameOrEmail, @RequestParam String password, HttpSession session) {
-        // 예제: 일반 사용자와 기업 사용자 구분
-        if (usernameOrEmail.contains("@")) { // 이메일로 로그인 => 기업 사용자
-            session.setAttribute("loginCompanyUser", usernameOrEmail);
-        } else { // 일반 사용자
-            session.setAttribute("loginUser", usernameOrEmail);
-        }
-
-        return "redirect:/";
-    }
 
     @GetMapping("/user/logout")
     public String logout(HttpSession session) {

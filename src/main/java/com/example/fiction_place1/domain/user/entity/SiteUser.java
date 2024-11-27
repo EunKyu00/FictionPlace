@@ -51,5 +51,8 @@ public class SiteUser extends BaseEntity {
 
     @OneToOne(mappedBy = "siteUser", cascade = CascadeType.ALL)
     private MyProfile myProfile; // MyProfile과 연결
+
+    @Column(nullable = false)
+    private String role; // 사용자 역할 (USER, COMPANY, ADMIN 등)
 }
 
