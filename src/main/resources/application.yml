@@ -2,6 +2,9 @@ spring:
   profiles:
     active: dev  # ?????? application-dev.yml ? ????? ??
     include: secret # active ?? ???? (application-dev.yml) ??? application-secret.yml ? ????? ??
+  web:
+    resources:
+      static-locations=classpath:/static/:
   jpa:
     properties:
       hibernate:
@@ -16,3 +19,6 @@ spring:
       org.hibernate.orm.jdbc.bind: TRACE
       org.hibernate.orm.jdbc.extract: TRACE
       org.springframework.transaction.interceptor: TRACE
+      org:
+        springframework:
+          web=DEBUG:

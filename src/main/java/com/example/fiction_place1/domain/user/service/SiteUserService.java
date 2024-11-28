@@ -1,8 +1,11 @@
 package com.example.fiction_place1.domain.user.service;
 
+import com.example.fiction_place1.domain.profile.entity.MyProfile;
+import com.example.fiction_place1.domain.profile.service.MyProfileService;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.user.form.SiteUserCreateForm;
 import com.example.fiction_place1.domain.user.repository.SiteUserRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +18,7 @@ import java.util.Optional;
 public class SiteUserService {
     private final SiteUserRepository siteUserRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final MyProfileService myProfileService;
 
     @Transactional
     public void siteUser(SiteUserCreateForm siteUserCreateForm) {
@@ -26,9 +29,19 @@ public class SiteUserService {
         siteUser.setPassword(encodedPassword);
         siteUser.setEmail(siteUserCreateForm.getEmail());
         siteUser.setNickname(siteUserCreateForm.getNickname());
+        siteUser.setRole("USER");
+
+
+        // MyProfile 생성 및 저장
+        MyProfile profile = new MyProfile();
+        profile.setSiteUser(siteUser);
+        profile.setDescription("Default description"); // 기본값
+        profile.setProfileImage(null); // 기본값
+
+        siteUser.setMyProfile(profile);
+        myProfileService.saveProfile(profile);
 
         siteUserRepository.save(siteUser);
-
     }
 
     // 로그인 검증 메서드 추가
@@ -46,4 +59,18 @@ public class SiteUserService {
 
         return user; // 로그인 성공 시 사용자 정보 반환
     }
+
+    // 현재 로그인한 사용자 가져오기
+    public SiteUser getLoggedInUser(HttpSession session) {
+        // 세션에서 사용자 정보 가져오기
+        SiteUser loggedInUser = (SiteUser) session.getAttribute("loginUser");
+
+        // 로그인된 사용자가 없는 경우 예외 발생
+        if (loggedInUser == null) {
+            throw new IllegalStateException("로그인된 사용자가 없습니다.");
+        }
+
+        return loggedInUser;
+    }
+
 }

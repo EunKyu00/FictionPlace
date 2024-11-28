@@ -3,10 +3,9 @@ package com.example.fiction_place1.domain.user.entity;
 
 import com.example.fiction_place1.domain.board.entity.Board;
 import com.example.fiction_place1.domain.message.entity.Message;
+import com.example.fiction_place1.domain.profile.entity.MyProfile;
 import com.example.fiction_place1.global.jpa.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -40,5 +39,11 @@ public class CompanyUser extends BaseEntity {
 
     @OneToMany(mappedBy = "companyUser")
     private List<Board> boards;
+
+    @OneToOne(mappedBy = "companyUser", cascade = CascadeType.ALL)
+    private MyProfile myProfile; // MyProfile과 연결
+
+    @Column(nullable = false)
+    private String role; // 사용자 역할 (USER, COMPANY, ADMIN 등)
 
 }

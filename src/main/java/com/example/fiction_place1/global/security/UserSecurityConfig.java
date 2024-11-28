@@ -19,20 +19,27 @@ public class UserSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // 권한 설정
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()) // 모든 요청에 대해 허용
-                //일반 회원 로그인
-                .formLogin((formLogin) -> formLogin
-                        .loginPage("/user/login") // 일반 회원 로그인 페이지
-                        .loginProcessingUrl("/user/login") // 로그인 처리 경로
-                        .defaultSuccessUrl("/") // 로그인 성공 후 기본 페이지로 리다이렉트
-                        .failureUrl("/user/login?error=true")) // 로그인 실패 시 다시 로그인 페이지로 리다이렉트
+                        .requestMatchers("/**", "/CSS/**", "/JS/**", "/login/**", "/signup/**", "/images/**").permitAll() // 로그인 페이지 및 정적 리소스 허용
+                        .requestMatchers("/user/**").hasRole("USER") // 일반 회원 전용 경로
+                        .requestMatchers("/company/**").hasRole("COMPANY") // 기업 회원 전용 경로
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // 관리자 경로 제한
+                        .anyRequest().authenticated()) // 그 외 요청은 인증 필요
 
+                // 일반 회원 로그인 설정
                 .formLogin((formLogin) -> formLogin
-                        .loginPage("/company/login")
-                        .loginProcessingUrl("company/login")
-                        .defaultSuccessUrl("/")
-                        .failureUrl("/company/login?error=true"))
+                        .loginPage("/login/user") // 일반 회원 로그인 페이지
+                        .loginProcessingUrl("/login/user") // 로그인 처리 경로
+                        .defaultSuccessUrl("/") // 로그인 성공 후 이동할 경로
+                        .failureUrl("/login/user?error=true")) // 로그인 실패 시 이동 경로
+
+                // 기업 회원 로그인 설정
+                .formLogin((formLogin) -> formLogin
+                        .loginPage("/login/company") // 기업 회원 로그인 페이지
+                        .loginProcessingUrl("/login/company") // 로그인 처리 경로
+                        .defaultSuccessUrl("/") // 로그인 성공 후 이동할 경로
+                        .failureUrl("/login/company?error=true")) // 로그인 실패 시 이동 경로
                 //로그아웃 설정
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new OrRequestMatcher(
