@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CompanyUser extends BaseEntity {
+public class CompanyUser extends BaseEntity implements User{
 
     @Column(unique = true)
     private String companyName;
@@ -41,4 +41,8 @@ public class CompanyUser extends BaseEntity {
     @OneToMany(mappedBy = "companyUser")
     private List<Board> boards;
 
+    @Override
+    public Long getId() {
+        return this.id;  // BaseEntity에서 상속받은 id 반환
+    }
 }

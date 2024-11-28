@@ -23,5 +23,4 @@ public class BoardType extends BaseEntity {
 
     @OneToMany(mappedBy = "boardType")
     private List<Board> boards;
-
 }

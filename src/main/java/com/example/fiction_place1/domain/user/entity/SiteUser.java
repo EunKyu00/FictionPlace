@@ -25,7 +25,8 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Table(name = "site_user")
-public class SiteUser extends BaseEntity {
+
+public class SiteUser extends BaseEntity implements User {
     @Column(unique = true)
     private String username;
 
@@ -53,6 +54,9 @@ public class SiteUser extends BaseEntity {
     @OneToMany(mappedBy = "siteUser")
     private List<Comment> comments;
 
-
+    @Override
+    public Long getId() {
+        return this.id;  // BaseEntity에서 상속받은 id 반환
+    }
 }
 

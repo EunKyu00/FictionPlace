@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 목록</title>
+    <link rel="stylesheet" href="/board_list.css">
+</head>
+<body>
+<h1>게시판 목록</h1>
+
+<!-- 게시판 타입 선택 드롭다운 -->
+<form action="/board" method="get">
+    <label for="boardTypeId">게시판 타입:</label>
+    <select name="boardTypeId" id="boardTypeId">
+        <option th:each="boardType : ${boardTypes}"
+                th:value="${boardType.id}"
+                th:text="${boardType.boardTypeName}"></option>
+    </select>
+    <button type="submit">게시판 보기</button>
+</form>
+<a th:href="@{/board/create}">등록하기</a>
+
+<!-- 선택한 게시판 타입 표시 -->
+<h2 th:text="${selectedBoardType.boardTypeName}"></h2>
+
+<!-- 게시판 목록 -->
+<ul>
+    <li th:each="board : ${boardList}">
+        <a th:href="@{/board/{boardId}(boardId=${board.id})}" th:text="${board.title}"></a>
+    </li>
+</ul>
+
+</body>
+</html>

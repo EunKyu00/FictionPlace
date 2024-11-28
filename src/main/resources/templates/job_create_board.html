@@ -1,0 +1,23 @@
+<!-- src/main/resources/templates/create_board.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 작성</title>
+</head>
+<body>
+<h1>게시글 작성</h1>
+
+<form action="#" th:action="@{/board/job/create}" method="post">
+  <input type="hidden" name="boardTypeId" th:value="${boardTypeId}" />
+
+  <label for="title">제목:</label>
+  <input type="text" id="title" name="title" required="required" /><br><br>
+
+  <label for="content">내용:</label><br>
+  <textarea id="content" name="content" rows="10" cols="30" required="required"></textarea><br><br>
+
+  <button type="submit">게시글 작성</button>
+</form>
+</body>
+</html>

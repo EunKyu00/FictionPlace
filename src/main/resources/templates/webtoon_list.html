@@ -43,7 +43,7 @@
         <div class="navigation">
             <div class="tab">홈</div>
             <div class="tab">프로필</div>
-            <div class="tab">게시판</div>
+            <a href="/board" class="tab">게시판</a>
             <!-- 로그인되지 않은 상태에서 로그인 링크만 보여줌 -->
             <div th:if="${session.loginUser == null and session.loginCompanyUser == null}">
                 <a href="/user/login">일반회원 로그인</a>

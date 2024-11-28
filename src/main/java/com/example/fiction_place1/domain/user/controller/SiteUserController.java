@@ -53,8 +53,10 @@ public class SiteUserController {
         return "redirect:/";
     }
     //일반 회원 회원가입 끝
+
+
     @GetMapping("/user/login")
-    public String loginForm(Model model) {
+    public String loginForm() {
         return "user_login"; // 로그인 페이지로 이동
     }
     //일반 회원 로그인 시작
@@ -68,12 +70,10 @@ public class SiteUserController {
         if (username == null || username.trim().isEmpty()) {
             model.addAttribute("errorUserName", "아이디를 입력해주세요.");
         }
-
         // 비밀번호가 비어있는 경우
         if (password == null || password.trim().isEmpty()) {
             model.addAttribute("errorPassword", "비밀번호를 입력해주세요.");
         }
-
         // 에러가 있을 경우, 로그인 폼으로 돌아가기
         if (model.containsAttribute("errorUserName") || model.containsAttribute("errorPassword")) {
             return "user_login";
@@ -81,10 +81,8 @@ public class SiteUserController {
         try {
             // 로그인 시도
             SiteUser user = siteUserService.login(username, password);
-
             // 세션에 사용자 정보 저장
             session.setAttribute("loginUser", user);
-
             return "redirect:/"; // 홈으로 리다이렉트
         } catch (IllegalArgumentException e) {
             // 로그인 실패 시 에러 메시지 전달
@@ -94,10 +92,7 @@ public class SiteUserController {
     }
 
     @GetMapping("/user/logout")
-    public String logout(HttpSession session) {
-        // 세션 무효화
-        session.invalidate();
+    public String logout() {
         return "redirect:/"; // 홈으로 리다이렉트
     }
-
 }

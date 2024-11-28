@@ -30,15 +30,11 @@ public class Board extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "board_type_id")
-    @NotNull
     private BoardType boardType;
 
     private String title;
-
     private String content;
-
     private Integer likes = 0;
-
     private Integer hit = 0;
 }
 
