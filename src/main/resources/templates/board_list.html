@@ -14,11 +14,13 @@
     <select name="boardTypeId" id="boardTypeId">
         <option th:each="boardType : ${boardTypes}"
                 th:value="${boardType.id}"
-                th:text="${boardType.boardTypeName}"></option>
+                th:text="${boardType.boardTypeName}"
+                th:selected="${boardType.id == boardTypeId}"></option>
     </select>
     <button type="submit">게시판 보기</button>
+    <a th:href="@{/board/create}" class="btn-register">등록하기</a>
 </form>
-<a th:href="@{/board/create}">등록하기</a>
+
 
 <!-- 선택한 게시판 타입 표시 -->
 <h2 th:text="${selectedBoardType.boardTypeName}"></h2>
@@ -26,9 +28,20 @@
 <!-- 게시판 목록 -->
 <ul>
     <li th:each="board : ${boardList}">
-        <a th:href="@{/board/{boardId}(boardId=${board.id})}" th:text="${board.title}"></a>
+        <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
     </li>
 </ul>
+
+<!-- 페이징 -->
+<div>
+    <span th:if="${currentPage > 0}">
+        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=10|}">이전</a>
+    </span>
+    <span>페이지: <span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span></span>
+    <span th:if="${currentPage + 1 < totalPages}">
+        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=10|}">다음</a>
+    </span>
+</div>
 
 </body>
 </html>

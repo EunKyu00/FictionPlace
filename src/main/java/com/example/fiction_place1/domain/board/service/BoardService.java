@@ -10,9 +10,12 @@ import com.example.fiction_place1.domain.user.entity.User;
 import com.example.fiction_place1.domain.user.repository.CompanyUserRepository;
 import com.example.fiction_place1.domain.user.repository.SiteUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +26,10 @@ public class BoardService {
     private final CompanyUserRepository companyUserRepository;
 
     // 게시판 타입에 맞는 게시글 조회
-    public List<Board> getBoardType(Long boardTypeId) {
+    public Page<Board> getBoardType(Long boardTypeId, Pageable pageable) {
         BoardType boardType = boardTypeRepository.findById(boardTypeId)
                 .orElseThrow(() -> new RuntimeException("BoardType not found"));
-        return boardRepository.findByBoardType(boardType);
+        return boardRepository.findByBoardType(boardType, pageable);
     }
 
     public void createFreeBoard(String title, String content, Long boardTypeId, User user){
@@ -47,6 +50,11 @@ public class BoardService {
             board.setCompanyUser(companyUser);
         }
         this.boardRepository.save(board);
+    }
+    public Board getBoard(Long id){
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Board not found"));
+        return board;
     }
 }
 

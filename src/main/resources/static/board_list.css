@@ -1,73 +1,79 @@
-/* 전체 폰트 스타일 */
+/* 전체 페이지 스타일 */
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
     margin: 20px;
+    padding: 0;
     background-color: #f9f9f9;
-    color: #333;
 }
 
 /* 제목 스타일 */
 h1 {
+    color: #333;
     text-align: center;
-    color: #4CAF50;
     margin-bottom: 20px;
 }
 
-/* 게시판 타입 선택 폼 */
+/* 중앙 정렬을 위한 스타일 */
+h2 {
+    color: #555;
+    margin-top: 20px;
+    text-align: center; /* h2 중앙 정렬 */
+}
+
+/* 드롭다운 및 버튼 스타일 */
 form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column; /* 수직으로 배치 */
+    align-items: center; /* 가로로 중앙 정렬 */
+    gap: 10px;
+    justify-content: center; /* 세로로 중앙 정렬 */
 }
 
+/* 라벨 스타일 */
 label {
-    margin-right: 10px;
-    font-weight: bold;
+    font-size: 16px;
+    color: #333;
 }
 
+/* 셀렉트 박스 스타일 */
 select {
-    padding: 5px 10px;
+    padding: 8px;
+    font-size: 14px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    margin-right: 10px;
+    border-radius: 4px;
+    background-color: #fff;
+    width: 100%; /* 셀렉트 박스를 중앙에 맞추기 위해 가로 크기 100% */
+    max-width: 300px; /* 최대 너비 설정 */
 }
 
+/* 버튼 스타일 */
 button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 8px 12px;
     font-size: 14px;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-/* 등록하기 링크 */
-a {
-    display: block;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
     text-align: center;
-    margin-top: 10px;
-    color: #4CAF50;
-    text-decoration: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
     font-weight: bold;
+    width: 100%; /* 버튼을 셀렉트 박스와 같은 크기로 맞춤 */
+    max-width: 300px; /* 최대 너비 설정 */
+}
+
+/* 등록하기 링크 스타일 */
+a {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
 }
 
 a:hover {
-    color: #45a049;
-}
-
-/* 선택한 게시판 타입 */
-h2 {
-    text-align: center;
-    color: #555;
-    margin-top: 20px;
+    text-decoration: underline;
 }
 
 /* 게시판 목록 */
@@ -97,6 +103,60 @@ li a:hover {
     color: #4CAF50;
 }
 
+/* 페이징 버튼 스타일 */
+div {
+    margin-top: 20px;
+    text-align: center;
+}
+
+div span, div a {
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+div a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+div a:hover {
+    text-decoration: underline;
+}
+
+/* 공통 버튼 스타일 */
+button, .btn-register {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-weight: bold;
+    text-decoration: none; /* a 태그 밑줄 제거 */
+}
+
+/* 버튼 호버 효과 */
+button:hover, .btn-register:hover {
+    background-color: #45a049;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus 효과 */
+button:focus, .btn-register:focus {
+    outline: none;
+    box-shadow: 0px 0px 5px 2px rgba(72, 202, 228, 0.7);
+}
+
+/* 등록하기 버튼 클래스 추가 */
+a {
+    text-decoration: none;
+}
+
+
 /* 반응형 지원 */
 @media (max-width: 768px) {
     form {
@@ -104,11 +164,22 @@ li a:hover {
         align-items: stretch;
     }
 
-    select {
+    select, button {
+        width: 100%;
         margin-bottom: 10px;
     }
+}
 
-    button {
-        width: 100%;
+@media (max-width: 480px) {
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    li {
+        padding: 10px;
     }
 }

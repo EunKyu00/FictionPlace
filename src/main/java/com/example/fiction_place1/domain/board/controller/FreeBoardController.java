@@ -5,22 +5,24 @@ import com.example.fiction_place1.domain.board.form.BoardForm;
 import com.example.fiction_place1.domain.board.service.BoardService;
 import com.example.fiction_place1.domain.board_type.entity.BoardType;
 import com.example.fiction_place1.domain.board_type.service.BoardTypeService;
+import com.example.fiction_place1.domain.comment.entity.Comment;
+import com.example.fiction_place1.domain.comment.service.CommentService;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.user.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -30,21 +32,31 @@ import java.util.List;
 public class FreeBoardController {
     private final BoardService boardService;
     private final BoardTypeService boardTypeService;
+    private final CommentService commentService;
 
     // 게시판 목록 페이지
     @GetMapping("/board")
-    public String boardList(@RequestParam(value = "boardTypeId", defaultValue = "1") Long boardTypeId, Model model) {
+    public String boardList(@RequestParam(value = "boardTypeId", defaultValue = "1") Long boardTypeId,
+                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "size", defaultValue = "10") int size,
+                            Model model) {
 
-        // boardTypeId에 맞는 게시글 목록
+        // 모든 게시판 타입을 가져옴
         List<BoardType> boardTypes = boardTypeService.getAllBoardTypes();
         model.addAttribute("boardTypes", boardTypes);
 
-        List<Board> boardList = this.boardService.getBoardType(boardTypeId);
-        model.addAttribute("boardList", boardList);
+        // 페이징 처리된 게시글 목록 가져오기
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Board> boardPage = this.boardService.getBoardType(boardTypeId, pageable);
+        model.addAttribute("boardList", boardPage.getContent());
+        model.addAttribute("currentPage", boardPage.getNumber());
+        model.addAttribute("totalPages", boardPage.getTotalPages());
 
-        // boardTypeId에 맞는 게시판 이름을 모델에 추가
+        // 선택한 게시판 타입 가져오기
         BoardType selectedBoardType = boardTypeService.findById(boardTypeId);
         model.addAttribute("selectedBoardType", selectedBoardType);
+
+        model.addAttribute("boardTypeId", boardTypeId);
 
         return "board_list";
     }
@@ -86,7 +98,15 @@ public class FreeBoardController {
         }
         return "redirect:/board?boardTypeId=" + boardTypeId;
     }
-
+    //게시글 상세
+    @GetMapping("/board/detail/{id}")
+    public String boardDetail(Model model, @PathVariable("id") Long id){
+        Board board = boardService.getBoard(id);
+        List<Comment> comments = commentService.getCommentsByBoard(board);
+        model.addAttribute("board", board);
+        model.addAttribute("comments", comments);
+        return "board_detail";
+    }
 }
 
 
