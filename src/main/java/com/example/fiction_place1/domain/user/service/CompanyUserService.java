@@ -1,7 +1,8 @@
 package com.example.fiction_place1.domain.user.service;
 
+import com.example.fiction_place1.domain.profile.entity.MyProfile;
+import com.example.fiction_place1.domain.profile.service.MyProfileService;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
-import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.user.form.CompanyUserCreateForm;
 import com.example.fiction_place1.domain.user.repository.CompanyUserRepository;
 import jakarta.transaction.Transactional;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class CompanyUserService {
     private final CompanyUserRepository companyUserRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final MyProfileService myProfileService;
     @Transactional
     public void companyUser(CompanyUserCreateForm companyUserCreateForm){
         String encodedPassword = passwordEncoder.encode(companyUserCreateForm.getPassword());
@@ -27,8 +28,17 @@ public class CompanyUserService {
         companyUser.setEmail(companyUserCreateForm.getEmail());
         companyUser.setContactPerson(companyUserCreateForm.getContactPerson());
         companyUser.setPassword(encodedPassword);
-
+        companyUser.setRole("COMPANY");
         companyUserRepository.save(companyUser);
+
+        // MyProfile 생성 및 저장
+        MyProfile profile = new MyProfile();
+        profile.setCompanyUser(companyUser);
+        profile.setCompanyUser(companyUser.getMyProfile().getCompanyUser()); // CompanyUser와 연관 설정
+        profile.setDescription(null); // 기본값
+        profile.setProfileImage(null); // 기본값
+
+        myProfileService.saveProfile(profile);
 
     }
     // 로그인 검증 메서드 추가

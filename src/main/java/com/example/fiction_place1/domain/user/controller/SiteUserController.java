@@ -1,11 +1,8 @@
 package com.example.fiction_place1.domain.user.controller;
 
 import com.example.fiction_place1.domain.user.entity.SiteUser;
-import com.example.fiction_place1.domain.user.form.CompanyUserCreateForm;
 import com.example.fiction_place1.domain.user.form.SiteUserCreateForm;
-import com.example.fiction_place1.domain.user.repository.CompanyUserRepository;
 import com.example.fiction_place1.domain.user.repository.SiteUserRepository;
-import com.example.fiction_place1.domain.user.service.CompanyUserService;
 import com.example.fiction_place1.domain.user.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -13,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -55,12 +55,12 @@ public class SiteUserController {
     //일반 회원 회원가입 끝
 
 
-    @GetMapping("/user/login")
+    @GetMapping("/login/user")
     public String loginForm() {
         return "user_login"; // 로그인 페이지로 이동
     }
     //일반 회원 로그인 시작
-    @PostMapping("/user/login")
+    @PostMapping("/login/user")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
                         HttpSession session,
@@ -70,10 +70,12 @@ public class SiteUserController {
         if (username == null || username.trim().isEmpty()) {
             model.addAttribute("errorUserName", "아이디를 입력해주세요.");
         }
+
         // 비밀번호가 비어있는 경우
         if (password == null || password.trim().isEmpty()) {
             model.addAttribute("errorPassword", "비밀번호를 입력해주세요.");
         }
+
         // 에러가 있을 경우, 로그인 폼으로 돌아가기
         if (model.containsAttribute("errorUserName") || model.containsAttribute("errorPassword")) {
             return "user_login";
@@ -81,8 +83,10 @@ public class SiteUserController {
         try {
             // 로그인 시도
             SiteUser user = siteUserService.login(username, password);
+
             // 세션에 사용자 정보 저장
             session.setAttribute("loginUser", user);
+
             return "redirect:/"; // 홈으로 리다이렉트
         } catch (IllegalArgumentException e) {
             // 로그인 실패 시 에러 메시지 전달
@@ -95,4 +99,5 @@ public class SiteUserController {
     public String logout() {
         return "redirect:/"; // 홈으로 리다이렉트
     }
+
 }
