@@ -36,30 +36,36 @@ public class FreeBoardController {
 
     // 게시판 목록 페이지
     @GetMapping("/board")
-    public String boardList(@RequestParam(value = "boardTypeId", defaultValue = "1") Long boardTypeId,
-                            @RequestParam(value = "page", defaultValue = "0") int page,
-                            @RequestParam(value = "size", defaultValue = "10") int size,
-                            Model model) {
+    public String boardList(
+            @RequestParam(value = "boardTypeId", defaultValue = "1") Long boardTypeId,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            Model model) {
 
-        // 모든 게시판 타입을 가져옴
+        // 모든 게시판 타입 목록 가져오기
         List<BoardType> boardTypes = boardTypeService.getAllBoardTypes();
         model.addAttribute("boardTypes", boardTypes);
-
-        // 페이징 처리된 게시글 목록 가져오기
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Board> boardPage = this.boardService.getBoardType(boardTypeId, pageable);
-        model.addAttribute("boardList", boardPage.getContent());
-        model.addAttribute("currentPage", boardPage.getNumber());
-        model.addAttribute("totalPages", boardPage.getTotalPages());
 
         // 선택한 게시판 타입 가져오기
         BoardType selectedBoardType = boardTypeService.findById(boardTypeId);
         model.addAttribute("selectedBoardType", selectedBoardType);
 
+        // 페이징 처리된 게시글 목록 가져오기
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Board> boardPage = boardService.getBoardType(boardTypeId, pageable);
+
+        // 게시글 목록 및 페이징 정보 모델에 추가
+        model.addAttribute("boardList", boardPage.getContent()); // 게시글 리스트
+        model.addAttribute("currentPage", boardPage.getNumber()); // 현재 페이지
+        model.addAttribute("size", boardPage.getSize()); // 페이지 크기
+        model.addAttribute("totalPages", boardPage.getTotalPages()); // 전체 페이지 수
+
+        // 선택한 게시판 타입 ID 모델에 추가
         model.addAttribute("boardTypeId", boardTypeId);
 
         return "board_list";
     }
+
 
     // 게시글 작성 페이지
     @GetMapping("/board/create")
@@ -78,10 +84,18 @@ public class FreeBoardController {
 
         model.addAttribute("boardTypeId", boardTypeId);
 
-        //로그인별 세션 받아옴
+        // 로그인된 사용자 세션 받아오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
-
+//        // 사용자 닉네임 가져오기
+//        String nickname = null;
+//        if (siteUser != null) {
+//            nickname = siteUser.getNickname(); // SiteUser의 닉네임
+//        } else if (companyUser != null) {
+//            nickname = companyUser.getCompanyName(); // CompanyUser의 기업명
+//        }
+//
+//        model.addAttribute("nickname", nickname); // 모델에 닉네임 추가
         // 유효성 검사 실패 시
         if (bindingResult.hasErrors()) {
             List<BoardType> boardTypes = boardTypeService.getAllBoardTypes();
@@ -96,8 +110,11 @@ public class FreeBoardController {
         } else if (companyUser != null) {
             boardService.createFreeBoard(boardForm.getTitle(), boardForm.getContent(), boardTypeId, companyUser);
         }
+
         return "redirect:/board?boardTypeId=" + boardTypeId;
     }
+
+
     //게시글 상세
     @GetMapping("/board/detail/{id}")
     public String boardDetail(Model model, @PathVariable("id") Long id){
