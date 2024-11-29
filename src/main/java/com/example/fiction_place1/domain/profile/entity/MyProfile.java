@@ -34,6 +34,7 @@ public class MyProfile extends BaseEntity {
     @JoinColumn(name = "company_user_id")
     private CompanyUser companyUser; // CompanyUser와의 연관 관계
 
+
     // 생성자 추가 (Lombok으로도 가능)
     public MyProfile(String profileImage, String description, CompanyUser companyUser) {
         this.profileImage = profileImage;

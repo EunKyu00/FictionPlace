@@ -11,4 +11,8 @@ public interface MyProfileRepository extends JpaRepository<MyProfile, Long> {
     MyProfile findByCompanyUser_Email(String email);
 
     Optional<MyProfile> findBySiteUserId(Long siteUserId);
+    Optional<MyProfile> findByCompanyUserId(Long companyuserId);
+
+    @Override
+    Optional<MyProfile> findById(Long userId);
 }

@@ -94,9 +94,6 @@ public class SiteUserController {
             model.addAttribute("errorMessage", e.getMessage());
             return "user_login";
         }
-
-
-
     }
 
 

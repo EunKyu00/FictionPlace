@@ -19,12 +19,17 @@ public class UserSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // CSRF 예외 설정
+                .csrf((csrf) -> csrf
+                        .ignoringRequestMatchers("/profile/user/**") // CSRF 검증 제외
+                )
                 // 권한 설정
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers("/**", "/CSS/**", "/JS/**", "/login/**", "/signup/**", "/images/**").permitAll() // 로그인 페이지 및 정적 리소스 허용
                         .requestMatchers("/user/**").hasRole("USER") // 일반 회원 전용 경로
                         .requestMatchers("/company/**").hasRole("COMPANY") // 기업 회원 전용 경로
                         .requestMatchers("/admin/**").hasRole("ADMIN") // 관리자 경로 제한
+                        .requestMatchers("/profile/user/**").authenticated() // 인증된 사용자만 접근 가능
                         .anyRequest().authenticated()) // 그 외 요청은 인증 필요
 
                 // 일반 회원 로그인 설정

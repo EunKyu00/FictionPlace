@@ -36,7 +36,6 @@ public class SiteUserService {
         MyProfile profile = new MyProfile();
         profile.setSiteUser(siteUser);
         profile.setDescription("Default description"); // 기본값
-        profile.setProfileImage(null); // 기본값
 
         siteUser.setMyProfile(profile);
         myProfileService.saveProfile(profile);
