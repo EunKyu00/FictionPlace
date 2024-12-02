@@ -72,4 +72,14 @@ public class SiteUserService {
         return loggedInUser;
     }
 
+    //일반유저 수정 로직 (닉네임, 자기소개, 이메일)
+    public void updateUser(SiteUser currentUser, SiteUser updatedUser) {
+        currentUser.setNickname(updatedUser.getNickname());
+        currentUser.setEmail(updatedUser.getEmail());
+        if (!updatedUser.getPassword().isEmpty()) {
+            currentUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
+        siteUserRepository.save(currentUser);
+    }
+
 }

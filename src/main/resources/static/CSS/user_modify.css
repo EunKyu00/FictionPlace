@@ -1,0 +1,104 @@
+body {
+    background-color: #f9f9f9;
+}
+
+/* 슬라이더 css */
+.sidebar {
+  position: fixed; /* 사이드바를 화면의 왼쪽에 고정 */
+  top: 70px; /* 네비게이션 바 바로 아래에 위치 */
+  left: 0;
+  width: 17%;
+  height: calc(100% - 80px); /* 네비게이션 바 아래부터 화면 끝까지 차지 */
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 800; /* 다른 요소들 위에 보이도록 설정 */
+}
+.icon-status {
+  display: none;
+}
+.profile-link {
+  text-decoration: none !important;
+}
+
+.sidebar-item a {
+  display: flex;
+  margin-top: 25px; /* 각 항목 사이의 간격 */
+  cursor: pointer;
+  color: #000000 !important;
+  font-family: "Rubik", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.408px;
+  text-decoration: none !important;
+}
+
+.sidebar-item:hover {
+  color: #414141 !important; /* 항목에 마우스를 올렸을 때 색상 변경 */
+}
+
+.sidebar-icon {
+  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
+  color: #7b7b7b; /* 기본 아이콘 색상 */
+}
+
+.sidebar-item:hover .sidebar-icon {
+  color: #414141 !important; /* 호버 시 아이콘 색상 변경 */
+}
+
+.sidebar-item:first-child {
+  margin-top: 20px;
+}
+/* 정보 수정 폼 */
+.modify-type {
+    position: absolute;
+    display: flex;
+    height: 350px;
+    top: 28%; /* 부모 높이의 50% */
+    left: 50%; /* 부모 너비의 50% */
+    transform: translate(-50%, -50%); /* 본인의 크기 기준으로 이동 */
+    padding: 20px;
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: center
+}
+/* 레이블 스타일 */
+.user-modify-form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+/* 입력 필드 스타일 */
+.user-modify-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+/* 버튼 스타일 */
+.user-modify-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.user-modify-form button:hover {
+    background-color: #0056b3;
+}

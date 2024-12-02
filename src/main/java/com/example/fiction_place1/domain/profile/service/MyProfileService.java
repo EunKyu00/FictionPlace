@@ -3,6 +3,7 @@ package com.example.fiction_place1.domain.profile.service;
 import com.example.fiction_place1.domain.profile.entity.MyProfile;
 import com.example.fiction_place1.domain.profile.repository.MyProfileRepository;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
+import com.example.fiction_place1.domain.user.repository.SiteUserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class MyProfileService {
     @Autowired
     private MyProfileRepository myProfileRepository;
+    private SiteUserRepository siteUserRepository;
     //일반유저
     public MyProfile getProfileBySiteUser(String username) {
         return myProfileRepository.findBySiteUser_Username(username);
@@ -54,6 +56,5 @@ public class MyProfileService {
         myProfileRepository.save(myProfile);
     }
 
-    //일반유저 기본정보 가져오기 (닉네임, 자기소개, 이메일)
 
 }

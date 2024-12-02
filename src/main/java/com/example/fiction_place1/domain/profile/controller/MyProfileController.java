@@ -133,4 +133,25 @@ public class MyProfileController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    //일반 유저 정보 변경
+    @GetMapping("/profile/user/{id}/modify")
+    public String userModifyForm (@PathVariable("id") Long id, HttpSession session, Model model) {
+        SiteUser loginUser = siteUserService.getLoggedInUser(session);
+        if(!loginUser.getId().equals(id)){
+            throw new IllegalStateException("접근권한 없음");
+        }
+         model.addAttribute("user", loginUser);
+        return "modify_user"; //수정화면
+    }
+
+    @PostMapping("/profile/user/{id}/modify")
+    public String updateUser(@PathVariable("id") Long id, @ModelAttribute SiteUser updateUser, HttpSession session) {
+        SiteUser loginUser = siteUserService.getLoggedInUser(session);
+        if (!loginUser.getId().equals(id)) {
+            throw new IllegalStateException("접근 권한이 없습니다.");
+        }
+        siteUserService.updateUser(loginUser, updateUser);
+        return "redirect:/profile/user/{id}";
+    }
 }

@@ -41,7 +41,7 @@
         </a>
     </div>
     <div class="sidebar-item">
-        <a th:href="@{/}" class="sidebar-link">
+        <a th:href="@{/profile/user/{id}/modify(id=${id})}" class="sidebar-link">
             <span class="sidebar-icon">🖊️</span> 정보 수정
         </a>
     </div>
@@ -77,9 +77,9 @@
     <div class="profile_nickname">닉네임 :</div>
     <div id="profile-nickname" th:text="${profile.getNickname}"></div>
     <div class="email">Email :</div>
-    <div id="profile-email" th:text="${profile.email}"></div>
+    <div id="profile-email" th:text="${profile.getEmail}"></div>
     <div class="discription-card">
-        <div class="discription">자기소개</div>
+        <div class="discription" th:text="${profile.description != null ? profile.description : '자기소개가 없습니다.'}">자기소개</div>
     </div>
 </div>
 </div>
