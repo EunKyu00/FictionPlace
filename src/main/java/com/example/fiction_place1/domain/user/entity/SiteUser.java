@@ -37,10 +37,10 @@ public class SiteUser extends BaseEntity {
 
     private Boolean isSocialLogin = false;
 
-    @OneToMany(mappedBy = "siteUser")
+    @OneToMany(mappedBy = "siteUser", fetch = FetchType.EAGER)
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "siteUser")
+    @OneToMany(mappedBy = "siteUser", fetch = FetchType.EAGER)
     private List<Board> boards;
 
     @OneToMany(mappedBy = "siteUser")

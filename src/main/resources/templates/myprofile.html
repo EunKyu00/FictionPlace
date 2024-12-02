@@ -51,8 +51,18 @@
 <div class="profile_home">
     <!-- 프로필 이미지 영역 -->
     <div class="profile-container">
+        <!-- 로그인된 사용자 ID -->
         <input type="hidden" id="loggedInUserId" th:value="${loggedInUserId}">
-        <img id="profileImage" src="/images/unnamed.png" class="profile-img" onclick="selectImageFile()">
+
+        <!-- 프로필 이미지 -->
+        <img
+                id="profileImage"
+                th:src="${profileImage != null ? profileImage : '/images/unnamed.png'}"
+                class="profile-img"
+                onclick="selectImageFile()"
+        >
+
+        <!-- 파일 업로드 -->
         <input type="file" id="imageFile" accept="image/*" style="display: none;" onchange="initCropper()">
     </div>
 
@@ -65,9 +75,9 @@
         </div>
     </div>
     <div class="profile_nickname">닉네임 :</div>
-    <div id="profile-nickname">nickname</div>
+    <div id="profile-nickname" th:text="${profile.getNickname}"></div>
     <div class="email">Email :</div>
-    <div id="profile-email">test@email</div>
+    <div id="profile-email" th:text="${profile.email}"></div>
     <div class="discription-card">
         <div class="discription">자기소개</div>
     </div>
@@ -143,7 +153,7 @@
                 if (response.ok) {
                     response.text().then((imagePath) => {
                         // 업로드된 이미지 경로를 사용하여 프로필 이미지를 업데이트
-                        document.getElementById('profileImage').src = `/upload/${imagePath}`;
+                        document.getElementById('profileImage').src = `${imagePath}?t=${new Date().getTime()}`;
                         alert('프로필 이미지 업로드 성공');
                         // 크롭 영역 숨기기
                         document.getElementById('cropContainer').style.display = 'none';
