@@ -81,5 +81,8 @@ public class SiteUserService {
         }
         siteUserRepository.save(currentUser);
     }
-
+    // findById 메서드 추가
+    public SiteUser findById(Long id) {
+        return siteUserRepository.findById(id).orElse(null);  // Optional을 null로 처리
+    }
 }

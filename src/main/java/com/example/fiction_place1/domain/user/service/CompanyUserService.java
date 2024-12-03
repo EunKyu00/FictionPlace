@@ -72,5 +72,8 @@ public class CompanyUserService {
 
         return loggedInCompanyUser;
     }
-
+    // findById 메서드 추가
+    public CompanyUser findById(Long id) {
+        return companyUserRepository.findById(id).orElse(null);  // Optional을 null로 처리
+    }
 }

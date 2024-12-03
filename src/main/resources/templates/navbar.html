@@ -34,7 +34,7 @@
             <li th:if="${session.loginCompanyUser != null}">
                 <!-- 기업회원 프로필 -->
                 <a th:if="${session.loginCompanyUser != null}"
-                   th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}">프로필 보기</a>
+                   th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}">프로필</a>
                 <span th:if="${session.loginCompanyUser == null}">프로필 정보가 없습니다.</span>
             </li>
         </ul>

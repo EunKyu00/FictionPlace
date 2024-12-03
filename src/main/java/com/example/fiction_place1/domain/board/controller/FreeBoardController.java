@@ -66,7 +66,6 @@ public class FreeBoardController {
         return "board_list";
     }
 
-
     // 게시글 작성 페이지
     @GetMapping("/board/create")
     public String freeBoardCreate(BoardForm boardForm, Model model) {

@@ -33,39 +33,40 @@ import java.nio.file.Paths;
 public class MyProfileController {
     @Autowired
     private final MyProfileService myProfileService;
-    private final SiteUserRepository siteUserRepository;
-    private final CompanyUserService companyUserService;
     private final SiteUserService siteUserService;
-    private final MyProfileRepository myProfileRepository;
+    private final CompanyUserService companyUserService;
 
-    // 사용자 프로필 보기
+    // 일반 사용자 프로필 보기
     @GetMapping("/profile/user/{id}")
-    public String getMyProfile(@PathVariable("id") Long id, HttpSession session, Model model) {
-        SiteUser loginUser = siteUserService.getLoggedInUser(session);
-        if (!loginUser.getId().equals(id)) {
-            throw new IllegalStateException("접근 권한이 없습니다.");
+    public String getUserProfile(@PathVariable("id") Long id , Model model) {
+        //id로 사용자를 조회
+        SiteUser siteUser = siteUserService.findById(id);
+
+        if (siteUser != null) {
+            model.addAttribute("nickname", siteUser.getNickname());
+            model.addAttribute("email", siteUser.getEmail());
+        } else {
+            model.addAttribute("message", "사용자를 찾을 수 없습니다.");
         }
 
-        MyProfile profile = myProfileService.getProfileBySiteUser(id);
-        model.addAttribute("profile", profile);
-        model.addAttribute("loggedInUserId", loginUser.getId()); // 사용자 ID를 모델에 추가
         return "myprofile";
     }
 
-    // 회사 사용자 프로필 보기
+    // 기업 프로필 보기
     @GetMapping("/profile/company/{id}")
-    public String getCompanyProfile(@PathVariable("id") Long id, HttpSession session, Model model) {
-        CompanyUser loggedInCompanyUser = companyUserService.getLoggedInCompanyUser(session);
+    public String getCompanyProfile(@PathVariable("id") Long id, Model model) {
+        //id로 기업 조회
+        CompanyUser companyUser = companyUserService.findById(id);
 
-        if (!loggedInCompanyUser.getId().equals(id)) {
-            throw new IllegalStateException("접근 권한이 없습니다.");
+        if (companyUser != null) {
+            model.addAttribute("companyName", companyUser.getCompanyName());
+            model.addAttribute("email", companyUser.getEmail());
+        } else {
+            model.addAttribute("message", "회사를 찾을 수 없습니다.");
         }
 
-        MyProfile profile = myProfileService.getProfileByCompanyUser(id);
-        model.addAttribute("profile", profile);
-        return "companyprofile";
+        return "myprofile";
     }
-
     @PostMapping("/profile/user/{id}/upload-image")
     public ResponseEntity<String> uploadImage(
             @PathVariable("id") Long userId, // URL에서 사용자 ID 가져옴
