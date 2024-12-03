@@ -19,10 +19,6 @@ public class UserSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // CSRF 예외 설정
-                .csrf((csrf) -> csrf
-                        .ignoringRequestMatchers("/profile/user/**") // CSRF 검증 제외
-                )
                 // 권한 설정
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers("/**", "/CSS/**", "/JS/**", "/login/**", "/signup/**", "/images/**").permitAll() // 로그인 페이지 및 정적 리소스 허용
