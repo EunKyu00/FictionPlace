@@ -57,7 +57,7 @@
         <!-- 프로필 이미지 -->
         <img
                 id="profileImage"
-                th:src="${profileImage != null ? profileImage : '/images/unnamed.png'}"
+                th:src="${session.profileImageUrl}"
                 class="profile-img"
                 onclick="selectImageFile()"
         >
@@ -79,7 +79,7 @@
     <div class="email">Email :</div>
     <div id="profile-email" th:text="${profile.getEmail}"></div>
     <div class="discription-card">
-        <div class="discription" th:text="${profile.description != null ? profile.description : '자기소개가 없습니다.'}">자기소개</div>
+        <div class="discription" th:text="${profile.description != null ? profile.description : '자기소개가 없습니다.'}"></div>
     </div>
 </div>
 </div>

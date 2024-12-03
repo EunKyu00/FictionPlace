@@ -54,5 +54,13 @@ public class SiteUser extends BaseEntity {
 
     @Column(nullable = false)
     private String role; // 사용자 역할 (USER, COMPANY, ADMIN 등)
+
+    // MyProfile을 통해 프로필 이미지 URL을 반환
+    public String getProfileImageUrl() {
+        if (myProfile != null) {
+            return myProfile.getProfileImage() != null ? myProfile.getProfileImage() : "/images/unnamed.png";
+        }
+        return "/images/unnamed.png"; // 기본 이미지 반환
+    }
 }
 

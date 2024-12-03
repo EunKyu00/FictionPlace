@@ -15,7 +15,7 @@
     <img src="/images/logoimage.gif" alt="signuplogo" class="signup-logo-image" />
 
     <h2>기업 회원가입</h2>
-    <form action="/signup/company" method="POST">
+    <form action="/signup/company" method="POST" th:object="${companyUserCreateForm}">
         <div class="form-group">
             <label for="companyName">기업명 or 닉네임</label>
             <input

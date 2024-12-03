@@ -97,6 +97,7 @@ public class MyProfileController {
 
             // 데이터베이스에 이미지 경로 저장
             myProfileService.updateProfileImage(userId, "/upload/" + fileName);
+            session.setAttribute("profileImageUrl", "/upload/" + fileName);
             System.out.println("파일 저장 경로: " + destinationFile.getAbsolutePath());
             System.out.println("URL로 접근할 경로: " + "/upload/" + fileName);
             return ResponseEntity.ok("/upload/" + fileName);
@@ -146,7 +147,7 @@ public class MyProfileController {
     }
 
     @PostMapping("/profile/user/{id}/modify")
-    public String updateUser(@PathVariable("id") Long id, @ModelAttribute SiteUser updateUser, HttpSession session) {
+    public String updateUser(@PathVariable("id") Long id, @ModelAttribute SiteUser updateUser, @RequestParam(value = "profileImage", required = false) MultipartFile file, HttpSession session) {
         SiteUser loginUser = siteUserService.getLoggedInUser(session);
         if (!loginUser.getId().equals(id)) {
             throw new IllegalStateException("접근 권한이 없습니다.");
