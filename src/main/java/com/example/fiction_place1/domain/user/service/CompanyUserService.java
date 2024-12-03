@@ -35,7 +35,6 @@ public class CompanyUserService {
         // MyProfile 생성 및 저장
         MyProfile profile = new MyProfile();
         profile.setCompanyUser(companyUser);
-        profile.setCompanyUser(companyUser.getMyProfile().getCompanyUser()); // CompanyUser와 연관 설정
         profile.setDescription("Default description"); // 기본값
         if (profile.getProfileImage() == null) {
             profile.setProfileImage("/images/unnamed.png"); // 기본 이미지 경로
