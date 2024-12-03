@@ -24,7 +24,7 @@
     <nav class="navigation">
         <ul class="nav-links">
             <li><a href="/">웹툰</a></li>
-            <li><a href="/bordlist">게시판</a></li>
+            <li><a href="/board">게시판</a></li>
             <li th:if="${session.loginUser != null}">
                 <!-- 일반회원 프로필 -->
                 <a th:if="${session.loginUser != null}"
@@ -33,9 +33,9 @@
             </li>
             <li th:if="${session.loginCompanyUser != null}">
                 <!-- 기업회원 프로필 -->
-                <a href="/profile/company/${id}">
-                    프로필 (<span th:text="${session.loginCompanyUser.companyname}"></span>)
-                </a>
+                <a th:if="${session.loginCompanyUser != null}"
+                   th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}">프로필 보기</a>
+                <span th:if="${session.loginCompanyUser == null}">프로필 정보가 없습니다.</span>
             </li>
         </ul>
 
@@ -65,7 +65,7 @@
         </div>
         <div th:if="${session.loginCompanyUser != null}" class="logout-type">
             <!-- 기업회원 -->
-            <p>안녕하세요 <span th:text="${session.loginCompanyUser.companyname}"></span> 님</p>
+            <p>안녕하세요 <span th:text="${session.loginCompanyUser.companyName}"></span> 님</p>
             <a href="/company/logout" class="logout-btn">로그아웃</a>
         </div>
     </nav>

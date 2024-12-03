@@ -12,6 +12,11 @@ spring:
         show_sql: true # SQL ??? ?? ?? ???
         format_sql: true # SQL ??? ?????
         use_sql_comments: true # SQL ??? ???
+        dialect: # 데이터베이스에 맞는 Dialect 설정
+          # PostgreSQL 설정
+          # spring.profiles.active가 'prod'일 때 PostgreSQL Dialect 사용
+          if: "${spring.profiles.active == 'prod'}"
+          value: org.hibernate.dialect.PostgreSQLDialect
   logging:
     level:
       # SQL? ??? ?? ????, SQL? ??? ??
