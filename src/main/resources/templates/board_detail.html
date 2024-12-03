@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+    <link rel="stylesheet" href="/board_detail.css">
+</head>
+<body>
+<!-- 게시글 내용 -->
+<h1 th:text="${board.title}"></h1>
+<p th:text="${board.content}"></p>
+
+<!-- 댓글 입력 폼 -->
+<form th:action="@{|/comment/create/${board.id}|}" method="post">
+    <textarea name="content" id="content" rows="10"></textarea>
+
+    <!-- 에러 메시지 출력 -->
+    <div th:if="${errorContent}" style="color: red; font-size: 14px;">
+        <p th:text="${errorContent}"></p>
+    </div>
+
+    <input type="submit" value="댓글등록">
+</form>
+
+<!-- 댓글 목록 출력 -->
+<h2>댓글 목록</h2>
+<ul>
+    <li th:each="comment : ${comments}">
+        <p th:text="${comment.content}"></p>
+        <p>작성일: <span th:text="${comment.createdDate}"></span></p>  <!-- 댓글 작성일 -->
+    </li>
+</ul>
+
+</body>
+</html>

@@ -61,6 +61,27 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 <script>
+    document.getElementById('signupToggle').addEventListener('click', function (event) {
+        event.preventDefault(); // 링크 이동 방지
+        const dropdown = document.getElementById('signupDropdown');
+        if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+            dropdown.style.display = 'block';
+        } else {
+            dropdown.style.display = 'none';
+        }
+    });
+
+    // 페이지의 다른 곳을 클릭하면 드롭다운 닫기
+    window.addEventListener('click', function (event) {
+        const dropdown = document.getElementById('signupDropdown');
+        const toggle = document.getElementById('signupToggle');
+        if (event.target !== dropdown && event.target !== toggle && !dropdown.contains(event.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+
+</script>
+<script>
     $(document).ready(function () {
       $(".slick-slider").slick({
         dots: true,

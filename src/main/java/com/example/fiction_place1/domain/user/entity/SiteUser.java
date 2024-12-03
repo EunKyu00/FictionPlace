@@ -1,6 +1,8 @@
 package com.example.fiction_place1.domain.user.entity;
 
 
+
+
 import com.example.fiction_place1.domain.board.entity.Board;
 import com.example.fiction_place1.domain.comment.entity.Comment;
 import com.example.fiction_place1.domain.message.entity.Message;
@@ -21,7 +23,8 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Table(name = "site_user")
-public class SiteUser extends BaseEntity {
+
+public class SiteUser extends BaseEntity implements User {
     @Column(unique = true)
     private String username;
 
@@ -37,10 +40,10 @@ public class SiteUser extends BaseEntity {
 
     private Boolean isSocialLogin = false;
 
-    @OneToMany(mappedBy = "siteUser", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "siteUser")
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "siteUser", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "siteUser")
     private List<Board> boards;
 
     @OneToMany(mappedBy = "siteUser")
@@ -49,6 +52,10 @@ public class SiteUser extends BaseEntity {
     @OneToMany(mappedBy = "siteUser")
     private List<Comment> comments;
 
+    @Override
+    public Long getId() {
+        return this.id;  // BaseEntity에서 상속받은 id 반환
+    }
     @OneToOne(mappedBy = "siteUser", cascade = CascadeType.ALL)
     private MyProfile myProfile; // MyProfile과 연결
 

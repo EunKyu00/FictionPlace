@@ -30,7 +30,6 @@ public class SiteUserController {
         return "site_user_signup";
     }
 
-
     @PostMapping("/signup/user")
     public String siteUser(@Valid @ModelAttribute("siteUserCreateForm")
                                SiteUserCreateForm siteUserCreateForm,
@@ -52,13 +51,13 @@ public class SiteUserController {
             return "site_user_signup";
         }
         siteUserService.siteUser(siteUserCreateForm);
-
-
         return "redirect:/";
     }
     //일반 회원 회원가입 끝
+
+
     @GetMapping("/login/user")
-    public String loginForm(Model model) {
+    public String loginForm() {
         return "user_login"; // 로그인 페이지로 이동
     }
     //일반 회원 로그인 시작
@@ -105,12 +104,8 @@ public class SiteUserController {
         }
     }
 
-
     @GetMapping("/user/logout")
-    public String logout(HttpSession session) {
-        // 세션 무효화
-        session.invalidate();
+    public String logout() {
         return "redirect:/"; // 홈으로 리다이렉트
     }
-
 }

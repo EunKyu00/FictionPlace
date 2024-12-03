@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 목록</title>
+    <link rel="stylesheet" href="/board_list.css">
+</head>
+<body>
+<h1>게시판 목록</h1>
+
+<!-- 게시판 타입 선택 드롭다운 -->
+<form action="/board" method="get">
+    <label for="boardTypeId">게시판 타입:</label>
+    <select name="boardTypeId" id="boardTypeId">
+        <option th:each="boardType : ${boardTypes}"
+                th:value="${boardType.id}"
+                th:text="${boardType.boardTypeName}"
+                th:selected="${boardType.id == boardTypeId}"></option>
+    </select>
+    <button type="submit">게시판 보기</button>
+    <a th:href="@{/board/create}" class="btn-register">등록하기</a>
+</form>
+<!-- 선택한 게시판 타입 표시 -->
+<h2 th:text="${selectedBoardType.boardTypeName}"></h2>
+
+<!-- 게시판 목록 -->
+<ul>
+    <li th:each="board, iterStat : ${boardList}" style="display: flex; justify-content: space-between; align-items: center;">
+        <!-- 왼쪽 영역: 번호와 제목 -->
+        <div>
+            <!-- 게시물 번호 -->
+            <span th:text="${currentPage * size + iterStat.index + 1}"></span>.
+            <!-- 게시물 제목 -->
+            <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
+        </div>
+        <!-- 오른쪽 영역: 등록 날짜 -->
+        <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+    </li>
+</ul>
+
+<!-- 페이징 -->
+<div>
+    <span th:if="${currentPage > 0}">
+        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=10|}">이전</a>
+    </span>
+    <span>페이지: <span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span></span>
+    <span th:if="${currentPage + 1 < totalPages}">
+        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=10|}">다음</a>
+    </span>
+</div>
+
+</body>
+</html>
