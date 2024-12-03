@@ -3,21 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>게시판 목록</title>
-    <link rel="stylesheet" href="/board_list.css">
+    <link rel="stylesheet" th:href="@{/CSS/board_list.css}">
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
 </head>
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
+<section class="board-body">
 <h1>게시판 목록</h1>
-
 <!-- 게시판 타입 선택 드롭다운 -->
-<form action="/board" method="get">
+<form action="/board" method="get" class="board-type">
+    <div>
     <label for="boardTypeId">게시판 타입:</label>
+    </div>
+    <div>
     <select name="boardTypeId" id="boardTypeId">
         <option th:each="boardType : ${boardTypes}"
                 th:value="${boardType.id}"
                 th:text="${boardType.boardTypeName}"
                 th:selected="${boardType.id == boardTypeId}"></option>
     </select>
+    </div>
+    <div>
     <button type="submit">게시판 보기</button>
+    </div>
     <a th:href="@{/board/create}" class="btn-register">등록하기</a>
 </form>
 <!-- 선택한 게시판 타입 표시 -->
@@ -48,6 +56,6 @@
         <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=10|}">다음</a>
     </span>
 </div>
-
+</section>
 </body>
 </html>

@@ -157,43 +157,7 @@
   display: none;
 }
 
-@media screen and (max-width: 1024px) {
-  .profile-upload-container {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    margin: 10px auto;
-    top: 130px;
-    left: 33%;
-  }
 
-  .profile_nickname,
-  #profile-nickname,
-  #profile-email,
-  .email {
-    position: relative;
-    width: 100%;
-    height: auto;
-    text-align: center;
-    margin: 10px 0;
-    left: 20%;
-    top: 0;
-  }
-
-  .discription-card {
-    position: relative;
-    width: 70%;
-    height: 300px;
-    margin: 20px auto;
-    left: 5%;
-    top: 0;
-  }
-
-  #works-container {
-    width: 100%;
-    padding: 10px;
-  }
-}
 
 .sidebar-link.disabled {
     color: gray;
