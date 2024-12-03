@@ -29,10 +29,16 @@ public class MyProfile extends BaseEntity {
     public String getNickname() {
         return siteUser != null ? siteUser.getNickname() : null;
     }
+
+    @Transient
+    public String getEmail() {
+        return siteUser != null ? siteUser.getEmail() : null;
+    }
     //기업 id값
     @OneToOne
     @JoinColumn(name = "company_user_id")
     private CompanyUser companyUser; // CompanyUser와의 연관 관계
+
 
     // 생성자 추가 (Lombok으로도 가능)
     public MyProfile(String profileImage, String description, CompanyUser companyUser) {

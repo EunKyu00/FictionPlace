@@ -27,3 +27,4 @@ spring:
       org:
         springframework:
           web=DEBUG:
+

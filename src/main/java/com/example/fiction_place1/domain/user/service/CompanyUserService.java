@@ -5,6 +5,7 @@ import com.example.fiction_place1.domain.profile.service.MyProfileService;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.form.CompanyUserCreateForm;
 import com.example.fiction_place1.domain.user.repository.CompanyUserRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,8 +36,10 @@ public class CompanyUserService {
         MyProfile profile = new MyProfile();
         profile.setCompanyUser(companyUser);
         profile.setCompanyUser(companyUser.getMyProfile().getCompanyUser()); // CompanyUser와 연관 설정
-        profile.setDescription(null); // 기본값
-        profile.setProfileImage(null); // 기본값
+        profile.setDescription("Default description"); // 기본값
+        if (profile.getProfileImage() == null) {
+            profile.setProfileImage("/images/unnamed.png"); // 기본 이미지 경로
+        } // 기본값
 
         myProfileService.saveProfile(profile);
 
@@ -55,6 +58,19 @@ public class CompanyUserService {
         }
 
         return companyUser;
+    }
+
+    // 현재 로그인한 회사 사용자 가져오기
+    public CompanyUser getLoggedInCompanyUser(HttpSession session) {
+        // 세션에서 회사 사용자 정보 가져오기
+        CompanyUser loggedInCompanyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+
+        // 로그인된 회사 사용자가 없는 경우 예외 발생
+        if (loggedInCompanyUser == null) {
+            throw new IllegalStateException("로그인된 회사 사용자가 없습니다.");
+        }
+
+        return loggedInCompanyUser;
     }
 
 }
