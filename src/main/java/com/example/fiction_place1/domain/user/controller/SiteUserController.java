@@ -1,5 +1,6 @@
 package com.example.fiction_place1.domain.user.controller;
 
+import com.example.fiction_place1.domain.profile.service.MyProfileService;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.user.form.SiteUserCreateForm;
 import com.example.fiction_place1.domain.user.repository.SiteUserRepository;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SiteUserController {
     private final SiteUserService siteUserService;
     private final SiteUserRepository siteUserRepository;
-
+    private final MyProfileService myProfileService;
 
     //일반 회원 회원가입 시작
     @GetMapping("/signup/user")
@@ -83,9 +84,17 @@ public class SiteUserController {
         try {
             // 로그인 시도
             SiteUser user = siteUserService.login(username, password);
-
+            System.out.println("로그인 성공: 세션에 저장된 사용자 ID: " + user.getId());
             // 세션에 사용자 정보 저장
             session.setAttribute("loginUser", user);
+
+            // 프로필 이미지 URL도 세션에 저장
+            if (user.getProfileImageUrl() != null) {
+                session.setAttribute("profileImageUrl", user.getProfileImageUrl());
+            } else {
+                // 기본 이미지 설정
+                session.setAttribute("profileImageUrl", "/unnamed.png");
+            }
 
             return "redirect:/"; // 홈으로 리다이렉트
         } catch (IllegalArgumentException e) {
@@ -99,5 +108,4 @@ public class SiteUserController {
     public String logout() {
         return "redirect:/"; // 홈으로 리다이렉트
     }
-
 }

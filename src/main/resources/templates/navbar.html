@@ -28,7 +28,7 @@
             <li th:if="${session.loginUser != null}">
                 <!-- 일반회원 프로필 -->
                 <a th:if="${session.loginUser != null}"
-                   th:href="@{/profile/user/{id}(id=${session.loginUser.id})}">프로필 보기</a>
+                   th:href="@{/profile/user/{id}(id=${session.loginUser.id})}">프로필</a>
                 <span th:if="${session.loginUser == null}">프로필 정보가 없습니다.</span>
             </li>
             <li th:if="${session.loginCompanyUser != null}">
@@ -60,7 +60,7 @@
         <!-- 로그인 상태 -->
         <div th:if="${session.loginUser != null}" class="logout-type">
             <!-- 일반회원 -->
-            <p>안녕하세요 <span th:text="${session.loginUser.nickname}"></span> 님</p>
+            <p>안녕하세요 <span th:text="${session.loginUser.nickname}"></span>  님</p>
             <a href="/user/logout" class="logout-btn">로그아웃</a>
         </div>
         <div th:if="${session.loginCompanyUser != null}" class="logout-type">

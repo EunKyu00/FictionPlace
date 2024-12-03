@@ -21,7 +21,7 @@
 
 .sidebar-item a {
   display: flex;
-  margin-bottom: 10px; /* 각 항목 사이의 간격 */
+  margin-top: 25px; /* 각 항목 사이의 간격 */
   cursor: pointer;
   color: #000000 !important;
   font-family: "Rubik", sans-serif;
@@ -50,120 +50,111 @@
   margin-top: 20px;
 }
 
-/* Rectangle */
-.profile-upload-container {
-  box-sizing: border-box;
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  left: 430px;
-  top: 170px;
-  background-color: #d3d3d3;
-  border: 1px solid #000000;
-  border-radius: 70px;
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
-  cursor: pointer;
+/* 전체 부모 컨테이너 */
+.profile_home {
+    display: flex; /* 요소를 가로로 정렬 */
+    flex-direction: column;
+    align-items: flex-start; /* 세로 정렬 기준을 위로 설정 */
+    justify-content: flex-start; /* 가로 정렬 기준을 왼쪽으로 설정 */
+    gap: 10px; /* 요소 간격 */
+    margin: 50px 22% 50px 22%; /* 화면 중앙 배치 */
+    width: 80%; /* 부모 컨테이너 너비 */
 }
 
-.upload-input {
-  display: none;
+/* 프로필 이미지 컨테이너 */
+.profile-container {
+    box-sizing: border-box;
+    width: 200px;
+    height: 200px;
+    background-color: #d3d3d3;
+    border: 1px solid #000000;
+    border-radius: 30px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* 닉네임 : */
-.profile_nickname {
-  position: absolute;
-  width: 83px;
-  height: 27px;
-  left: 670px;
-  top: 180px;
-  font-family: "Rubik";
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: #000000;
+/* 프로필 이미지 */
+.profile-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
-/* TestNick */
+/* 프로필 정보 컨테이너 */
+.profile-info {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    gap: 10px; /* 요소 간 간격 */
+    flex: 1; /* 프로필 정보 영역이 남은 공간을 차지 */
+}
+
+/* 닉네임 스타일 */
 #profile-nickname {
-  position: absolute;
-  width: 140px;
-  height: 27px;
-  left: 742px;
-  top: 180px;
-  font-family: "Rubik";
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: #000000;
+    font-family: "Rubik";
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 22px;
+    color: #000000;
 }
 
-/* testemail@gmail.com */
+/* 이메일 스타일 */
 #profile-email {
-  position: absolute;
-  width: 200px;
-  height: 31px;
-  left: 939px;
-  top: 178px;
-  font-family: "Roboto";
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  display: flex;
-  align-items: center;
-  color: #000000;
+    font-family: "Roboto";
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
 }
 
 /* 자기소개 카드 */
 .discription-card {
-  box-sizing: border-box;
-  position: absolute;
-  width: 665px;
-  height: 164px;
-  left: 670px;
-  top: 216px;
-  background: #ffffff;
-  border: 1px solid #000000;
-  border-radius: 8px;
+    width: 50%;
+    height: 150px;
+    resize: none;
+    overflow: auto;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
-/* TEst 자기소개 */
-.discription-card > .discription {
-  position: absolute;
-  width: 664px;
-  height: 164px;
-  padding: 4px;
-  font-family: "Roboto";
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
+/* 자기소개 텍스트 */
+.discription-card .discription {
+    font-family: "Roboto";
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #333333;
+}
+.crop-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* 이메일 : */
-.email {
-  position: absolute;
-  width: 58px;
-  height: 17px;
-  left: 884px;
-  top: 185px;
-  font-family: "Roboto";
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  display: flex;
-  align-items: center;
+.crop-container img {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-#works-container {
-  margin: 0 auto;
-  background-color: rgb(255, 30, 0);
-  width: 800px;
-  height: auto;
+.upload-input {
+  display: none;
 }
 
 @media screen and (max-width: 1024px) {

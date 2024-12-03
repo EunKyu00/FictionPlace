@@ -104,7 +104,9 @@ li, a, button {
     display: inline-flex;
     align-items: center
 }
-
+.logout-type p {
+    margin-right: 12px;
+}
 .login-type ul, .signup-type ul {
   position: absolute;
   left: 0;

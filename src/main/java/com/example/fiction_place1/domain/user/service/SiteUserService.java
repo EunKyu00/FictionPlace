@@ -36,7 +36,6 @@ public class SiteUserService {
         MyProfile profile = new MyProfile();
         profile.setSiteUser(siteUser);
         profile.setDescription("Default description"); // 기본값
-        profile.setProfileImage(null); // 기본값
 
         siteUser.setMyProfile(profile);
         myProfileService.saveProfile(profile);
@@ -71,6 +70,16 @@ public class SiteUserService {
         }
 
         return loggedInUser;
+    }
+
+    //일반유저 수정 로직 (닉네임, 자기소개, 이메일)
+    public void updateUser(SiteUser currentUser, SiteUser updatedUser) {
+        currentUser.setNickname(updatedUser.getNickname());
+        currentUser.setEmail(updatedUser.getEmail());
+        if (!updatedUser.getPassword().isEmpty()) {
+            currentUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
+        siteUserRepository.save(currentUser);
     }
 
 }
