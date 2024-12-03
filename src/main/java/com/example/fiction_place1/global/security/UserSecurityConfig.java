@@ -19,10 +19,13 @@ public class UserSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // 모든 요청에 대한 권한 설정
+                // 권한 설정
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .requestMatchers("/**").permitAll()) // 모든 요청 허용
-
+                        .requestMatchers("/**", "/CSS/**", "/JS/**", "/login/**", "/signup/**", "/images/**").permitAll() // 로그인 페이지 및 정적 리소스 허용
+                        .requestMatchers("/user/**").hasRole("USER") // 일반 회원 전용 경로
+                        .requestMatchers("/company/**").hasRole("COMPANY") // 기업 회원 전용 경로
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // 관리자 경로 제한
+                        .anyRequest().authenticated()) // 그 외 요청은 인증 필요
                 // 단일 로그인 설정
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/login") // 공통 로그인 페이지
@@ -35,7 +38,7 @@ public class UserSecurityConfig {
                             } else if (request.getRequestURI().equals("/login/company")) {
                                 response.sendRedirect("/company/home"); // 기업 회원 리다이렉트
                             } else {
-                                response.sendRedirect("/"); // 기본 페이지
+                                response.sendRedirect("/"); // 기본 페이지rms
                             }
                         })
                         .failureUrl("/login?error=true")) // 로그인 실패 시 공통 실패 페이지
