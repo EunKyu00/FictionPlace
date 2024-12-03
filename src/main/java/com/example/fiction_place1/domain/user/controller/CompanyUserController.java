@@ -49,7 +49,6 @@ public class CompanyUserController {
             return "company_user_signup";
         }
         companyUserService.companyUser(companyUserCreateForm);
-
         return "redirect:/";
     }
 

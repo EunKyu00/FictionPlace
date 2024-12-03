@@ -33,11 +33,11 @@ public class CompanyUserService {
 
         // MyProfile 생성 및 저장
         MyProfile profile = new MyProfile();
-        profile.setCompanyUser(companyUser);
-        profile.setCompanyUser(companyUser.getMyProfile().getCompanyUser()); // CompanyUser와 연관 설정
-        profile.setDescription(null); // 기본값
-        profile.setProfileImage(null); // 기본값
+        profile.setCompanyUser(companyUser);  // companyUser와 프로필을 연결
+        profile.setDescription(null);          // 기본값
+        profile.setProfileImage(null);         // 기본값
 
+        // 프로필 저장
         myProfileService.saveProfile(profile);
 
     }
