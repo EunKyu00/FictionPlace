@@ -30,14 +30,22 @@
 </form>
 <!-- 선택한 게시판 타입 표시 -->
 <h2 th:text="${selectedBoardType.boardTypeName}"></h2>
+<div class="board-list">
 
+<div class="announcement">
+    <ul>
+        <li>공지사항</li>
+    </ul>
+</div>
 <!-- 게시판 목록 -->
 <ul>
     <li th:each="board, iterStat : ${boardList}" style="display: flex; justify-content: space-between; align-items: center;">
         <!-- 왼쪽 영역: 번호와 제목 -->
         <div>
+            <div class="board-number">
             <!-- 게시물 번호 -->
-            <span th:text="${currentPage * size + iterStat.index + 1}"></span>.
+            <span th:text="${currentPage * size + iterStat.index + 1}"></span>
+            </div>
             <!-- 게시물 제목 -->
             <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
         </div>
@@ -45,17 +53,18 @@
         <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
     </li>
 </ul>
-
+</div>
 <!-- 페이징 -->
 <div>
     <span th:if="${currentPage > 0}">
-        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=10|}">이전</a>
+        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=12|}">이전</a>
     </span>
     <span>페이지: <span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span></span>
     <span th:if="${currentPage + 1 < totalPages}">
-        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=10|}">다음</a>
+        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=12|}">다음</a>
     </span>
 </div>
 </section>
+<script src="/JS/dropdown.js"></script>
 </body>
 </html>
