@@ -36,14 +36,13 @@ public class UserSecurityConfig {
                         .loginPage("/login") // 공통 로그인 페이지
                         .loginProcessingUrl("/perform_login") // 공통 로그인 처리 경로
                         .successHandler((request, response, authentication) -> {
-                            // 로그인 성공 후 요청 URL에 따라 분기
                             String username = authentication.getName();
                             if (request.getRequestURI().equals("/login/user")) {
-                                response.sendRedirect("/user/home"); // 일반 회원 리다이렉트
-                            } else if (request.getRequestURI().equals("/login/company")) {
-                                response.sendRedirect("/company/home"); // 기업 회원 리다이렉트
+                                response.sendRedirect("/");
+                            } else if (request.getRequestURI().equals("/")) {
+                                response.sendRedirect("/company/home");
                             } else {
-                                response.sendRedirect("/"); // 기본 페이지rms
+                                response.sendRedirect("/");
                             }
                         })
                         .failureUrl("/login?error=true")) // 로그인 실패 시 공통 실패 페이지
@@ -61,9 +60,7 @@ public class UserSecurityConfig {
                             // 로그아웃 처리 확인
                             String logoutPath = request.getRequestURI();
                             if (logoutPath.equals("/user/logout")) {
-                                System.out.println("일반회원 로그아웃 처리");
-                            } else if (logoutPath.equals("/company/logout")) {
-                                System.out.println("기업회원 로그아웃 처리");
+                            } else if (logoutPath.equals("/company/logout")){
                             }
                         }));
 
