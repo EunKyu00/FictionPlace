@@ -9,6 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board,Long> {
-    List<Board> findByBoardType(BoardType boardType);
-    Page<Board> findByBoardType(BoardType boardType, Pageable pageable);
+    Page<Board> findByBoardTypeOrderByCreatedDateDesc(BoardType boardType, Pageable pageable);
 }

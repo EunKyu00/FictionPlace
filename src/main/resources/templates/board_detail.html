@@ -14,7 +14,7 @@
 <form th:action="@{|/comment/create/${board.id}|}" method="post">
     <textarea name="content" id="content" rows="10"></textarea>
 
-    <!-- 에러 메시지 출력 -->
+    <!-- login 에러 메시지 출력 -->
     <div th:if="${errorContent}" style="color: red; font-size: 14px;">
         <p th:text="${errorContent}"></p>
     </div>
@@ -28,6 +28,11 @@
     <li th:each="comment : ${comments}">
         <p th:text="${comment.content}"></p>
         <p>작성일: <span th:text="${comment.createdDate}"></span></p>  <!-- 댓글 작성일 -->
+        <p>
+            작성자:
+            <span th:if="${comment.siteUser != null}" th:text="${comment.siteUser.nickname}"></span>
+            <span th:if="${comment.companyUser != null}" th:text="${comment.companyUser.companyName}"></span>
+        </p>
     </li>
 </ul>
 

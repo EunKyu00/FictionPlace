@@ -33,6 +33,11 @@
             <!-- 게시물 제목 -->
             <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
         </div>
+        <!-- 작성자 정보 (일반회원은 닉네임, 기업회원은 회사명) -->
+        <div>
+            <span th:if="${board.siteUser}">작성자: <span th:text="${board.siteUser.nickname}"></span></span>
+            <span th:if="${board.companyUser}">작성자: <span th:text="${board.companyUser.companyName}"></span></span>
+        </div>
         <!-- 오른쪽 영역: 등록 날짜 -->
         <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
     </li>

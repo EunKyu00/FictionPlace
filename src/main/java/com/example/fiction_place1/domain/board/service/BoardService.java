@@ -29,7 +29,7 @@ public class BoardService {
     public Page<Board> getBoardType(Long boardTypeId, Pageable pageable) {
         BoardType boardType = boardTypeRepository.findById(boardTypeId)
                 .orElseThrow(() -> new RuntimeException("BoardType not found"));
-        return boardRepository.findByBoardType(boardType, pageable);
+        return boardRepository.findByBoardTypeOrderByCreatedDateDesc(boardType, pageable);
     }
 
     public void createFreeBoard(String title, String content, Long boardTypeId, User user){

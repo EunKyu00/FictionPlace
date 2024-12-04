@@ -60,7 +60,7 @@ public class FreeBoardController {
         model.addAttribute("size", boardPage.getSize()); // 페이지 크기
         model.addAttribute("totalPages", boardPage.getTotalPages()); // 전체 페이지 수
 
-        // 선택한 게시판 타입 ID 모델에 추가
+        // 선택한 게시판 타입 모델에 추가
         model.addAttribute("boardTypeId", boardTypeId);
 
         return "board_list";
@@ -86,15 +86,15 @@ public class FreeBoardController {
         // 로그인된 사용자 세션 받아오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
-//        // 사용자 닉네임 가져오기
-//        String nickname = null;
-//        if (siteUser != null) {
-//            nickname = siteUser.getNickname(); // SiteUser의 닉네임
-//        } else if (companyUser != null) {
-//            nickname = companyUser.getCompanyName(); // CompanyUser의 기업명
-//        }
-//
-//        model.addAttribute("nickname", nickname); // 모델에 닉네임 추가
+
+        // 로그인 체크
+        if (siteUser == null && companyUser == null) {
+            model.addAttribute("errorMessage", "로그인 후 이용해주세요.");
+            List<BoardType> boardTypes = boardTypeService.getAllBoardTypes();
+            model.addAttribute("boardTypes", boardTypes);
+            return "create_board"; // 게시글 작성 페이지로 다시 이동
+        }
+
         // 유효성 검사 실패 시
         if (bindingResult.hasErrors()) {
             List<BoardType> boardTypes = boardTypeService.getAllBoardTypes();
@@ -105,14 +105,15 @@ public class FreeBoardController {
 
         // 일반회원 또는 기업회원 게시글 작성
         if (siteUser != null) {
+            model.addAttribute("nickname", siteUser.getNickname());
             boardService.createFreeBoard(boardForm.getTitle(), boardForm.getContent(), boardTypeId, siteUser);
         } else if (companyUser != null) {
+            model.addAttribute("companyName", companyUser.getCompanyName());
             boardService.createFreeBoard(boardForm.getTitle(), boardForm.getContent(), boardTypeId, companyUser);
         }
 
         return "redirect:/board?boardTypeId=" + boardTypeId;
     }
-
 
     //게시글 상세
     @GetMapping("/board/detail/{id}")
