@@ -34,4 +34,13 @@ public class CommentService {
         }
         this.commentRepository.save(comment);
     }
+    public void modify(Comment comment,String content){
+        comment.setContent(content);
+        this.commentRepository.save(comment);
+        //TODO 댓글 수정 기능 추가? 할까 말까
+    }
+    public void delete(Comment comment){
+        this.commentRepository.delete(comment);
+        //TODO 댓글 삭제 기능 추가 *필수
+    }
 }

@@ -55,13 +55,10 @@ public class CreateBoardController {
         model.addAttribute("currentPage", boardPage.getNumber()); // 현재 페이지
         model.addAttribute("size", boardPage.getSize()); // 페이지 크기
         model.addAttribute("totalPages", boardPage.getTotalPages()); // 전체 페이지 수
-
         // 선택한 게시판 타입 모델에 추가
         model.addAttribute("boardTypeId", boardTypeId);
-
         return "board_list";
     }
-
     // 게시글 작성 페이지
     @GetMapping("/board/create")
     public String freeBoardCreate(BoardForm boardForm, Model model) {
@@ -69,7 +66,6 @@ public class CreateBoardController {
         model.addAttribute("boardTypes", boardTypes);
         return "create_board";
     }
-
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/board/create")
     public String createFreeBoard(@Valid BoardForm boardForm, BindingResult bindingResult,
@@ -116,7 +112,6 @@ public class CreateBoardController {
     public String boardDetail(Model model, @PathVariable("id") Long id, HttpSession session) {
         // 게시글 조회
         Board board = boardService.getBoard(id);
-
         // 로그인된 사용자 정보 가져오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
@@ -138,55 +133,6 @@ public class CreateBoardController {
 
         return "board_detail";
     }
-
-    //게시글 수정
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/board/modify/{id}")
-    public String modifyBoardForm(@PathVariable("id") Long id, Model model) {
-        Board board = boardService.getBoard(id);
-
-        BoardForm boardForm = new BoardForm();
-        boardForm.setTitle(board.getTitle());
-        boardForm.setContent(board.getContent());
-
-        model.addAttribute("boardForm", boardForm);
-        model.addAttribute("boardId", id);
-
-        return "modify_board";
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/board/modify/{id}")
-    public String modifyBoard(@Valid BoardForm boardForm, BindingResult bindingResult,
-                              @PathVariable("id") Long id,
-                              HttpSession session) {
-
-        Board board = boardService.getBoard(id);
-
-        // 세션에서 로그인된 사용자 가져오기
-        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
-        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
-
-        // 로그인한 사용자가 게시글의 작성자인지 확인
-        if (siteUser != null && board.getSiteUser().getId().equals(siteUser.getId())) {
-            boardService.modify(board, boardForm.getTitle(), boardForm.getContent());
-        } else if (companyUser != null && board.getCompanyUser().getId().equals(companyUser.getId())) {
-            boardService.modify(board, boardForm.getTitle(), boardForm.getContent());
-        }
-
-        // 게시글 수정 후, 게시글의 boardTypeId를 가져와서 해당 타입의 게시판 목록으로 리다이렉트
-        Long boardTypeId = board.getBoardType().getId();  // 게시글의 boardTypeId 가져오기
-        return String.format("redirect:/board?boardTypeId=%d", boardTypeId); // boardTypeId로 리다이렉트
-    }
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/board/delete/{id}")
-    public String deleteBoard(@PathVariable("id") Long id){
-        Board board = this.boardService.getBoard(id);
-        this.boardService.delete(board);
-        Long boardTypeId = board.getBoardType().getId();  // 게시글의 boardTypeId 가져오기
-        return String.format("redirect:/board?boardTypeId=%d", boardTypeId); // boardTypeId로 리다이렉트
-    }
-
 }
 
 
