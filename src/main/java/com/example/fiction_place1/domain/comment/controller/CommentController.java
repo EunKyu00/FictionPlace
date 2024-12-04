@@ -27,8 +27,9 @@ public class CommentController {
     public String createComment(RedirectAttributes redirectAttributes,
                                 @PathVariable("id") Long id,
                                 @RequestParam(value="content") String content,
-                                Model model, HttpSession session){
+                                Model model, HttpSession session) {
 
+        // 댓글 내용이 비었을 때 에러 처리
         if (content == null || content.trim().isEmpty()) {
             redirectAttributes.addFlashAttribute("errorContent", "내용을 입력해주세요.");
             return String.format("redirect:/board/detail/%s", id); // 리디렉션 전에 에러 메시지 처리
@@ -36,25 +37,24 @@ public class CommentController {
 
         // 로그인된 사용자 세션 받아오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
-        if (siteUser != null) {
-            model.addAttribute("nickname",siteUser.getNickname());
-        } else {
-            model.addAttribute("message", "로그인 후 이용해주세요.");
-        }
-
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
-        if (companyUser != null) {
-            model.addAttribute("companyName", companyUser.getCompanyName());
-        }else {
-            model.addAttribute("message","로그인 후 이용해주세요.");
+
+        // 로그인되지 않은 경우 리디렉션 처리
+        if (siteUser == null && companyUser == null) {
+            redirectAttributes.addFlashAttribute("message", "로그인 후 이용해주세요.");
+            return String.format("redirect:/board/detail/%s", id);  // 로그인되지 않은 경우 리디렉션
         }
 
+        // 로그인된 사용자가 있으면 댓글 등록
         Board board = this.boardService.getBoard(id);
-        if (siteUser != null){
-            commentService.createComment(board,content,siteUser);
-        }else if (companyUser != null){
-            commentService.createComment(board,content,companyUser);
+        if (siteUser != null) {
+            commentService.createComment(board, content, siteUser);
+        } else if (companyUser != null) {
+            commentService.createComment(board, content, companyUser);
         }
+
+        // 댓글 등록 후, 게시글 상세 페이지로 리디렉션
         return String.format("redirect:/board/detail/%s", id);
     }
+
 }

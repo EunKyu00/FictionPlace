@@ -1,6 +1,7 @@
 package com.example.fiction_place1.domain.board.service;
 
 import com.example.fiction_place1.domain.board.entity.Board;
+import com.example.fiction_place1.domain.board.form.BoardForm;
 import com.example.fiction_place1.domain.board.repository.BoardRepository;
 import com.example.fiction_place1.domain.board_type.entity.BoardType;
 import com.example.fiction_place1.domain.board_type.repository.BoardTypeRepository;
@@ -55,6 +56,14 @@ public class BoardService {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Board not found"));
         return board;
+    }
+    public void modify(Board board, String title, String content){
+        board.setTitle(title);
+        board.setContent(content);
+        this.boardRepository.save(board);
+    }
+    public void delete(Board board){
+        this.boardRepository.delete(board);
     }
 }
 

@@ -9,7 +9,6 @@ import com.example.fiction_place1.domain.comment.entity.Comment;
 import com.example.fiction_place1.domain.comment.service.CommentService;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
-import com.example.fiction_place1.domain.user.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,19 +16,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class FreeBoardController {
+public class CreateBoardController {
     private final BoardService boardService;
     private final BoardTypeService boardTypeService;
     private final CommentService commentService;
@@ -117,13 +113,80 @@ public class FreeBoardController {
 
     //게시글 상세
     @GetMapping("/board/detail/{id}")
-    public String boardDetail(Model model, @PathVariable("id") Long id){
+    public String boardDetail(Model model, @PathVariable("id") Long id, HttpSession session) {
+        // 게시글 조회
         Board board = boardService.getBoard(id);
+
+        // 로그인된 사용자 정보 가져오기
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+
+        // 작성자인지 확인
+        boolean isAuthor = false;
+        if (siteUser != null) {
+            isAuthor = board.getSiteUser() != null && siteUser.getId().equals(board.getSiteUser().getId());
+        } else if (companyUser != null) {
+            isAuthor = board.getCompanyUser() != null && companyUser.getId().equals(board.getCompanyUser().getId());
+        }
+        // 댓글 가져오기
         List<Comment> comments = commentService.getCommentsByBoard(board);
+
+        // 모델에 데이터 추가
         model.addAttribute("board", board);
         model.addAttribute("comments", comments);
+        model.addAttribute("isAuthor", isAuthor); // 작성자인지 여부 추가
+
         return "board_detail";
     }
+
+    //게시글 수정
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/board/modify/{id}")
+    public String modifyBoardForm(@PathVariable("id") Long id, Model model) {
+        Board board = boardService.getBoard(id);
+
+        BoardForm boardForm = new BoardForm();
+        boardForm.setTitle(board.getTitle());
+        boardForm.setContent(board.getContent());
+
+        model.addAttribute("boardForm", boardForm);
+        model.addAttribute("boardId", id);
+
+        return "modify_board";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/board/modify/{id}")
+    public String modifyBoard(@Valid BoardForm boardForm, BindingResult bindingResult,
+                              @PathVariable("id") Long id,
+                              HttpSession session) {
+
+        Board board = boardService.getBoard(id);
+
+        // 세션에서 로그인된 사용자 가져오기
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+
+        // 로그인한 사용자가 게시글의 작성자인지 확인
+        if (siteUser != null && board.getSiteUser().getId().equals(siteUser.getId())) {
+            boardService.modify(board, boardForm.getTitle(), boardForm.getContent());
+        } else if (companyUser != null && board.getCompanyUser().getId().equals(companyUser.getId())) {
+            boardService.modify(board, boardForm.getTitle(), boardForm.getContent());
+        }
+
+        // 게시글 수정 후, 게시글의 boardTypeId를 가져와서 해당 타입의 게시판 목록으로 리다이렉트
+        Long boardTypeId = board.getBoardType().getId();  // 게시글의 boardTypeId 가져오기
+        return String.format("redirect:/board?boardTypeId=%d", boardTypeId); // boardTypeId로 리다이렉트
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/board/delete/{id}")
+    public String deleteBoard(@PathVariable("id") Long id){
+        Board board = this.boardService.getBoard(id);
+        this.boardService.delete(board);
+        Long boardTypeId = board.getBoardType().getId();  // 게시글의 boardTypeId 가져오기
+        return String.format("redirect:/board?boardTypeId=%d", boardTypeId); // boardTypeId로 리다이렉트
+    }
+
 }
 
 
