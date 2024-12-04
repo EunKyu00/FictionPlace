@@ -2,69 +2,124 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>게시판 목록</title>
     <link rel="stylesheet" th:href="@{/CSS/board_list.css}">
     <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
 </head>
 <body>
 <div th:replace="~{navbar :: navbar}"></div>
-<section class="board-body">
-<h1>게시판 목록</h1>
-<!-- 게시판 타입 선택 드롭다운 -->
-<form action="/board" method="get" class="board-type">
-    <div>
-    <label for="boardTypeId">게시판 타입:</label>
-    </div>
-    <div>
-    <select name="boardTypeId" id="boardTypeId">
-        <option th:each="boardType : ${boardTypes}"
-                th:value="${boardType.id}"
-                th:text="${boardType.boardTypeName}"
-                th:selected="${boardType.id == boardTypeId}"></option>
-    </select>
-    </div>
-    <div>
-    <button type="submit">게시판 보기</button>
-    </div>
-    <a th:href="@{/board/create}" class="btn-register">등록하기</a>
-</form>
-<!-- 선택한 게시판 타입 표시 -->
-<h2 th:text="${selectedBoardType.boardTypeName}"></h2>
-<div class="board-list">
 
-<div class="announcement">
-    <ul>
-        <li>공지사항</li>
-    </ul>
-</div>
-<!-- 게시판 목록 -->
-<ul>
-    <li th:each="board, iterStat : ${boardList}" style="display: flex; justify-content: space-between; align-items: center;">
-        <!-- 왼쪽 영역: 번호와 제목 -->
-        <div>
-            <div class="board-number">
-            <!-- 게시물 번호 -->
-            <span th:text="${currentPage * size + iterStat.index + 1}"></span>
+<section class="board-body">
+    <div class="board-head">
+        <h3 class="board-title" th:text="${selectedBoardType.boardTypeName}"></h3>
+        <div class="board-middle">
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <div class="phone-notch"></div> <!-- 핸드폰 상단 노치 -->
+                    <form id="boardForm" action="/board" method="get">
+                        <input type="hidden" name="boardTypeId" id="boardTypeId" />
+                    </form>
+                    <div class="category-list">
+                        <ul>
+                            <li th:each="boardType : ${boardTypes}"
+                                th:data-value="${boardType.id}"
+                                th:text="${boardType.boardTypeName}"
+                                th:classappend="${boardType.id == boardTypeId} ? 'active' : ''"
+                                class="category-item"></li>
+                        </ul>
+                    </div>
+                    <div class="phone-nav">
+                        <button id="back-button" class="nav-button">⟵</button>
+                        <button id="home-button" class="nav-button">⌂</button>
+                        <button id="menu-button" class="nav-button">≡</button>
+                    </div>
+                </div>
             </div>
-            <!-- 게시물 제목 -->
-            <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
+            <div class="board-listall">
+            <div class="board-typeitem">
+                <div class="col-number">번호</div>
+                <div class="col-title">제목</div>
+                <div class="col-writer">작성자</div>
+                <div class="col-date">작성일자</div>
+            </div>
+            <div class="board-list">
+                <!-- 게시판 목록 -->
+                <ul>
+                    <li th:each="board, iterStat : ${boardList}" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="board-number">
+                            <!-- 게시물 번호 -->
+                            <span th:text="${currentPage * size + iterStat.index + 1}"></span>
+                        </div>
+                        <div class="board-title">
+                            <!-- 게시물 제목 -->
+                            <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
+                        </div>
+                        <div class="board-writer">
+                        </div>
+                        <!-- 오른쪽 영역: 등록 날짜 -->
+                        <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    </li>
+                </ul>
+            </div>
+            </div>
         </div>
-        <!-- 오른쪽 영역: 등록 날짜 -->
-        <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
-    </li>
-</ul>
-</div>
-<!-- 페이징 -->
-<div>
-    <span th:if="${currentPage > 0}">
-        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=12|}">이전</a>
-    </span>
-    <span>페이지: <span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span></span>
-    <span th:if="${currentPage + 1 < totalPages}">
-        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=12|}">다음</a>
-    </span>
-</div>
+    </div>
 </section>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryItems = document.querySelectorAll('.category-item');
+        const boardForm = document.getElementById('boardForm');
+        const boardTypeIdInput = document.getElementById('boardTypeId');
+
+        categoryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // 선택된 카테고리의 ID 가져오기
+                const selectedBoardTypeId = item.getAttribute('data-value');
+
+                // 히든 필드에 선택된 게시판 타입 ID 설정
+                boardTypeIdInput.value = selectedBoardTypeId;
+
+                // 폼 전송 (GET 요청)
+                boardForm.submit();
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 뒤로 가기 버튼: 이전 페이지로 돌아가기
+        const backButton = document.getElementById('back-button');
+        backButton.addEventListener('click', function() {
+            window.history.back(); // 브라우저의 이전 페이지로 돌아가기
+        });
+
+        // 홈 버튼: 웹툰 리스트 홈으로 이동
+        const homeButton = document.getElementById('home-button');
+        homeButton.addEventListener('click', function() {
+            window.location.href = '/'; // 웹툰 리스트 홈으로 이동 (경로는 실제에 맞게 수정)
+        });
+
+        // 목록 버튼: 게시판 목록으로 이동
+        const menuButton = document.getElementById('menu-button');
+        menuButton.addEventListener('click', function() {
+            window.location.href = '/board'; // 게시판 목록으로 이동 (경로는 실제에 맞게 수정)
+        });
+    });
+</script>
+<script>
+    // 진동 효과를 위한 JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryItems = document.querySelectorAll('.category-item');
+
+        categoryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // 모바일 진동 효과 (지원되는 장치에서만 동작)
+                if (navigator.vibrate) {
+                    navigator.vibrate(50); // 50ms 동안 진동
+                }
+            });
+        });
+    });
+</script>
 <script src="/JS/dropdown.js"></script>
 </body>
 </html>
