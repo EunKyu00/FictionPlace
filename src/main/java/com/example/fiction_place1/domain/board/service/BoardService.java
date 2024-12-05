@@ -68,6 +68,16 @@ public class BoardService {
     public void delete(Board board){
         this.boardRepository.delete(board);
     }
+    // 추천 수 증가 또는 감소
+    public void updateLikes(Long boardId, boolean increase) {
+        Board board = getBoard(boardId);
+        if (increase) {
+            board.setLikes(board.getLikes() + 1);
+        } else {
+            board.setLikes(board.getLikes() - 1);
+        }
+        boardRepository.save(board);  // 게시글 저장
+    }
 }
 
 

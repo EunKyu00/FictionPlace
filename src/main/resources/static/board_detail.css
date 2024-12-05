@@ -1,118 +1,109 @@
-/* 전체적인 페이지 스타일 */
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 20px;
-    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-h1 {
-    font-size: 24px;
-    color: #333;
-}
-
-h2 {
-    font-size: 20px;
-    color: #444;
-}
-
-/* 게시글 내용 스타일 */
-p {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 20px;
-}
-
-/* 댓글 등록 폼 스타일 */
-form {
-    background-color: #fff;
+.board-detail {
+    background-color: #ffffff;
     padding: 20px;
+    margin: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
 }
 
-textarea {
-    width: 98%;  /* 너비를 줄임 */
-    padding: 6px;  /* 패딩을 줄여서 공간을 줄임 */
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    resize: none; /* 세로 크기 조절 가능 */
-    height: 80px;  /* 세로 길이를 직접 지정 */
+.recommendation {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px;
 }
 
-
-input[type="submit"] {
-    padding: 10px 15px;
-    background-color: #4CAF50;
+.recommendation .btn-recommend {
+    background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 4px;
+    padding: 5px 10px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-/* 댓글 목록 스타일 */
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-ul li {
-    background-color: #fff;
-    padding: 15px;
-    margin-bottom: 10px;
+.comment-form {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 20px;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-ul li p {
-    margin: 0;
-    font-size: 14px;
-    color: #333;
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    resize: vertical;
 }
 
-ul li span {
-    font-size: 12px;
-    color: #999;
+.comment-form .btn-submit {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-/* 댓글 작성일자 스타일 */
-ul li .createdDate {
-    font-style: italic;
-    color: #888;
+.board-actions {
+    margin: 20px;
 }
-/* 공통 에러 메시지 스타일 */
-.error-message {
-    color: red;
-    font-size: 14px;
+
+.board-actions .btn-edit, .board-actions .btn-delete {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.board-actions .btn-edit {
+    background-color: #ffc107;
+}
+
+.board-actions .btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.comments-list {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 8px;
+}
+
+.comment-item {
     margin-bottom: 20px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
-/* 반응형 웹 디자인을 위한 스타일 (모바일에서 더 나은 화면 표시) */
-@media (max-width: 768px) {
-    textarea {
-        font-size: 16px;
-    }
+.comment-header {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
 
-    h1 {
-        font-size: 20px;
-    }
+.comment-date {
+    font-size: 0.9em;
+    color: #777;
+}
 
-    h2 {
-        font-size: 18px;
-    }
+.comment-actions {
+    margin-top: 10px;
+}
 
-    p {
-        font-size: 14px;
-    }
-
-    ul li {
-        padding: 10px;
-    }
+.comment-actions .btn-delete {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }

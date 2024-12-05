@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -144,6 +145,37 @@ public class CreateBoardController {
         model.addAttribute("loginCompanyUser", companyUser);
 
         return "board_detail";
+    }
+    @PostMapping("/board/{id}/recommend")
+    public String recommendBoard(@PathVariable("id") Long id, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        // 로그인된 사용자 정보 가져오기
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+
+        if (siteUser == null && companyUser == null){
+            redirectAttributes.addFlashAttribute("errorMessage","로그인 후 추천할 수 있습니다.");
+            return String.format("redirect:/board/detail/%d", id);
+        }
+
+        // 세션에서 추천 상태 확인
+        Boolean hasRecommended = (Boolean) session.getAttribute("recommendedBoard_" + id);
+
+        // 추천 상태에 따라 추천 수 증가 또는 감소
+        if (hasRecommended != null && hasRecommended) {
+            // 이미 추천했다면 추천 취소
+            boardService.updateLikes(id, false);
+            session.setAttribute("recommendedBoard_" + id, false);  // 세션에서 추천 상태 취소
+        } else {
+            // 추천하지 않았다면 추천 추가
+            boardService.updateLikes(id, true);
+            session.setAttribute("recommendedBoard_" + id, true);  // 세션에서 추천 상태 설정
+        }
+
+        // 세션에서 추천 상태 모델에 추가
+        model.addAttribute("hasRecommended", hasRecommended);
+
+        // 게시글 상세 페이지로 리다이렉트
+        return String.format("redirect:/board/detail/%d", id);
     }
 
 }
