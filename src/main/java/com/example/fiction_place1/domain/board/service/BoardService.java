@@ -5,6 +5,8 @@ import com.example.fiction_place1.domain.board.form.BoardForm;
 import com.example.fiction_place1.domain.board.repository.BoardRepository;
 import com.example.fiction_place1.domain.board_type.entity.BoardType;
 import com.example.fiction_place1.domain.board_type.repository.BoardTypeRepository;
+import com.example.fiction_place1.domain.comment.entity.Comment;
+import com.example.fiction_place1.domain.comment.repository.CommentRepository;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.user.entity.User;
@@ -25,6 +27,7 @@ public class BoardService {
     private final BoardTypeRepository boardTypeRepository;
     private final SiteUserRepository siteUserRepository;
     private final CompanyUserRepository companyUserRepository;
+    private final CommentRepository commentRepository;
 
     // 게시판 타입에 맞는 게시글 조회
     public Page<Board> getBoardType(Long boardTypeId, Pageable pageable) {

@@ -19,7 +19,7 @@ public class DeleteBoardController {
     public String deleteBoard(@PathVariable("id") Long id){
         Board board = this.boardService.getBoard(id);
         this.boardService.delete(board);
-        Long boardTypeId = board.getBoardType().getId();  // 게시글의 boardTypeId 가져오기
-        return String.format("redirect:/board?boardTypeId=%d", boardTypeId); // boardTypeId로 리다이렉트
+        Long boardTypeId = board.getBoardType().getId();
+        return String.format("redirect:/board?boardTypeId=%d", boardTypeId);
     }
 }

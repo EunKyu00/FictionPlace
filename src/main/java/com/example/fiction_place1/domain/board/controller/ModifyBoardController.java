@@ -50,15 +50,14 @@ public class ModifyBoardController {
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
 
-        // 로그인한 사용자가 게시글의 작성자인지 확인
+        // 로그인한 사용자가 작성자인지 확인
         if (siteUser != null && board.getSiteUser().getId().equals(siteUser.getId())) {
             boardService.modify(board, boardForm.getTitle(), boardForm.getContent());
         } else if (companyUser != null && board.getCompanyUser().getId().equals(companyUser.getId())) {
             boardService.modify(board, boardForm.getTitle(), boardForm.getContent());
         }
 
-        // 게시글 수정 후, 게시글의 boardTypeId를 가져와서 해당 타입의 게시판 목록으로 리다이렉트
-        Long boardTypeId = board.getBoardType().getId();  // 게시글의 boardTypeId 가져오기
-        return String.format("redirect:/board?boardTypeId=%d", boardTypeId); // boardTypeId로 리다이렉트
+        Long boardTypeId = board.getBoardType().getId();
+        return String.format("redirect:/board?boardTypeId=%d", boardTypeId);
     }
 }

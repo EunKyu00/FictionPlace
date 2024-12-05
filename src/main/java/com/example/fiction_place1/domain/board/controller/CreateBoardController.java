@@ -37,19 +37,15 @@ public class CreateBoardController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             Model model) {
-
         // 모든 게시판 타입 목록 가져오기
         List<BoardType> boardTypes = boardTypeService.getAllBoardTypes();
         model.addAttribute("boardTypes", boardTypes);
-
         // 선택한 게시판 타입 가져오기
         BoardType selectedBoardType = boardTypeService.findById(boardTypeId);
         model.addAttribute("selectedBoardType", selectedBoardType);
-
         // 페이징 처리된 게시글 목록 가져오기
         Pageable pageable = PageRequest.of(page, size);
         Page<Board> boardPage = boardService.getBoardType(boardTypeId, pageable);
-
         // 게시글 목록 및 페이징 정보 모델에 추가
         model.addAttribute("boardList", boardPage.getContent()); // 게시글 리스트
         model.addAttribute("currentPage", boardPage.getNumber()); // 현재 페이지
@@ -59,6 +55,7 @@ public class CreateBoardController {
         model.addAttribute("boardTypeId", boardTypeId);
         return "board_list";
     }
+
     // 게시글 작성 페이지
     @GetMapping("/board/create")
     public String freeBoardCreate(BoardForm boardForm, Model model) {
@@ -66,13 +63,13 @@ public class CreateBoardController {
         model.addAttribute("boardTypes", boardTypes);
         return "create_board";
     }
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/board/create")
     public String createFreeBoard(@Valid BoardForm boardForm, BindingResult bindingResult,
                                   HttpSession session,
                                   @RequestParam("boardTypeId") Long boardTypeId,
                                   Model model) {
-
         model.addAttribute("boardTypeId", boardTypeId);
 
         // 로그인된 사용자 세션 받아오기
@@ -112,27 +109,43 @@ public class CreateBoardController {
     public String boardDetail(Model model, @PathVariable("id") Long id, HttpSession session) {
         // 게시글 조회
         Board board = boardService.getBoard(id);
+
         // 로그인된 사용자 정보 가져오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
 
-        // 작성자인지 확인
+        // 게시글 작성자인지 확인
         boolean isAuthor = false;
         if (siteUser != null) {
             isAuthor = board.getSiteUser() != null && siteUser.getId().equals(board.getSiteUser().getId());
         } else if (companyUser != null) {
             isAuthor = board.getCompanyUser() != null && companyUser.getId().equals(board.getCompanyUser().getId());
         }
-        // 댓글 가져오기
+
+        // 댓글 목록 가져오기
         List<Comment> comments = commentService.getCommentsByBoard(board);
 
-        // 모델에 데이터 추가
+        // 로그인된 사용자와 비교해 댓글 작성자 여부만 서버에서 필터링
+        List<Comment> userComments = comments.stream()
+                .filter(comment -> {
+                    if (siteUser != null) {
+                        return comment.getSiteUser() != null && comment.getSiteUser().getId().equals(siteUser.getId());
+                    } else if (companyUser != null) {
+                        return comment.getCompanyUser() != null && comment.getCompanyUser().getId().equals(companyUser.getId());
+                    }
+                    return false;
+                }).toList();
+
         model.addAttribute("board", board);
         model.addAttribute("comments", comments);
-        model.addAttribute("isAuthor", isAuthor); // 작성자인지 여부 추가
+        model.addAttribute("userComments", userComments); // 로그인된 사용자 관련 댓글만 전달
+        model.addAttribute("isAuthor", isAuthor);
+        model.addAttribute("loginUser", siteUser);
+        model.addAttribute("loginCompanyUser", companyUser);
 
         return "board_detail";
     }
+
 }
 
 

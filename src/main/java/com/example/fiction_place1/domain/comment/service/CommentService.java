@@ -6,10 +6,12 @@ import com.example.fiction_place1.domain.comment.repository.CommentRepository;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.user.entity.User;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,11 +36,11 @@ public class CommentService {
         }
         this.commentRepository.save(comment);
     }
-    public void modify(Comment comment,String content){
-        comment.setContent(content);
-        this.commentRepository.save(comment);
-        //TODO 댓글 수정 기능 추가? 할까 말까
+    public Comment getComment(Long id) {
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("댓글을 찾을 수 없습니다."));
     }
+
     public void delete(Comment comment){
         this.commentRepository.delete(comment);
         //TODO 댓글 삭제 기능 추가 *필수
