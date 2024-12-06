@@ -14,9 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -29,7 +26,7 @@ public class BoardService {
     public Page<Board> getBoardType(Long boardTypeId, Pageable pageable) {
         BoardType boardType = boardTypeRepository.findById(boardTypeId)
                 .orElseThrow(() -> new RuntimeException("BoardType not found"));
-        return boardRepository.findByBoardType(boardType, pageable);
+        return boardRepository.findByBoardTypeOrderByCreatedDateDesc(boardType, pageable);
     }
 
     public void createFreeBoard(String title, String content, Long boardTypeId, User user){
@@ -56,6 +53,7 @@ public class BoardService {
                 .orElseThrow(() -> new RuntimeException("Board not found"));
         return board;
     }
+
 }
 
 

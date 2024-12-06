@@ -9,7 +9,6 @@ import com.example.fiction_place1.domain.comment.entity.Comment;
 import com.example.fiction_place1.domain.comment.service.CommentService;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
-import com.example.fiction_place1.domain.user.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +16,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -39,7 +38,7 @@ public class FreeBoardController {
     public String boardList(
             @RequestParam(value = "boardTypeId", defaultValue = "1") Long boardTypeId,
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "size", defaultValue = "12") int size,
             Model model) {
 
         // 모든 게시판 타입 목록 가져오기
@@ -57,6 +56,7 @@ public class FreeBoardController {
         // 게시글 목록 및 페이징 정보 모델에 추가
         model.addAttribute("boardList", boardPage.getContent()); // 게시글 리스트
         model.addAttribute("currentPage", boardPage.getNumber()); // 현재 페이지
+        model.addAttribute("totalElements", (int) boardPage.getTotalElements()); // 전체 게시글 수를 int로 변환
         model.addAttribute("size", boardPage.getSize()); // 페이지 크기
         model.addAttribute("totalPages", boardPage.getTotalPages()); // 전체 페이지 수
 

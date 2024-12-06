@@ -7,6 +7,11 @@ body {
     flex-wrap: wrap;
     justify-content: center;
 }
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 /* 카테고리 리스트 스타일 */
 /* 핸드폰 외형 */
 .phone-frame {
@@ -66,7 +71,7 @@ body {
     list-style-type: none;
     padding: 5px;
     margin: 10px 0;
-    background-color: #f0f0f0;
+    background-color: #4CAF50;;
     border-radius: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -98,7 +103,7 @@ body {
 .nav-button {
     width: 50px;
     height: 50px;
-    background-color: #e0e0e0;
+    background-color: #4CAF50;;
     border: none;
     border-radius: 50%; /* 원형 버튼 */
     font-size: 20px;
@@ -132,7 +137,7 @@ body {
     width: 100%;
 }
 
-.board-title {
+.board-title-main {
     flex: 1;
     width: 100%;
     height: 40px;
@@ -147,29 +152,98 @@ body {
     flex: 3; /* 카테고리보다 넓게 설정 (3 비율) */
     width: 100%;
     height: 50px;
-    display: flex;
     position: relative;
-    align-items: center;
-    padding: 0 20px 0 20px;
     border-top: 3px solid #000;
-    border-bottom: 1px solid #000;
     margin-top: 15px;
 }
 
-.col-number {
-    width: 6%;
-}
 .col-title {
-    width: 67%;
+    width: 29%;
 }
-.col-writer {
-    width: 10%;
-}
-
 .board-middle {
     display: flex;
+    justify-content: center;
+    min-height: 70vh;
 }
 
 .board-listall {
+    width: 78%;
     margin: 0;
 }
+
+.board-list > ul {
+    padding: 0;
+    margin: 0;
+}
+
+.board-list > ul > li {
+    border-bottom: 1px solid #000;
+}
+
+.board-typeitem, .board-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.board-typeitem {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.board-number,
+.board-title,
+.board-writer,
+.board-date {
+    flex: 1;
+}
+
+.board-number {
+    padding-left: 1%;
+}
+
+.board-title {
+    flex: 10; /* 제목은 더 길게 */
+    text-align: left;
+    padding-left: 10%;
+}
+
+.board-writer,
+.board-date {
+    flex: 2.92;
+}
+
+.paging {
+    display: flex;
+    justify-content: center;
+}
+
+.app-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    margin-left: -61%;
+  }
+
+  .btn-register {
+    display: block;
+    width: 50px;
+    height: 50px;
+    background-color: #4CAF50; /* 배경 색상 */
+    border-radius: 20px; /* 모서리를 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    line-height: 48px; /* 텍스트 수직 가운데 정렬 */
+    color: white; /* 텍스트 색상 */
+    font-weight: bold; /* 글씨 두껍게 */
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    transition: transform 0.3s, box-shadow 0.3s; /* 마우스를 올렸을 때 효과 */
+  }
+
+  .btn-register:hover {
+    transform: scale(1.1); /* 마우스를 올렸을 때 약간 커지는 효과 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* 그림자 깊이 변경 */
+  }

@@ -10,7 +10,7 @@
 
 <section class="board-body">
     <div class="board-head">
-        <h3 class="board-title" th:text="${selectedBoardType.boardTypeName}"></h3>
+        <h3 class="board-title-main" th:text="${selectedBoardType.boardTypeName}"></h3>
         <div class="board-middle">
             <div class="phone-frame">
                 <div class="phone-screen">
@@ -26,6 +26,9 @@
                                 th:classappend="${boardType.id == boardTypeId} ? 'active' : ''"
                                 class="category-item"></li>
                         </ul>
+                    </div>
+                    <div class="app-item">
+                        <a th:href="@{/board/create}" class="btn-register">등록</a>
                     </div>
                     <div class="phone-nav">
                         <button id="back-button" class="nav-button">⟵</button>
@@ -47,21 +50,33 @@
                     <li th:each="board, iterStat : ${boardList}" style="display: flex; justify-content: space-between; align-items: center;">
                         <div class="board-number">
                             <!-- 게시물 번호 -->
-                            <span th:text="${currentPage * size + iterStat.index + 1}"></span>
+                            <span th:text="${totalElements - (currentPage * size + iterStat.index)}"></span>
                         </div>
                         <div class="board-title">
                             <!-- 게시물 제목 -->
                             <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
                         </div>
                         <div class="board-writer">
+                            작성자
                         </div>
                         <!-- 오른쪽 영역: 등록 날짜 -->
                         <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
                     </li>
                 </ul>
             </div>
+                <!-- 페이징 -->
+                <div class="paging">
+                    <span th:if="${currentPage > 0}">
+                        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=12|}">이전 </a>
+                    </span>
+                                    <span><span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span></span>
+                                    <span th:if="${currentPage + 1 < totalPages}">
+                        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=12|}"> 다음</a>
+                    </span>
+                </div>
             </div>
         </div>
+
     </div>
 </section>
 <script>
