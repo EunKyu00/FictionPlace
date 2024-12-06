@@ -19,12 +19,20 @@ import lombok.experimental.SuperBuilder;
 @ToString
 public class Message extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "site_user_id",nullable = true)
-    private SiteUser siteUser;
+    @JoinColumn(name = "sender_site_user_id", nullable = true)
+    private SiteUser senderSiteUser;
 
     @ManyToOne
-    @JoinColumn(name = "company_user_id",nullable = true)
-    private CompanyUser companyUser;
+    @JoinColumn(name = "sender_company_user_id", nullable = true)
+    private CompanyUser senderCompanyUser;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_site_user_id", nullable = true)
+    private SiteUser receiverSiteUser;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_company_user_id", nullable = true)
+    private CompanyUser receiverCompanyUser;
 
     private String title;
 

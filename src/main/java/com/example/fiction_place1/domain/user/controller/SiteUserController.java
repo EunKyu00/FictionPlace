@@ -84,7 +84,6 @@ public class SiteUserController {
         try {
             // 로그인 시도
             SiteUser user = siteUserService.login(username, password);
-            System.out.println("로그인 성공: 세션에 저장된 사용자 ID: " + user.getId());
             // 세션에 사용자 정보 저장
             session.setAttribute("loginUser", user);
 

@@ -1,5 +1,5 @@
 body {
-    background-color: #363636;
+    background-color: FAFAFA;
     display: flex;
     margin: 0;
     position: relative;
@@ -158,7 +158,8 @@ a {
 }
 
 .col-title {
-    width: 29%;
+    width: 45%;
+    text-align: center;
 }
 .board-middle {
     display: flex;
@@ -174,6 +175,7 @@ a {
 .board-list > ul {
     padding: 0;
     margin: 0;
+    font-size: 14px;
 }
 
 .board-list > ul > li {
@@ -182,7 +184,6 @@ a {
 
 .board-typeitem, .board-list li {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 10px;
     border-bottom: 1px solid #ddd;
@@ -207,7 +208,7 @@ a {
 .board-title {
     flex: 10; /* 제목은 더 길게 */
     text-align: left;
-    padding-left: 10%;
+    margin-right: 40px;
 }
 
 .board-writer,
@@ -226,9 +227,9 @@ a {
     align-items: center;
     margin: 20px;
     margin-left: -61%;
-  }
+}
 
-  .btn-register {
+.btn-register {
     display: block;
     width: 50px;
     height: 50px;
@@ -241,9 +242,44 @@ a {
     font-weight: bold; /* 글씨 두껍게 */
     text-decoration: none; /* 링크의 밑줄 제거 */
     transition: transform 0.3s, box-shadow 0.3s; /* 마우스를 올렸을 때 효과 */
-  }
+}
 
-  .btn-register:hover {
+.btn-register:hover {
     transform: scale(1.1); /* 마우스를 올렸을 때 약간 커지는 효과 */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* 그림자 깊이 변경 */
-  }
+}
+
+.right-content {
+    display: flex;
+    flex: 7;
+    height: 27px;
+}
+
+.right-content div {
+    padding: 4px 7px;
+    width: 21%;
+}
+
+.board-likes {
+    width: 27%;
+}
+.board-comment {
+    width: 15%;
+}
+/* 게시판 헤더 크기 */
+.col-number {
+    width: 5%;
+}
+.col-title {
+    width: 58%;
+    text-align: center;
+}
+.col-like {
+    width: 8%;
+}
+.col-coment {
+    width: 8%;
+}
+.col-writer {
+    width: 10%
+}

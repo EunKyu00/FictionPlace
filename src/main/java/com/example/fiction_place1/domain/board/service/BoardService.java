@@ -1,9 +1,12 @@
 package com.example.fiction_place1.domain.board.service;
 
 import com.example.fiction_place1.domain.board.entity.Board;
+import com.example.fiction_place1.domain.board.form.BoardForm;
 import com.example.fiction_place1.domain.board.repository.BoardRepository;
 import com.example.fiction_place1.domain.board_type.entity.BoardType;
 import com.example.fiction_place1.domain.board_type.repository.BoardTypeRepository;
+import com.example.fiction_place1.domain.comment.entity.Comment;
+import com.example.fiction_place1.domain.comment.repository.CommentRepository;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.user.entity.User;
@@ -14,6 +17,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -21,6 +27,7 @@ public class BoardService {
     private final BoardTypeRepository boardTypeRepository;
     private final SiteUserRepository siteUserRepository;
     private final CompanyUserRepository companyUserRepository;
+    private final CommentRepository commentRepository;
 
     // 게시판 타입에 맞는 게시글 조회
     public Page<Board> getBoardType(Long boardTypeId, Pageable pageable) {
@@ -53,7 +60,24 @@ public class BoardService {
                 .orElseThrow(() -> new RuntimeException("Board not found"));
         return board;
     }
-
+    public void modify(Board board, String title, String content){
+        board.setTitle(title);
+        board.setContent(content);
+        this.boardRepository.save(board);
+    }
+    public void delete(Board board){
+        this.boardRepository.delete(board);
+    }
+    // 추천 수 증가 또는 감소
+    public void updateLikes(Long boardId, boolean increase) {
+        Board board = getBoard(boardId);
+        if (increase) {
+            board.setLikes(board.getLikes() + 1);
+        } else {
+            board.setLikes(board.getLikes() - 1);
+        }
+        boardRepository.save(board);  // 게시글 저장
+    }
 }
 
 

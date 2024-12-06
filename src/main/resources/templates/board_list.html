@@ -41,6 +41,8 @@
             <div class="board-typeitem">
                 <div class="col-number">번호</div>
                 <div class="col-title">제목</div>
+                <div class="col-like">추천</div>
+                <div class="col-coment">댓글</div>
                 <div class="col-writer">작성자</div>
                 <div class="col-date">작성일자</div>
             </div>
@@ -56,11 +58,24 @@
                             <!-- 게시물 제목 -->
                             <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
                         </div>
-                        <div class="board-writer">
-                            작성자
+                        <div class="right-content">
+                            <div class="board-likes">
+                               <span th:text="${board.likes}"></span>
+                            </div>
+                            <div class="board-comments">
+                                <span class="text-danger small ms-2"
+                                      th:text="${board.comments != null && #lists.size(board.comments) > 0 ? #lists.size(board.comments) : 0}">
+</span>
+                            </div>
+
+                            <div class="board-author">
+                                <span th:if="${board.siteUser}"><span th:text="${board.siteUser.nickname}"></span></span>
+                                <span th:if="${board.companyUser}"><span th:text="${board.companyUser.companyName}"></span></span>
+                            </div>
+                            <div class="board-date">
+                                <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+                            </div>
                         </div>
-                        <!-- 오른쪽 영역: 등록 날짜 -->
-                        <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
                     </li>
                 </ul>
             </div>

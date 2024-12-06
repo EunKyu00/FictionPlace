@@ -40,8 +40,11 @@ public class SiteUser extends BaseEntity implements User {
 
     private Boolean isSocialLogin = false;
 
-    @OneToMany(mappedBy = "siteUser")
-    private List<Message> messages;
+    @OneToMany(mappedBy = "senderSiteUser")
+    private List<Message> sentMessages;
+
+    @OneToMany(mappedBy = "receiverSiteUser")
+    private List<Message> receivedMessages;
 
     @OneToMany(mappedBy = "siteUser")
     private List<Board> boards;

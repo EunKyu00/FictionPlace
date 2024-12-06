@@ -1,5 +1,3 @@
-<!--src/main/resources/templates/create_board.html-->
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,8 +8,12 @@
 <body>
 <h1>게시글 작성</h1>
 
-<form th:action="@{/board/create}" th:object="${boardForm}" method="post">
 
+<form th:action="@{/board/create}" th:object="${boardForm}" method="post">
+    <!-- 에러 메시지 표시 -->
+    <div th:if="${errorMessage}" style="color: red; margin-bottom: 20px;">
+        <p th:text="${errorMessage}"></p>
+    </div>
     <!-- 게시판 타입 선택 -->
     <label for="boardTypeId">게시판 타입:</label>
     <select name="boardTypeId" id="boardTypeId" required>
@@ -42,5 +44,3 @@
 
 </body>
 </html>
-
-

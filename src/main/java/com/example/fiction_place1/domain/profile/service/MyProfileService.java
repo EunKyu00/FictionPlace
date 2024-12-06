@@ -16,10 +16,12 @@ public class MyProfileService {
     @Autowired
     private MyProfileRepository myProfileRepository;
     private SiteUserRepository siteUserRepository;
+
     //일반유저
     public MyProfile getProfileBySiteUser(String username) {
         return myProfileRepository.findBySiteUser_Username(username);
     }
+
     //기업
     public MyProfile getProfileByCompanyUser(String email) {
         return myProfileRepository.findByCompanyUser_Email(email);
@@ -36,13 +38,15 @@ public class MyProfileService {
     public MyProfile getProfileByCompanyUser(Long companyUserId) {
         return myProfileRepository.findByCompanyUserId(companyUserId).orElse(null);
     }
+
     public String getProfileImagePath(Long userId) {
         Optional<MyProfile> profileOptional = myProfileRepository.findById(userId);
         return profileOptional.map(MyProfile::getProfileImage).orElse(null);
     }
+
     public SiteUser getLoggedInSiteUser(HttpSession session) {
         SiteUser loggedInSiteUser = (SiteUser) session.getAttribute("loginSiteUser");
-        if(loggedInSiteUser == null) {
+        if (loggedInSiteUser == null) {
             throw new IllegalStateException("로그인된 사용자가 아닙니다");
         }
         return loggedInSiteUser;
