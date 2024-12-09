@@ -85,7 +85,8 @@ public class SiteUserController {
             // 로그인 시도
             SiteUser user = siteUserService.login(username, password);
             // 세션에 사용자 정보 저장
-            session.setAttribute("loginUser", user);
+                session.setAttribute("loginUser", user);
+
 
             // 프로필 이미지 URL도 세션에 저장
             if (user.getProfileImageUrl() != null) {

@@ -1,11 +1,8 @@
 package com.example.fiction_place1.domain.profile.controller;
 
-import com.example.fiction_place1.domain.profile.entity.MyProfile;
-import com.example.fiction_place1.domain.profile.repository.MyProfileRepository;
 import com.example.fiction_place1.domain.profile.service.MyProfileService;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
-import com.example.fiction_place1.domain.user.repository.SiteUserRepository;
 import com.example.fiction_place1.domain.user.service.CompanyUserService;
 import com.example.fiction_place1.domain.user.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
@@ -75,6 +72,7 @@ public class MyProfileController {
     ) {
         // 세션에서 로그인된 사용자 정보 가져오기
         SiteUser loggedInUser = (SiteUser) session.getAttribute("loginUser");
+        System.out.println("세션에서 가져온 로그인 사용자: " + loggedInUser);
         if (loggedInUser == null || !loggedInUser.getId().equals(userId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("접근 권한이 없습니다.");

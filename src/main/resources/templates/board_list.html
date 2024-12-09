@@ -7,93 +7,70 @@
 </head>
 <body>
 <div th:replace="~{navbar :: navbar}"></div>
+<header class="header">
+    <h1>게시판</h1>
+</header>
 
-<section class="board-body">
-    <div class="board-head">
-        <h3 class="board-title-main" th:text="${selectedBoardType.boardTypeName}"></h3>
-        <div class="board-middle">
-            <div class="phone-frame">
-                <div class="phone-screen">
-                    <div class="phone-notch"></div> <!-- 핸드폰 상단 노치 -->
-                    <form id="boardForm" action="/board" method="get">
-                        <input type="hidden" name="boardTypeId" id="boardTypeId" />
-                    </form>
-                    <div class="category-list">
-                        <ul>
-                            <li th:each="boardType : ${boardTypes}"
-                                th:data-value="${boardType.id}"
-                                th:text="${boardType.boardTypeName}"
-                                th:classappend="${boardType.id == boardTypeId} ? 'active' : ''"
-                                class="category-item"></li>
-                        </ul>
-                    </div>
-                    <div class="app-item">
-                        <a th:href="@{/board/create}" class="btn-register">등록</a>
-                    </div>
-                    <div class="phone-nav">
-                        <button id="back-button" class="nav-button">⟵</button>
-                        <button id="home-button" class="nav-button">⌂</button>
-                        <button id="menu-button" class="nav-button">≡</button>
-                    </div>
-                </div>
-            </div>
-            <div class="board-listall">
-            <div class="board-typeitem">
-                <div class="col-number">번호</div>
-                <div class="col-title">제목</div>
-                <div class="col-like">추천</div>
-                <div class="col-coment">댓글</div>
-                <div class="col-writer">작성자</div>
-                <div class="col-date">작성일자</div>
-            </div>
-            <div class="board-list">
-                <!-- 게시판 목록 -->
-                <ul>
-                    <li th:each="board, iterStat : ${boardList}" style="display: flex; justify-content: space-between; align-items: center;">
-                        <div class="board-number">
-                            <!-- 게시물 번호 -->
-                            <span th:text="${totalElements - (currentPage * size + iterStat.index)}"></span>
-                        </div>
-                        <div class="board-title">
-                            <!-- 게시물 제목 -->
-                            <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
-                        </div>
-                        <div class="right-content">
-                            <div class="board-likes">
-                               <span th:text="${board.likes}"></span>
-                            </div>
-                            <div class="board-comments">
-                                <span class="text-danger small ms-2"
-                                      th:text="${board.comments != null && #lists.size(board.comments) > 0 ? #lists.size(board.comments) : 0}">
-</span>
-                            </div>
-
-                            <div class="board-author">
-                                <span th:if="${board.siteUser}"><span th:text="${board.siteUser.nickname}"></span></span>
-                                <span th:if="${board.companyUser}"><span th:text="${board.companyUser.companyName}"></span></span>
-                            </div>
-                            <div class="board-date">
-                                <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-                <!-- 페이징 -->
-                <div class="paging">
-                    <span th:if="${currentPage > 0}">
-                        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=12|}">이전 </a>
-                    </span>
-                                    <span><span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span></span>
-                                    <span th:if="${currentPage + 1 < totalPages}">
-                        <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=12|}"> 다음</a>
-                    </span>
-                </div>
-            </div>
-        </div>
-
+<main>
+    <!-- 카테고리 리스트 -->
+    <form id="boardForm" action="/board" method="get">
+        <input type="hidden" name="boardTypeId" id="boardTypeId" />
+    </form>
+    <div class="category-list">
+        <ul>
+            <li th:each="boardType : ${boardTypes}"
+                th:data-value="${boardType.id}"
+                th:text="${boardType.boardTypeName}"
+                th:classappend="${boardType.id == boardTypeId} ? 'active' : ''"
+                class="category-item"></li>
+        </ul>
     </div>
-</section>
+
+    <!-- 게시판 목록 -->
+    <div class="board-list">
+        <table class="board-table">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>추천</th>
+                <th>댓글</th>
+                <th>작성자</th>
+                <th>작성일자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="board, iterStat : ${boardList}">
+                <td th:text="${totalElements - (currentPage * size + iterStat.index)}"></td>
+                <td class="board-title">
+                    <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
+                </td>
+                <td th:text="${board.likes}"></td>
+                <td th:text="${board.comments != null && #lists.size(board.comments) > 0 ? #lists.size(board.comments) : 0}"></td>
+                <td>
+                    <span th:if="${board.siteUser}" th:text="${board.siteUser.nickname}"></span>
+                    <span th:if="${board.companyUser}" th:text="${board.companyUser.companyName}"></span>
+                </td>
+                <td th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 페이징 -->
+    <div class="paging">
+            <span th:if="${currentPage > 0}">
+                <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=12|}">이전</a>
+            </span>
+        <span>
+                <span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span>
+            </span>
+        <span th:if="${currentPage + 1 < totalPages}">
+                <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=12|}">다음</a>
+            </span>
+    </div>
+</main>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const categoryItems = document.querySelectorAll('.category-item');
@@ -114,42 +91,8 @@
         });
     });
 </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // 뒤로 가기 버튼: 이전 페이지로 돌아가기
-        const backButton = document.getElementById('back-button');
-        backButton.addEventListener('click', function() {
-            window.history.back(); // 브라우저의 이전 페이지로 돌아가기
-        });
 
-        // 홈 버튼: 웹툰 리스트 홈으로 이동
-        const homeButton = document.getElementById('home-button');
-        homeButton.addEventListener('click', function() {
-            window.location.href = '/'; // 웹툰 리스트 홈으로 이동 (경로는 실제에 맞게 수정)
-        });
 
-        // 목록 버튼: 게시판 목록으로 이동
-        const menuButton = document.getElementById('menu-button');
-        menuButton.addEventListener('click', function() {
-            window.location.href = '/board'; // 게시판 목록으로 이동 (경로는 실제에 맞게 수정)
-        });
-    });
-</script>
-<script>
-    // 진동 효과를 위한 JavaScript
-    document.addEventListener('DOMContentLoaded', function() {
-        const categoryItems = document.querySelectorAll('.category-item');
-
-        categoryItems.forEach(item => {
-            item.addEventListener('click', function() {
-                // 모바일 진동 효과 (지원되는 장치에서만 동작)
-                if (navigator.vibrate) {
-                    navigator.vibrate(50); // 50ms 동안 진동
-                }
-            });
-        });
-    });
-</script>
 <script src="/JS/dropdown.js"></script>
 </body>
 </html>
