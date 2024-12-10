@@ -35,17 +35,24 @@ public class MyProfileController {
 
     // 일반 사용자 프로필 보기
     @GetMapping("/profile/user/{id}")
-    public String getUserProfile(@PathVariable("id") Long id , Model model) {
+    public String getUserProfile(@PathVariable("id") Long id , Model model, HttpSession session) {
         //id로 사용자를 조회
         SiteUser siteUser = siteUserService.findById(id);
-
+        SiteUser loggedInUser = siteUserService.getLoggedInUser(session);
+        if (loggedInUser != null) {
+            System.out.println("로그인된 사용자 ID: " + loggedInUser.getId());
+            model.addAttribute("loggedInUserId", loggedInUser.getId());
+        } else {
+            System.out.println("로그인된 사용자 없음");
+            model.addAttribute("loggedInUserId", null);
+        }
         if (siteUser != null) {
             model.addAttribute("nickname", siteUser.getNickname());
             model.addAttribute("email", siteUser.getEmail());
+            model.addAttribute("profileImageUrl", session.getAttribute("profileImageUrl"));
         } else {
             model.addAttribute("message", "사용자를 찾을 수 없습니다.");
         }
-
         return "myprofile";
     }
 
@@ -71,13 +78,14 @@ public class MyProfileController {
             @RequestParam("image") MultipartFile imageFile // 업로드된 이미지 파일
     ) {
         // 세션에서 로그인된 사용자 정보 가져오기
+        // 로그인된 사용자 정보 가져오기
         SiteUser loggedInUser = (SiteUser) session.getAttribute("loginUser");
         System.out.println("세션에서 가져온 로그인 사용자: " + loggedInUser);
         if (loggedInUser == null || !loggedInUser.getId().equals(userId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("접근 권한이 없습니다.");
         }
-
+        System.out.println("모든 조건 통과: 업로드 시작");
         // 파일 이름 생성 (사용자 ID 기반)
         String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/upload/";
         String fileName = userId + "_" + imageFile.getOriginalFilename().replaceAll("[^a-zA-Z0-9.]", "_");

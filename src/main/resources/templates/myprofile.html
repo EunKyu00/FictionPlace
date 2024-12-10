@@ -134,7 +134,7 @@
             formData.append('image', blob, 'profile.png'); // 크롭된 이미지를 Blob으로 추가
 
             // 현재 로그인된 사용자 ID를 가져와 URL을 생성
-            const loggedInUserIdElement = document.getElementById('loggedInUserId');
+            const loggedInUserIdElement = document.getElementById("loggedInUserId");
             console.log("현재 loggedInUserIdElement:", loggedInUserIdElement); // 요소 확인
              console.log("현재 loggedInUserId 값:", loggedInUserIdElement?.value); // 값 확인
             if (!loggedInUserIdElement || !loggedInUserIdElement.value) {
