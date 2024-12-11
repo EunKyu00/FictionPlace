@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>웹툰 회차 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        h2 {
+            margin-top: 10px;
+            font-size: 24px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        img {
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-right: 10px;
+        }
+
+        span {
+            color: #333;
+            font-size: 18px;
+        }
+
+        span.time {
+            color: #777;
+            font-size: 14px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 작은 화면에서 리스트의 이미지 크기 줄이기 */
+        @media (max-width: 600px) {
+            img {
+                width: 80px;
+                height: 80px;
+            }
+
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            span {
+                font-size: 16px;
+            }
+
+            span.time {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1 th:text="'웹툰 제목: ' + ${webtoon.title}"></h1> <!-- 웹툰 제목 출력 -->
+
+<h2>회차 목록</h2>
+<ul>
+    <li th:each="episode : ${episodes}">
+        <!-- 썸네일 이미지 (첫 번째 이미지만 표시) -->
+        <a th:href="@{/webtoon/episode/{id}(id=${episode.id})}">
+            <img th:src="@{${episode.thumbnailImg}}" alt="썸네일 이미지" width="100" height="100" />
+        </a>
+        <!-- 회차 제목 출력 -->
+        <span th:text="${episode.title}"></span>
+
+        <!-- 회차 생성일자 출력 -->
+        <span class="time" th:text="${#temporals.format(episode.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+    </li>
+</ul>
+
+<!-- 회차 추가 버튼 -->
+<a th:href="@{/webtoon/episodes/create/{id}(id=${webtoon.id})}">
+    <button>웹툰 회차 추가</button>
+</a>
+</body>
+</html>

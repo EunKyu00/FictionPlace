@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>웹툰 등록</title>
+  <link rel="stylesheet" href="/webtoon_create_form.css">
+</head>
+<body>
+
+<h2>웹툰 등록</h2>
+
+<form action="#" th:action="@{/webtoon/create}" th:object="${webToonForm}" method="post" enctype="multipart/form-data">
+  <div>
+    <label for="title">제목:</label>
+    <input type="text" id="title" th:field="*{title}" placeholder="웹툰 제목을 입력하세요"/>
+    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error">Title Error</span>
+  </div>
+
+  <div>
+    <label for="content">내용:</label>
+    <textarea id="content" th:field="*{content}" placeholder="웹툰 내용을 입력하세요"></textarea>
+    <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="error">Content Error</span>
+  </div>
+
+  <div>
+    <label for="genreTypeId">장르:</label>
+    <select id="genreTypeId" th:field="*{genreTypeId}">
+      <option value="" disabled selected>장르를 선택하세요</option>
+      <option th:each="genre : ${genreTypes}" th:value="${genre.id}" th:text="${genre.genreTypename}"></option>
+    </select>
+    <span th:if="${#fields.hasErrors('genreTypeId')}" th:errors="*{genreTypeId}" class="error">Genre Error</span>
+  </div>
+
+  <div>
+    <label for="thumbnailImg">대표 이미지:</label>
+    <input type="file" id="thumbnailImg" name="thumbnailImg" accept="image/*"/>
+    <span th:if="${#fields.hasErrors('thumbnailImg')}" th:errors="*{thumbnailImg}" class="error">Thumbnail Image Error</span>
+    <img id="imagePreview" src="" alt="대표 이미지 미리보기"/>
+  </div>
+
+  <div>
+    <button type="submit">등록</button>
+  </div>
+
+  <span th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></span>
+</form>
+
+<script>
+  document.getElementById('thumbnailImg').addEventListener('change', function(event) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var imagePreview = document.getElementById('imagePreview');
+      imagePreview.src = e.target.result;
+      imagePreview.style.display = 'block';  // 이미지가 선택되면 미리보기 이미지 표시
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  });
+</script>
+
+</body>
+</html>

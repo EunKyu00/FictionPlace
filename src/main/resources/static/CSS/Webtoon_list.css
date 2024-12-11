@@ -105,7 +105,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;  /* 이미지를 넘치지 않게 잘라냄 */
 }
+
+/* 웹툰 썸네일 이미지 */
+.card-image img {
+  width: 100%;    /* 가로 크기를 카드에 맞게 */
+  height: 100%;   /* 세로 크기도 카드에 맞게 */
+  object-fit: cover;  /* 이미지 비율을 유지하면서 잘림 */
+}
+
 
 /* 카드 제목 */
 .card-title {
