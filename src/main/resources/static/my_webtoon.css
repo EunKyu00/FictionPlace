@@ -1,0 +1,41 @@
+/* 웹툰 카드 컨테이너 */
+.webtoon-container {
+    display: flex;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* 썸네일 이미지 */
+.webtoon-thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+/* 웹툰 정보 (제목, 장르, 내용) */
+.webtoon-info {
+    display: block; /* 제목과 내용이 세로로 정렬되도록 설정 */
+}
+
+/* 웹툰 제목 스타일 */
+.webtoon-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+/* 장르 스타일 */
+.webtoon-genre {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 10px; /* 제목과 내용 사이의 간격 */
+}
+
+/* 웹툰 내용 스타일 */
+.webtoon-content {
+    font-size: 0.9em;
+    color: #555;
+}

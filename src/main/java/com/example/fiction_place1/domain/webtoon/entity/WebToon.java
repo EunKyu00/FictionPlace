@@ -30,8 +30,9 @@ public class WebToon extends BaseEntity {
     @JoinColumn(name = "genre_type_id")
     private GenreType genreType;
 
-    @OneToMany(mappedBy = "webToon")
+    @OneToMany(mappedBy = "webToon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WebToonEpisode> webtoonEpisodes;
+
 
     private String title;
 

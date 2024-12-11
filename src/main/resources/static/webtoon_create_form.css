@@ -1,0 +1,107 @@
+/* 폼의 기본 스타일 */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px; /* 폼의 최대 너비를 500px로 설정 */
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+textarea,
+select {
+  width: 100%;  /* 모든 입력 필드의 너비를 100%로 설정 */
+  padding: 8px;
+  margin: 5px 0 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* 제목 입력칸 세로 길이 줄이기 및 가로 길이 조정 */
+input[type="text"] {
+  height: 35px;  /* 제목 입력칸 높이를 조정 */
+  width: 97%;  /* 제목 입력칸 가로 길이를 90%로 설정 */
+  margin: 5px auto 15px auto;  /* 가로로 중앙 정렬 */
+}
+
+/* 내용 입력칸 세로 길이 줄이기 및 가로 길이 조정 */
+textarea {
+  resize: vertical;
+  height: 80px;  /* 내용 입력칸 높이를 줄여서 세로 길이 조정 */
+  width: 97%;  /* 내용 입력칸 가로 길이를 90%로 설정 */
+  margin: 5px auto 15px auto;  /* 가로로 중앙 정렬 */
+}
+
+select {
+  width: 100%;  /* 장르 선택 입력칸 가로 길이 90%로 설정 */
+  margin: 5px auto 15px auto;  /* 가로로 중앙 정렬 */
+}
+
+/* 파일 업로드 영역 가로 길이 조정 */
+input[type="file"] {
+  width: 90%;  /* 파일 입력칸 가로 길이를 90%로 설정 */
+  margin: 5px auto 15px auto;  /* 가로로 중앙 정렬 */
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 90%;  /* 버튼 가로 길이 90%로 설정 */
+  font-size: 16px;
+  margin: 0 auto;
+  display: block;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* 이미지 미리보기 */
+#imagePreview {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: block;  /* block으로 설정하여 가로 중앙 정렬 */
+  margin-left: auto;  /* 좌측 여백 자동 설정 */
+  margin-right: auto;  /* 우측 여백 자동 설정 */
+  text-align: center;  /* 이미지 내용이 있을 때 텍스트 중앙 정렬 */
+  display: none;
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
+}
+
+.success {
+  color: green;
+  font-size: 1em;
+  margin-top: 10px;
+}

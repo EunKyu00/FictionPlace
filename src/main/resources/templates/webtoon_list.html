@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <link rel="stylesheet" href="/CSS/Webtoon_list.css" />
+    <link rel="stylesheet" href="/Webtoon_list.css" />
     <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
 </head>
 <body>
@@ -48,11 +49,16 @@
 
     <!-- 웹툰 카드 컨테이너 -->
     <div class="card-container">
-        <div th:if="${cards != null}" th:each="card : ${cards}">
-            <div class="card-title" th:text="${card.title}"></div>
+        <div th:if="${webtoons != null}" th:each="webtoon : ${webtoons}">
+            <div class="webtoon-card">
+                <a th:href="@{/webtoon/{id}(id=${webtoon.id})}" style="text-decoration: none;">
+                    <img th:src="${webtoon.thumbnailImg}" alt="웹툰 썸네일" class="webtoon-thumbnail" />
+                    <div class="webtoon-title" th:text="${webtoon.title}"></div>
+                </a>
+            </div>
         </div>
-        <div th:if="${cards == null}">
-            <p>카드 데이터를 불러올 수 없습니다.</p>
+        <div th:if="${webtoons == null}">
+            <p>웹툰 데이터를 불러올 수 없습니다.</p>
         </div>
     </div>
 </div>

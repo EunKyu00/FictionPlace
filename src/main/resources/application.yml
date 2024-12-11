@@ -2,9 +2,12 @@ spring:
   profiles:
     active: dev  # ?????? application-dev.yml ? ????? ??
     include: secret # active ?? ???? (application-dev.yml) ??? application-secret.yml ? ????? ??
-  web:
-    resources:
-      static-locations=classpath:/static/:
+  spring:
+    web:
+      resources:
+        static-locations:
+          - classpath:/static/
+          - file:///C:/uploads/
   jpa:
     properties:
       hibernate:
