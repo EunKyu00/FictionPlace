@@ -1,36 +1,54 @@
-/* .card-container 스타일만 수정 */
-.card-container {
-    display: grid; /* 그리드로 정렬 */
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 자동으로 칸을 채우고, 각 카드의 최소 크기 200px */
-    gap: 20px; /* 카드 간의 간격 */
-    padding: 20px; /* 카드 컨테이너의 여백 */
-    justify-items: center; /* 카드 정렬을 가운데로 */
-    background-color: #f4f4f4; /* 배경색 (선택 사항) */
+/* 웹툰 카드 컨테이너 스타일 */
+.webtoon-container {
+    display: grid; /* 그리드 레이아웃 사용 */
+    grid-template-columns: repeat(5, 1fr); /* 5개의 열로 구성 */
+    gap: 20px; /* 카드 간 간격 */
+    padding: 20px;
+    justify-items: center; /* 카드들을 중앙 정렬 */
+    box-sizing: border-box; /* 패딩 포함 크기 */
 }
 
-/* 각 카드에 대한 스타일은 그대로 유지 */
+/* 웹툰 카드 스타일 */
 .webtoon-card {
-    width: 100%;
-    background-color: #ffffff;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column; /* 제목과 이미지 세로로 배치 */
+    align-items: center; /* 카드 내용 가운데 정렬 */
+    width: 180px; /* 카드 너비 */
+    border: 1px solid #ddd; /* 테두리 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    background-color: #fff; /* 배경색 */
+    transition: transform 0.3s ease; /* 호버 효과 */
+    box-sizing: border-box; /* 패딩 포함 크기 */
+    padding-top: 10px; /* 카드 상단 여백 */
 }
 
-/* 썸네일 이미지 스타일 */
-.webtoon-thumbnail {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-bottom: 1px solid #eee;
+/* 웹툰 카드 호버 효과 */
+.webtoon-card:hover {
+    transform: scale(1.05); /* 호버 시 크기 확대 */
 }
 
-/* 제목 스타일 */
-.webtoon-title {
+/* 웹툰 제목 스타일 */
+.webtoon-card h2 {
     font-size: 16px;
-    font-weight: bold;
-    margin: 10px 0;
     color: #333;
+    margin: 10px 0;
+    text-align: center;
+}
+
+/* 웹툰 썸네일 이미지 스타일 */
+.webtoon-card img {
+    width: 150px; /* 이미지 너비 */
+    height: 150px; /* 이미지 높이 */
+    object-fit: cover; /* 비율 유지하며 크기 조정 */
+    border-radius: 5px; /* 이미지 모서리 둥글게 */
+    margin-bottom: 10px; /* 이미지와 제목 간 여백 */
+}
+
+/* 빈 목록 메시지 스타일 */
+.empty-message {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-top: 20px;
 }

@@ -5,14 +5,13 @@
 <div th:if="${webtoons != null}">
     <div class="webtoon-list">
         <div th:each="webtoon : ${webtoons}" class="webtoon-card">
-<!--            <a th:href="@{/webtoon/episodes/create/{id}(id=${webtoon.id})}" style="text-decoration: none;">-->
             <a th:href="@{/webtoon/episode/list/{id}(id=${webtoon.id})}" style="text-decoration: none;">
                 <div class="webtoon-container">
                     <img th:src="${webtoon.thumbnailImg}" alt="웹툰 썸네일" class="webtoon-thumbnail" />
                     <div class="webtoon-info">
                         <div class="webtoon-title" th:text="${webtoon.title}"></div>
                         <!-- 장르 출력: genreTypename -->
-                        <div class="webtoon-genre" th:text="${webtoon.genreType != null ? webtoon.genreType.genreTypename : '장르 없음'}"></div> <!-- 장르 이름 출력 -->
+                        <div class="webtoon-genre" th:text="${webtoon.genreType.genreTypename}"></div> <!-- 장르 이름 출력 -->
                         <div class="webtoon-content" th:text="${webtoon.content}"></div>
                     </div>
                 </div>

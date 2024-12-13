@@ -1,7 +1,7 @@
 package com.example.fiction_place1.domain.webtoon_episode.service;
 
-import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
+import com.example.fiction_place1.domain.webtoon.repository.WebToonRepository;
 import com.example.fiction_place1.domain.webtoon.service.FileService;
 import com.example.fiction_place1.domain.webtoon.service.WebToonService;
 import com.example.fiction_place1.domain.webtoon_episode.entity.EpisodeImage;
@@ -12,10 +12,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class WebToonEpisodeService {
     private final WebToonService webToonService;
     private final FileService fileService; // FileService 사용하여 이미지 처리
     private final EpisodeImageRepository episodeImageRepository;
+    private final WebToonRepository webToonRepository;
 
     public WebToonEpisode createWebToonEpisode(Long webtoonId, String title, MultipartFile[] episodeImages, MultipartFile thumbnailImg) throws IOException {
         // 웹툰 정보 조회
@@ -78,6 +80,20 @@ public class WebToonEpisodeService {
     public List<EpisodeImage> getImagesByEpisodeId(Long episodeId) {
         return episodeImageRepository.findByEpisodeIdOrderByOrderAsc(episodeId); // order 필드 기준으로 오름차순 정렬
     }
+
+    public List<WebToonEpisode> findSelectedWebtoonEpisodes() {
+        // 예시: "isSelected" 필드가 true인 웹툰만 가져오기
+        return webToonEpisodeRepository.findByIsSelectedTrue();
+    }
+
+    public WebToonEpisode save(WebToonEpisode episode) {
+        return webToonEpisodeRepository.save(episode); // JpaRepository의 save 메소드 사용
+    }
+
+    public List<WebToonEpisode> findByIds(List<Long> episodeIds) {
+        return webToonEpisodeRepository.findAllById(episodeIds); // 해당 아이디 목록으로 회차를 조회
+    }
+
 
 }
 

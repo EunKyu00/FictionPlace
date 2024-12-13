@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface WebToonRepository extends JpaRepository<WebToon,Long> {
     List<WebToon> findBySiteUser(SiteUser siteUser);  // 사용자별 웹툰을 조회하는 메서드
-    List<WebToon> findBySiteUserId(Long userId);
+    // isSelected 필드가 true인 웹툰만 가져오는 메서드
+    List<WebToon> findByIsSelectedTrue();
 }

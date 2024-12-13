@@ -6,12 +6,15 @@ import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.user.repository.SiteUserRepository;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
 import com.example.fiction_place1.domain.webtoon.repository.WebToonRepository;
+import com.example.fiction_place1.domain.webtoon_episode.entity.WebToonEpisode;
+import com.example.fiction_place1.domain.webtoon_episode.repository.WebToonEpisodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class WebToonService {
 
     private final WebToonRepository webToonRepository;
     private final GenreTypeRepository genreTypeRepository;
+    private final WebToonEpisodeRepository webToonEpisodeRepository;
     private final SiteUserRepository siteUserRepository;
     private final FileService fileService; // 파일 업로드를 위한 서비스
 
@@ -47,9 +51,6 @@ public class WebToonService {
         webToonRepository.save(webToon);
     }
 
-    public List<WebToon> getAllWebtoons() {
-        return webToonRepository.findAll();  // 모든 웹툰 목록 조회
-    }
     public List<WebToon> getWebtoonsByUser(SiteUser siteUser) {
         return webToonRepository.findBySiteUser(siteUser);  // 사용자별 웹툰을 조회하는 쿼리
     }
@@ -58,26 +59,20 @@ public class WebToonService {
         return webToonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("웹툰을 찾을 수 없습니다. id=" + id));
     }
-//    public List<WebToon> findBySiteUser(SiteUser siteUser) {
-//        return webToonRepository.findBySiteUser(siteUser);
-//    }
 
-//    // 사용자 정보 찾기
-//    public SiteUser findUserById(Long userId) {
-//        return siteUserRepository.findById(userId)
-//                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다. id=" + userId));
+    public List<WebToon> findSelectedWebtoons() {
+        // 예시: "isSelected" 필드가 true인 웹툰만 가져오기
+        return webToonRepository.findByIsSelectedTrue();
+    }
+    public WebToon save(WebToon webToon) {
+        return webToonRepository.save(webToon);
+    }
+//    public String getSiteUserNickname(Long webtoonId) {
+//        WebToon webToon = webToonRepository.findById(webtoonId)
+//                .orElseThrow(() -> new IllegalArgumentException("웹툰을 찾을 수 없습니다."));
+//        return webToon.getSiteUser().getNickname();
 //    }
-//
-//    // 웹툰 리스트를 반환하는 메서드
-//    public List<WebToon> findAllWebToons() {
-//        return webToonRepository.findAll();
-//    }
-//    // 사용자가 소유한 웹툰 목록을 가져오는 메서드
-//    public List<WebToon> findWebToonsByUser(Long userId) {
-//        return webToonRepository.findBySiteUserId(userId);
-//    }
-
-
+    //TODO 메인페이지 닉네임 표시 코드 보류
 }
 
 

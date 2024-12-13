@@ -33,6 +33,8 @@ public class WebToon extends BaseEntity {
     @OneToMany(mappedBy = "webToon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WebToonEpisode> webtoonEpisodes;
 
+    // 웹툰이 선택되었는지 여부를 나타내는 필드
+    private boolean isSelected;
 
     private String title;
 

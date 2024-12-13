@@ -34,4 +34,7 @@ public class WebToonEpisode extends BaseEntity {
 
     @OneToMany(mappedBy = "episode", cascade = CascadeType.ALL, orphanRemoval = true) //에피소드 삭제시 이미지 전부 삭제
     private List<EpisodeImage> episodeImages = new ArrayList<>();
+
+    // 선택 여부를 나타내는 필드
+    private boolean isSelected;
 }

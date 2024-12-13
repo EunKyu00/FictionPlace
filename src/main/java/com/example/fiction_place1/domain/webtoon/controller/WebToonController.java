@@ -21,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,16 +31,8 @@ public class WebToonController {
     private final WebToonService webToonService;
     private final GenreTypeService genreTypeService;
     private final FileService fileService;  // FileService 추가
-    private final WebToonEpisodeService webToonEpisodeService;
 
 
-    // 메인페이지
-    @GetMapping("/")
-    public String getAllWebtoons(Model model) {
-        List<WebToon> webtoons = webToonService.getAllWebtoons();
-        model.addAttribute("webtoons", webtoons);  // webtoons 리스트를 모델에 추가
-        return "webtoon_list";  // webtoon_list.html 템플릿을 반환
-    }
 
     //본인 작품 관리
     @GetMapping("/my/webtoon")
@@ -99,6 +93,7 @@ public class WebToonController {
         return "redirect:/";  // 메인 페이지로 리다이렉트
     }
 }
+
 
 
 
