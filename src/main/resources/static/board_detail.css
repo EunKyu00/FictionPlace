@@ -1,109 +1,90 @@
+/* 전체 페이지 중앙 정렬 */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+  display: flex;
+  justify-content: flex-start;
+  height: 100vh;
+  margin: 0;
+  background-color: #2b2b2b;
+  font-family: Arial, sans-serif;
+  flex-direction: column;
+  align-items: center;
 }
 
-.board-detail {
-    background-color: #ffffff;
-    padding: 20px;
-    margin: 20px;
-    border-radius: 8px;
+/* 전체 컨텐츠 박스 */
+.content-wrapper {
+  width: 80%;
+  max-width: 800px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center; /* 내부 텍스트 중앙 정렬 */
+  margin-top: 10px;
 }
 
-.recommendation {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 20px;
+/* 제목 스타일 */
+.post-details h1 {
+  font-size: 24px;
+  margin-bottom: 15px;
 }
 
-.recommendation .btn-recommend {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
+/* 디테일 정보 */
+.details {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  font-size: 16px;
+  color: #555;
 }
 
-.comment-form {
-    background-color: #ffffff;
-    padding: 20px;
-    margin: 20px;
-    border-radius: 8px;
+.details span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.comment-form textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    resize: vertical;
+/* 본문 내용 */
+.post-content {
+  margin: 20px 0;
+  text-align: left;
+  line-height: 1.6;
 }
 
-.comment-form .btn-submit {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
+.vote {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  margin-top: 20px;
 }
 
-.board-actions {
-    margin: 20px;
+/* 댓글 섹션 */
+.comments-section {
+  margin-top: 30px;
+  text-align: left;
 }
 
-.board-actions .btn-edit, .board-actions .btn-delete {
-    margin-right: 10px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
+.comments-section h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
 }
 
-.board-actions .btn-edit {
-    background-color: #ffc107;
+.comment {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 8px;
 }
 
-.board-actions .btn-delete {
-    background-color: #dc3545;
-    color: white;
+.comment .author {
+  font-weight: bold;
 }
 
-.comments-list {
-    background-color: #ffffff;
-    padding: 20px;
-    margin: 20px;
-    border-radius: 8px;
-}
-
-.comment-item {
-    margin-bottom: 20px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.comment-header {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.comment-date {
-    font-size: 0.9em;
-    color: #777;
-}
-
-.comment-actions {
-    margin-top: 10px;
-}
-
-.comment-actions .btn-delete {
-    background-color: #dc3545;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
+.comment .time {
+  font-size: 12px;
+  color: #888;
 }

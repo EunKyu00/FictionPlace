@@ -7,91 +7,64 @@
 </head>
 <body>
 <div th:replace="~{navbar :: navbar}"></div>
-<header class="header">
-    <h1>게시판</h1>
-</header>
 
-<main>
-    <!-- 카테고리 리스트 -->
-    <form id="boardForm" action="/board" method="get">
-        <input type="hidden" name="boardTypeId" id="boardTypeId" />
-    </form>
-    <div class="category-list">
-        <ul>
-            <li th:each="boardType : ${boardTypes}"
-                th:data-value="${boardType.id}"
-                th:text="${boardType.boardTypeName}"
-                th:classappend="${boardType.id == boardTypeId} ? 'active' : ''"
-                class="category-item"></li>
-        </ul>
-    </div>
+<main class="main-container">
+    <div class="content-card">
+        <!-- 카테고리 탭 영역 -->
+        <div class="category-tabs">
+            <!-- DB에서 가져온 boardTypes 반복 출력 -->
+            <!-- 현재 선택된 카테고리는 boardTypeId와 비교하여 selected 클래스 부여 -->
+            <a th:each="cat : ${boardTypes}"
+               th:classappend="${cat.id} == ${boardTypeId} ? 'selected' : ''"
+               th:href="@{|/board?boardTypeId=${cat.id}|}"
+               th:text="${cat.boardTypeName}"
+               class="tab"></a>
+        </div>
+        <!-- 게시판 목록 테이블 (흰색 바탕, 명확한 구분선, hover 시 약간 강조) -->
+        <div class="board-list">
+            <table class="board-table">
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>추천</th>
+                    <th>댓글</th>
+                    <th>작성자</th>
+                    <th>작성일자</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board, iterStat : ${boardList}">
+                    <td th:text="${totalElements - (currentPage * size + iterStat.index)}"></td>
+                    <td class="board-title">
+                        <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
+                    </td>
+                    <td th:text="${board.likes}"></td>
+                    <td th:text="${board.comments != null && #lists.size(board.comments) > 0 ? #lists.size(board.comments) : 0}"></td>
+                    <td>
+                        <span th:if="${board.siteUser}" th:text="${board.siteUser.nickname}"></span>
+                        <span th:if="${board.companyUser}" th:text="${board.companyUser.companyName}"></span>
+                    </td>
+                    <td th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <!-- 게시판 목록 -->
-    <div class="board-list">
-        <table class="board-table">
-            <thead>
-            <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>추천</th>
-                <th>댓글</th>
-                <th>작성자</th>
-                <th>작성일자</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="board, iterStat : ${boardList}">
-                <td th:text="${totalElements - (currentPage * size + iterStat.index)}"></td>
-                <td class="board-title">
-                    <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
-                </td>
-                <td th:text="${board.likes}"></td>
-                <td th:text="${board.comments != null && #lists.size(board.comments) > 0 ? #lists.size(board.comments) : 0}"></td>
-                <td>
-                    <span th:if="${board.siteUser}" th:text="${board.siteUser.nickname}"></span>
-                    <span th:if="${board.companyUser}" th:text="${board.companyUser.companyName}"></span>
-                </td>
-                <td th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- 페이징 -->
-    <div class="paging">
+        <!-- 페이징 -->
+        <div class="paging">
             <span th:if="${currentPage > 0}">
                 <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=12|}">이전</a>
             </span>
-        <span>
+            <span>
                 <span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span>
             </span>
-        <span th:if="${currentPage + 1 < totalPages}">
+            <span th:if="${currentPage + 1 < totalPages}">
                 <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=12|}">다음</a>
             </span>
+        </div>
     </div>
 </main>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const categoryItems = document.querySelectorAll('.category-item');
-        const boardForm = document.getElementById('boardForm');
-        const boardTypeIdInput = document.getElementById('boardTypeId');
-
-        categoryItems.forEach(item => {
-            item.addEventListener('click', function() {
-                // 선택된 카테고리의 ID 가져오기
-                const selectedBoardTypeId = item.getAttribute('data-value');
-
-                // 히든 필드에 선택된 게시판 타입 ID 설정
-                boardTypeIdInput.value = selectedBoardTypeId;
-
-                // 폼 전송 (GET 요청)
-                boardForm.submit();
-            });
-        });
-    });
-</script>
-
 
 <script src="/JS/dropdown.js"></script>
 </body>
