@@ -2,6 +2,7 @@ package com.example.fiction_place1.domain.webtoon_episode.controller;
 
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
+import com.example.fiction_place1.domain.webtoon.service.FileService;
 import com.example.fiction_place1.domain.webtoon.service.WebToonService;
 import com.example.fiction_place1.domain.webtoon_episode.entity.EpisodeImage;
 import com.example.fiction_place1.domain.webtoon_episode.entity.WebToonEpisode;
@@ -10,13 +11,11 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,19 +29,28 @@ import java.util.stream.Collectors;
 public class WebToonEpisodeController {
     private final WebToonEpisodeService webToonEpisodeService;
     private final WebToonService webToonService;
+    private final FileService fileService;
 
     @GetMapping("/")
     public String getAllWebtoons(Model model) {
         // 데이터베이스에서 선택된 웹툰 정보 가져오기
         List<WebToon> selectedWebtoons = webToonService.findSelectedWebtoons();
 
-        if (selectedWebtoons.isEmpty()) {
+        // 에피소드 중 isSelected가 true인 에피소드가 하나라도 있는 웹툰만 필터링
+        List<WebToon> webtoonsWithSelectedEpisodes = selectedWebtoons.stream()
+                .filter(webtoon -> webtoon.getWebtoonEpisodes().stream()
+                        .anyMatch(episode -> episode.isSelected())) // isSelected가 true인 에피소드가 있는 웹툰만 남기기
+                .collect(Collectors.toList());
+
+        if (webtoonsWithSelectedEpisodes.isEmpty()) {
             model.addAttribute("message", "등록된 웹툰이 없습니다.");
         } else {
-            model.addAttribute("selectedWebtoons", selectedWebtoons);
+            model.addAttribute("selectedWebtoons", webtoonsWithSelectedEpisodes);
         }
-        return "webtoon_list"; // 웹툰 리스트 템플릿 반환
+
+        return "webtoon_list";
     }
+
 
     // 회차 등록 페이지
     @GetMapping("/webtoon/episodes/create/{id}")
@@ -63,6 +71,8 @@ public class WebToonEpisodeController {
 
         return "webtoon_episode_create";
     }
+
+
 
     // 회차 등록 처리
     @PostMapping("/webtoon/episode/create/{id}")
@@ -172,4 +182,82 @@ public class WebToonEpisodeController {
 
         return "main_page_episode_detail";
     }
+
+    //웹툰 에피소드 삭제
+    @GetMapping("/webtoon/episode/delete/{id}")
+    public String deleteEpisode(@PathVariable("id") Long id){
+        WebToonEpisode webToonEpisode = this.webToonEpisodeService.getWebtoonEpisode(id);
+        this.webToonEpisodeService.delete(webToonEpisode);
+
+        Long webToonId = webToonEpisode.getWebToon().getId();
+        return String.format("redirect:/webtoon/episode/list/%d", webToonId);
+    }
+
+    //웹툰 에피소드 수정
+    @GetMapping("/webtoon/episode/modify/{id}")
+    public String editEpisode(@PathVariable("id") Long episodeId, Model model) {
+        WebToonEpisode episode = webToonEpisodeService.findById(episodeId);
+        model.addAttribute("episode", episode);
+        return "episode_modify";  // 수정 폼을 렌더링
+    }
+    @PostMapping("/webtoon/episode/modify/{id}")
+    public String modifyWebToonEpisode(
+            @PathVariable("id") Long episodeId,
+            @RequestParam("title") String title,
+            @RequestParam(value = "episodeImages", required = false) MultipartFile[] episodeImages,
+            @RequestParam(value = "thumbnailImg", required = false) MultipartFile thumbnailImg,
+            HttpSession session) throws IOException {
+
+        // 로그인된 사용자 가져오기
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        if (siteUser == null) {
+            return "redirect:/login/user"; // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
+        }
+
+        // WebToonEpisode 수정하려는 에피소드 가져오기
+        WebToonEpisode webToonEpisode = webToonEpisodeService.findById(episodeId);
+        if (webToonEpisode == null) {
+            return "redirect:/webtoon/episode/list"; // 에피소드가 없으면 에피소드 목록으로 리다이렉트
+        }
+
+        // 제목 수정
+        webToonEpisode.setTitle(title);
+
+        // 썸네일 이미지 수정 (Optional)
+        if (thumbnailImg != null && !thumbnailImg.isEmpty()) {
+            // 기존 썸네일 이미지 삭제
+            if (webToonEpisode.getThumbnailImg() != null) {
+                // 기존 썸네일 이미지 삭제 로직 추가 (필요시)
+            }
+
+            // 새 썸네일 이미지 업로드 처리
+            String thumbnailUrl = fileService.uploadImage(thumbnailImg);
+            webToonEpisode.setThumbnailImg(thumbnailUrl);
+        }
+
+        // 기존 이미지 수정 (Optional)
+        if (episodeImages != null && episodeImages.length > 0) {
+            // 기존 에피소드 이미지 삭제 (필요시)
+            webToonEpisode.getEpisodeImages().clear(); // 기존 이미지 리스트 지우기
+
+            // 새로운 에피소드 이미지 추가
+            for (MultipartFile file : episodeImages) {
+                EpisodeImage episodeImage = new EpisodeImage();
+                episodeImage.setEpisode(webToonEpisode); // 해당 WebToonEpisode에 연결
+
+                // 이미지 업로드 후 URL 받기
+                String imageUrl = fileService.uploadImage(file);
+                episodeImage.setImageUrl(imageUrl);
+
+                // 새로운 에피소드 이미지 리스트에 추가
+                webToonEpisode.getEpisodeImages().add(episodeImage);
+            }
+        }
+
+        // 수정된 WebToonEpisode 저장
+        webToonEpisodeService.updateWebToonEpisode(webToonEpisode);
+
+        return "redirect:/webtoon/episode/list/" + webToonEpisode.getWebToon().getId(); // 에피소드 목록 페이지로 리다이렉트
+    }
+
 }

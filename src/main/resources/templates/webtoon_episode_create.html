@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>웹툰 회차 등록</title>
     <style>
         body {
@@ -103,15 +103,16 @@
 <body>
 <h1>웹툰 회차 등록</h1>
 
-<form th:action="@{/webtoon/episode/create/{id}(id=${webtoon.id})}" method="post" enctype="multipart/form-data">
+<form enctype="multipart/form-data" method="post" th:action="@{/webtoon/episode/create/{id}(id=${webtoon.id})}">
     <div class="form-group">
         <label for="title">회차 제목</label>
-        <input type="text" id="title" name="title" required="required" placeholder="회차 제목을 입력하세요" class="form-control" />
+        <input class="form-control" id="title" name="title" placeholder="회차 제목을 입력하세요" required="required" type="text"/>
     </div>
 
     <div class="form-group">
         <label for="thumbnailImg">썸네일 이미지</label>
-        <input type="file" id="thumbnailImg" name="thumbnailImg" accept="image/*" class="form-control" onchange="previewThumbnail()" />
+        <input accept="image/*" class="form-control" id="thumbnailImg" name="thumbnailImg" onchange="previewThumbnail()"
+               type="file"/>
         <small>썸네일 이미지는 1장만 선택하세요.</small>
     </div>
 
@@ -120,18 +121,19 @@
     <div id="episodeImagesContainer">
         <div class="form-group">
             <label for="episodeImages">회차 이미지</label>
-            <input type="file" name="episodeImages" accept="image/*" class="form-control" onchange="previewImages(this)" />
+            <input accept="image/*" class="form-control" name="episodeImages" onchange="previewImages(this)"
+                   type="file"/>
             <small>이미지를 하나씩 선택하여 추가할 수 있습니다.</small>
         </div>
     </div>
 
-    <button type="button" id="addImageButton" class="btn" onclick="addImageInput()">이미지 추가</button>
+    <button class="btn" id="addImageButton" onclick="addImageInput()" type="button">이미지 추가</button>
 
     <div class="preview-container" id="imagePreviewContainer">
         <!-- 회차 미리보기 이미지가 여기에 표시됩니다 -->
     </div>
 
-    <button type="submit" class="btn">등록</button>
+    <button class="btn" type="submit">등록</button>
 </form>
 
 <script>

@@ -1,129 +1,41 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <title>웹툰 회차 목록</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1, h2 {
-            text-align: center;
-            color: #333;
-        }
-
-        h1 {
-            margin-top: 20px;
-        }
-
-        h2 {
-            margin-top: 10px;
-            font-size: 24px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 20px auto;
-            max-width: 800px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        li {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        li:last-child {
-            border-bottom: none;
-        }
-
-        a {
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        img {
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-right: 10px;
-        }
-
-        span {
-            color: #333;
-            font-size: 18px;
-        }
-
-        span.time {
-            color: #777;
-            font-size: 14px;
-        }
-
-        button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: center;
-            margin: 20px auto;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        /* 작은 화면에서 리스트의 이미지 크기 줄이기 */
-        @media (max-width: 600px) {
-            img {
-                width: 80px;
-                height: 80px;
-            }
-
-            li {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            span {
-                font-size: 16px;
-            }
-
-            span.time {
-                font-size: 12px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/episode_list.css">
 </head>
 <body>
-<h1 th:text="'웹툰 제목: ' + ${webtoon.title}"></h1> <!-- 웹툰 제목 출력 -->
+<h1 th:text="${webtoon.title}"></h1> <!-- 웹툰 제목 출력 -->
+<img th:src="@{${webtoon.thumbnailImg}}" alt="웹툰 썸네일" class="webtoon-thumbnail" />
 
 <h2>회차 목록</h2>
 <ul>
     <form th:action="@{/webtoon/episodes/mainpage}" method="post">
-        <li th:each="episode : ${episodes}">
-            <a th:href="@{/webtoon/episode/{id}(id=${episode.id})}">
-                <img th:src="@{${episode.thumbnailImg}}" alt="썸네일 이미지" width="100" height="100" />
-            </a>
-            <span th:text="${episode.title}"></span>
-            <span class="time" th:text="${#temporals.format(episode.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+        <ul>
+            <li th:each="episode : ${episodes}">
+                <a th:href="@{/webtoon/episode/{id}(id=${episode.id})}">
+                    <img th:src="@{${episode.thumbnailImg}}" alt="썸네일 이미지" width="100" height="100" />
+                </a>
+                <span th:text="${episode.title}"></span>
+                <span class="time" th:text="${#temporals.format(episode.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
 
-            <!-- 체크박스 추가 -->
-            <input type="checkbox" th:name="selectedEpisodes" th:value="${episode.id}" />
-        </li>
+                <!--수정버튼-->
+                <a class="modify-btn"
+                   th:href="@{/webtoon/episode/modify/{id}(id=${episode.id})}">
+                    수정
+                </a>
+
+                <!-- 삭제 버튼 -->
+                <a class="delete-btn"
+                   th:href="@{/webtoon/episode/delete/{id}(id=${episode.id})}"
+                   onclick="return confirm('삭제하시겠습니까?');">
+                    삭제
+                </a>
+                <!-- 체크박스 추가: 이미 선택된 회차인지 확인 -->
+                <input type="checkbox" th:name="selectedEpisodes" th:value="${episode.id}"
+                       th:checked="${episode.selected}" />
+            </li>
+        </ul>
 
         <!-- 웹툰 ID를 hidden 필드로 추가 -->
         <input type="hidden" th:name="webtoonId" th:value="${webtoon.id}" />
@@ -136,5 +48,6 @@
 <a th:href="@{/webtoon/episodes/create/{id}(id=${webtoon.id})}">
     <button>신규 회차 등록</button>
 </a>
+
 </body>
 </html>

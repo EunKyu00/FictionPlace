@@ -52,3 +52,8 @@
     text-align: center;
     margin-top: 20px;
 }
+a {
+    display: block;
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: inherit; /* 텍스트 색상 유지 */
+}

@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,12 +68,19 @@ public class WebToonService {
     public WebToon save(WebToon webToon) {
         return webToonRepository.save(webToon);
     }
-//    public String getSiteUserNickname(Long webtoonId) {
-//        WebToon webToon = webToonRepository.findById(webtoonId)
-//                .orElseThrow(() -> new IllegalArgumentException("웹툰을 찾을 수 없습니다."));
-//        return webToon.getSiteUser().getNickname();
-//    }
-    //TODO 메인페이지 닉네임 표시 코드 보류
+
+    public List<WebToon> getWebtoonsWithSelectedEpisodes(SiteUser siteUser) {
+        // siteUser와 관련된 모든 웹툰을 가져옵니다.
+        List<WebToon> allWebToons = webToonRepository.findBySiteUser(siteUser);
+
+        // 각 웹툰의 에피소드 중에서 isSelected가 true인 것이 하나라도 있으면 해당 웹툰만 필터링
+        return allWebToons.stream()
+                .filter(webToon -> webToon.getWebtoonEpisodes().stream()
+                        .anyMatch(episode -> episode.isSelected())) // 에피소드 중 isSelected가 true인 것이 하나라도 있으면
+                .collect(Collectors.toList());
+    }
+
+
 }
 
 

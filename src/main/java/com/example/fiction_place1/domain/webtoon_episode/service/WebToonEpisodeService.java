@@ -67,7 +67,6 @@ public class WebToonEpisodeService {
         return webToonEpisode;
     }
 
-    // 기존 코드 그대로 유지
     public List<WebToonEpisode> getEpisodesByWebtoonId(Long webtoonId) {
         return webToonEpisodeRepository.findByWebToonId(webtoonId);
     }
@@ -93,7 +92,17 @@ public class WebToonEpisodeService {
     public List<WebToonEpisode> findByIds(List<Long> episodeIds) {
         return webToonEpisodeRepository.findAllById(episodeIds); // 해당 아이디 목록으로 회차를 조회
     }
+    public void delete(WebToonEpisode webToonEpisode){
+        this.webToonEpisodeRepository.delete(webToonEpisode);
+    }
 
-
+    public WebToonEpisode getWebtoonEpisode(Long id){
+        WebToonEpisode webToonEpisode = webToonEpisodeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Episode not found"));
+        return webToonEpisode;
+    }
+    public void updateWebToonEpisode(WebToonEpisode webToonEpisode) {
+        webToonEpisodeRepository.save(webToonEpisode);  // WebToonEpisode 수정
+    }
 }
 
