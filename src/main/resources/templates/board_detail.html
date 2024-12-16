@@ -21,10 +21,12 @@
                 <span class="views" th:text="'👀' + ${board.hit}"></span>
                 <span class="likes" th:text="'👍' + ${board.likes}"></span>
                 </span>
-                <span class="post-btn">
-                <a th:href="@{|/board/modify/${board.id}|}" class="post-btn">수정하기</a>
-                <a th:href="@{|/board/delete/${board.id}|}" class="post-btn">삭제하기</a>
-                </span>
+                <!-- 로그인된 사용자(일반/기업)와 작성자 비교 -->
+                <div  class="post-btn" th:if="(${loginUser != null and board.siteUser != null and loginUser.id == board.siteUser.id})
+                or (${loginCompanyUser != null and board.companyUser != null and loginCompanyUser.id == board.companyUser.id})">
+                    <a th:href="@{|/board/modify/${board.id}|}">수정</a>
+                    <a th:href="@{|/board/delete/${board.id}|}" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+                </div>
             </div>
         </div>
 

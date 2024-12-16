@@ -85,6 +85,7 @@ public class BoardService {
         board.setHit(board.getHit() + 1);
         return boardRepository.save(board);
     }
+
 }
 
 
