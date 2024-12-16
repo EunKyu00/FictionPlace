@@ -116,7 +116,7 @@ public class CreateBoardController {
     public String boardDetail(Model model, @PathVariable("id") Long id, HttpSession session) {
         // 게시글 조회
         Board board = boardService.getBoard(id);
-
+        Board boardHit = boardService.incrementHit(id);
         // 로그인된 사용자 정보 가져오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
@@ -129,8 +129,10 @@ public class CreateBoardController {
             isAuthor = board.getCompanyUser() != null && companyUser.getId().equals(board.getCompanyUser().getId());
         }
 
+        int commentCount = commentService.getCommentCountForBoard(id); //댓글 갯수 조회
+
         // 댓글 목록 가져오기
-        List<Comment> comments = commentService.getCommentsByBoard(board);
+        List<Comment> comments = commentService.getCommentsByBoardId(id); // 정렬된 댓글 가져오기
 
         // 로그인된 사용자와 비교해 댓글 작성자 여부만 서버에서 필터링
         List<Comment> userComments = comments.stream()
@@ -145,10 +147,12 @@ public class CreateBoardController {
 
         model.addAttribute("board", board);
         model.addAttribute("comments", comments);
+        model.addAttribute("comment_count", commentCount);
         model.addAttribute("userComments", userComments); // 로그인된 사용자 관련 댓글만 전달
         model.addAttribute("isAuthor", isAuthor);
         model.addAttribute("loginUser", siteUser);
         model.addAttribute("loginCompanyUser", companyUser);
+        model.addAttribute("boardHit", boardHit);
 
         return "board_detail";
     }

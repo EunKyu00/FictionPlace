@@ -13,4 +13,8 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     @Query("SELECT COUNT(c) FROM Comment c WHERE c.board.id = :boardId")
     long countCommentsByBoardId(@Param("boardId") Long boardId);
+
+    int countByBoardId(Long boardId); //댓글갯수찾아오는레포
+
+    List<Comment> findByBoardIdOrderByCreatedDateDesc(Long boardId); //댓글 최신순으로가져오기
 }

@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +43,14 @@ public class CommentService {
     public void delete(Comment comment){
         this.commentRepository.delete(comment);
         //TODO 댓글 삭제 기능 추가 *필수
+    }
+
+    public int getCommentCountForBoard(Long boardId) {
+        return commentRepository.countByBoardId(boardId);
+    } // 댓글 개수 찾아오기
+
+    public List<Comment> getCommentsByBoardId(Long boardId) {
+        // 댓글을 createdDate 내림차순으로 가져옵니다.
+        return commentRepository.findByBoardIdOrderByCreatedDateDesc(boardId);
     }
 }
