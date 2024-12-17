@@ -12,6 +12,7 @@ import com.example.fiction_place1.domain.webtoon_episode.service.WebToonEpisodeS
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +41,10 @@ public class WebToonController {
         // 세션에서 로그인된 사용자 정보 가져오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
 
+
+        if (siteUser == null ){
+            return "redirect:/login/user";
+        }
         if (siteUser != null ){
             List<WebToon> webtoons = webToonService.getWebtoonsByUser(siteUser);
             model.addAttribute("webtoons", webtoons);  // 웹툰 목록을 모델에 추가
@@ -50,9 +55,14 @@ public class WebToonController {
     // 최초 웹툰 등록
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/webtoon/create")
-    public String webToonCreate(WebToonForm webToonForm, Model model) {
+    public String webToonCreate(WebToonForm webToonForm, Model model,HttpSession session) {
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        if (siteUser == null){
+            return "redirect:/login/user";
+        }
+
         List<GenreType> genreTypes = genreTypeService.getAllGenres();
-        model.addAttribute("genreTypes", genreTypes);  // genreTypes로 수정
+        model.addAttribute("genreTypes", genreTypes);
         model.addAttribute("webToonForm", new WebToonForm());
         return "webtoon_create_form";
     }
@@ -79,18 +89,54 @@ public class WebToonController {
         if (siteUser != null) {
             // 이미지 업로드 후 경로를 가져오기
             String thumbnailPath = fileService.uploadImage(thumbnailImg);  // 이미지 경로 얻기
-
             // 웹툰 생성 처리 (이미지 경로를 포함)
             webToonService.createWebToon(webToonForm.getTitle(), webToonForm.getContent(),
                     webToonForm.getGenreTypeId(), siteUser, thumbnailPath);  // 경로 전달
-        } else {
-            // 로그인 안된 사용자 처리
-            model.addAttribute("errorMessage", "로그인 후 웹툰을 등록할 수 있습니다.");
-            return "webtoon_create_form";  // 로그인 페이지로 리다이렉트
         }
 
         // 성공적으로 등록된 후 리다이렉트
         return "redirect:/";  // 메인 페이지로 리다이렉트
+    }
+    //웹툰 삭제
+    @GetMapping("/webtoon/delete/{id}")
+    public String deleteWebToon(@PathVariable("id") Long id, HttpSession session){
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+
+        if (siteUser == null){
+            return "redirect:/login/user";
+        }
+
+        WebToon webToon = webToonService.findById(id);
+        webToonService.deleteWebtoon(webToon);
+        return "redirect:/my/webtoon";
+    }
+    @GetMapping("/webtoon/modify/{id}")
+    public String modifyWebToon(@PathVariable("id") Long id,Model model,HttpSession session){
+        WebToon webtoon = webToonService.findById(id);
+        List<GenreType> genreTypes = genreTypeService.getAllGenres();
+
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        if (siteUser == null){
+            return "redirect:/login/user";
+        }
+        if (!webtoon.getSiteUser().getId().equals(siteUser.getId())){
+            return "access_denied";
+        }
+
+        model.addAttribute("genreTypes", genreTypes);
+        model.addAttribute("webtoon",webtoon);
+
+        return "webtoon_modify";
+    }
+    @PostMapping("/webtoon/modify/{id}")
+    public String modifyWebToon(@PathVariable("id") Long webtoonId,
+                                @RequestParam("title") String title,
+                                @RequestParam("content") String content,
+                                @RequestParam("genreTypeId") Long genreTypeId,
+                                @RequestParam(value = "thumbnailImg", required = false) MultipartFile thumbnailImg) throws IOException {
+
+        webToonService.modifyWebToon(webtoonId, title, content, genreTypeId, thumbnailImg);  // genreTypeId도 전달
+        return "redirect:/my/webtoon";  // 수정 후 리다이렉트 할 페이지 (예: 웹툰 목록 페이지)
     }
 }
 

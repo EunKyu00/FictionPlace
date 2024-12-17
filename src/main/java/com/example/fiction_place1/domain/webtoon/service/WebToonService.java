@@ -68,19 +68,27 @@ public class WebToonService {
     public WebToon save(WebToon webToon) {
         return webToonRepository.save(webToon);
     }
-
-    public List<WebToon> getWebtoonsWithSelectedEpisodes(SiteUser siteUser) {
-        // siteUser와 관련된 모든 웹툰을 가져옵니다.
-        List<WebToon> allWebToons = webToonRepository.findBySiteUser(siteUser);
-
-        // 각 웹툰의 에피소드 중에서 isSelected가 true인 것이 하나라도 있으면 해당 웹툰만 필터링
-        return allWebToons.stream()
-                .filter(webToon -> webToon.getWebtoonEpisodes().stream()
-                        .anyMatch(episode -> episode.isSelected())) // 에피소드 중 isSelected가 true인 것이 하나라도 있으면
-                .collect(Collectors.toList());
+    public void deleteWebtoon(WebToon webToon){
+        this.webToonRepository.delete(webToon);
     }
+    public void modifyWebToon(Long webtoonId,String title, String content, Long genreTypeId,MultipartFile thumbnailImg) throws IOException{
+        WebToon webToon = webToonRepository.findById(webtoonId).orElse(null);
+        if (webToon == null){
+            return;
+        }
 
+        GenreType genreType = this.genreTypeRepository.findById(genreTypeId)
+                .orElseThrow(() -> new RuntimeException("GenreType not found"));
+        webToon.setTitle(title);
+        webToon.setContent(content);
+        webToon.setGenreType(genreType);
 
+        if (thumbnailImg != null && !thumbnailImg.isEmpty()){
+            String thumbnailUrl = fileService.uploadImage(thumbnailImg);
+            webToon.setThumbnailImg(thumbnailUrl);
+        }
+        webToonRepository.save(webToon);
+    }
 }
 
 

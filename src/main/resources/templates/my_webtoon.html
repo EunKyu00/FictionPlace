@@ -1,4 +1,8 @@
+<!DOCTYPE html>
+<html lang="ko">
 <head>
+    <meta charset="UTF-8">
+    <title>나의 웹툰</title>
     <link rel="stylesheet" href="/my_webtoon.css" />
 </head>
 <body>
@@ -13,13 +17,26 @@
                         <!-- 장르 출력: genreTypename -->
                         <div class="webtoon-genre" th:text="${webtoon.genreType.genreTypename}"></div> <!-- 장르 이름 출력 -->
                         <div class="webtoon-content" th:text="${webtoon.content}"></div>
+                        <div class="webtoon-buttons">
+                            <a class="modify-btn" th:href="@{/webtoon/modify/{id}(id=${webtoon.id})}">
+                                수정
+                            </a>
+                            <a class="delete-btn" th:href="@{/webtoon/delete/{id}(id=${webtoon.id})}" onclick="return confirm('삭제하시겠습니까?');">
+                                삭제
+                            </a>
+                        </div>
                     </div>
                 </div>
             </a>
         </div>
     </div>
 </div>
-<div th:if="${webtoons == null}">
-    <p>웹툰 데이터를 불러올 수 없습니다.</p>
+<!-- webtoons가 null일 때 웹툰 등록 버튼 보이기 -->
+<div th:if="${webtoons == null or webtoons.size() == 0}" class="no-webtoons-message">
+    <p>등록된 웹툰이 없습니다.</p>
+    <a th:href="@{/webtoon/create}">
+        <button class="create-webtoon-btn">웹툰 등록하러 가기</button>
+    </a>
 </div>
 </body>
+</html>

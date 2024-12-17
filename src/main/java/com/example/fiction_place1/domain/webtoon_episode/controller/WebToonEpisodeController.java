@@ -55,25 +55,27 @@ public class WebToonEpisodeController {
     // 회차 등록 페이지
     @GetMapping("/webtoon/episodes/create/{id}")
     public String getWebToonEpisodeRegistrationPage(@PathVariable("id") Long webtoonId, Model model, HttpSession session) {
-        // 세션에서 현재 로그인한 사용자 정보 가져오기
-        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
-
-        if (siteUser != null) {
-            List<WebToon> webtoons = webToonService.getWebtoonsByUser(siteUser);
-            model.addAttribute("webtoons", webtoons);
-        }
         // 선택된 웹툰 정보 가져오기
         WebToon webToon = webToonService.findById(webtoonId);
-        model.addAttribute("webtoon", webToon);
 
-        // 웹툰 ID를 모델에 추가
-        model.addAttribute("webtoonId", webtoonId);
+        // 세션에서 현재 로그인한 사용자 정보 가져오기
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        if (siteUser == null) {
+            return  "redirect:/login/user";
+        }
+        // 로그인한 사용자와 웹툰 작성자가 동일한지 확인
+        if (!webToon.getSiteUser().getId().equals(siteUser.getId())) {
+            return "access_denied";
+        }
 
+        model.addAttribute("webtoon", webToon);  // 웹툰 정보 추가
+        model.addAttribute("webtoonId", webtoonId);  // 웹툰 ID 추가
+        List<WebToon> webtoons = webToonService.getWebtoonsByUser(siteUser);
+        model.addAttribute("webtoons", webtoons);  // 해당 사용자 웹툰 목록
+
+        // 로그인한 사용자가 웹툰 작성자가 아니면 접근 거부
         return "webtoon_episode_create";
     }
-
-
-
     // 회차 등록 처리
     @PostMapping("/webtoon/episode/create/{id}")
     public String createWebToonEpisode(
@@ -94,9 +96,17 @@ public class WebToonEpisodeController {
 
     // 작가 사용자 웹툰 회차 목록 페이지
     @GetMapping("/webtoon/episode/list/{id}")
-    public String getWebToonEpisodeList(@PathVariable("id") Long webtoonId, Model model) {
+    public String getWebToonEpisodeList(@PathVariable("id") Long webtoonId, Model model,HttpSession session) {
         // 웹툰 정보 가져오기
         WebToon webtoon = webToonService.findById(webtoonId);
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+
+        if (siteUser == null) {
+            return "redirect:/login/user";
+        }
+        if (!webtoon.getSiteUser().getId().equals(siteUser.getId())){
+            return "access_denied";
+        }
 
         // 모델에 웹툰 정보와 회차 목록 추가
         model.addAttribute("webtoon", webtoon);
@@ -185,9 +195,15 @@ public class WebToonEpisodeController {
 
     //웹툰 에피소드 삭제
     @GetMapping("/webtoon/episode/delete/{id}")
-    public String deleteEpisode(@PathVariable("id") Long id){
+    public String deleteEpisode(@PathVariable("id") Long id,HttpSession session){
+        // 로그인된 사용자 가져오기
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        if (siteUser == null) {
+            return "redirect:/login/user"; // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
+        }
+
         WebToonEpisode webToonEpisode = this.webToonEpisodeService.getWebtoonEpisode(id);
-        this.webToonEpisodeService.delete(webToonEpisode);
+        this.webToonEpisodeService.deleteEpisode(webToonEpisode);
 
         Long webToonId = webToonEpisode.getWebToon().getId();
         return String.format("redirect:/webtoon/episode/list/%d", webToonId);
@@ -195,7 +211,16 @@ public class WebToonEpisodeController {
 
     //웹툰 에피소드 수정
     @GetMapping("/webtoon/episode/modify/{id}")
-    public String editEpisode(@PathVariable("id") Long episodeId, Model model) {
+    public String modifyEpisode(@PathVariable("id") Long episodeId, Model model,HttpSession session) {
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        WebToonEpisode webToonEpisode = webToonEpisodeService.findById(episodeId);
+        if (siteUser == null){
+            return "redirect:/login/user";
+        }
+        if (!webToonEpisode.getWebToon().getSiteUser().getId().equals(siteUser.getId())){
+            return "access_denied";
+        }
+
         WebToonEpisode episode = webToonEpisodeService.findById(episodeId);
         model.addAttribute("episode", episode);
         return "episode_modify";  // 수정 폼을 렌더링
@@ -205,59 +230,12 @@ public class WebToonEpisodeController {
             @PathVariable("id") Long episodeId,
             @RequestParam("title") String title,
             @RequestParam(value = "episodeImages", required = false) MultipartFile[] episodeImages,
-            @RequestParam(value = "thumbnailImg", required = false) MultipartFile thumbnailImg,
-            HttpSession session) throws IOException {
+            @RequestParam(value = "thumbnailImg", required = false) MultipartFile thumbnailImg) throws IOException {
 
-        // 로그인된 사용자 가져오기
-        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
-        if (siteUser == null) {
-            return "redirect:/login/user"; // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
-        }
+        // WebToonEpisode 수정
+        webToonEpisodeService.modifyWebToonEpisode(episodeId, title, episodeImages, thumbnailImg);
 
-        // WebToonEpisode 수정하려는 에피소드 가져오기
-        WebToonEpisode webToonEpisode = webToonEpisodeService.findById(episodeId);
-        if (webToonEpisode == null) {
-            return "redirect:/webtoon/episode/list"; // 에피소드가 없으면 에피소드 목록으로 리다이렉트
-        }
-
-        // 제목 수정
-        webToonEpisode.setTitle(title);
-
-        // 썸네일 이미지 수정 (Optional)
-        if (thumbnailImg != null && !thumbnailImg.isEmpty()) {
-            // 기존 썸네일 이미지 삭제
-            if (webToonEpisode.getThumbnailImg() != null) {
-                // 기존 썸네일 이미지 삭제 로직 추가 (필요시)
-            }
-
-            // 새 썸네일 이미지 업로드 처리
-            String thumbnailUrl = fileService.uploadImage(thumbnailImg);
-            webToonEpisode.setThumbnailImg(thumbnailUrl);
-        }
-
-        // 기존 이미지 수정 (Optional)
-        if (episodeImages != null && episodeImages.length > 0) {
-            // 기존 에피소드 이미지 삭제 (필요시)
-            webToonEpisode.getEpisodeImages().clear(); // 기존 이미지 리스트 지우기
-
-            // 새로운 에피소드 이미지 추가
-            for (MultipartFile file : episodeImages) {
-                EpisodeImage episodeImage = new EpisodeImage();
-                episodeImage.setEpisode(webToonEpisode); // 해당 WebToonEpisode에 연결
-
-                // 이미지 업로드 후 URL 받기
-                String imageUrl = fileService.uploadImage(file);
-                episodeImage.setImageUrl(imageUrl);
-
-                // 새로운 에피소드 이미지 리스트에 추가
-                webToonEpisode.getEpisodeImages().add(episodeImage);
-            }
-        }
-
-        // 수정된 WebToonEpisode 저장
-        webToonEpisodeService.updateWebToonEpisode(webToonEpisode);
-
-        return "redirect:/webtoon/episode/list/" + webToonEpisode.getWebToon().getId(); // 에피소드 목록 페이지로 리다이렉트
+        return "redirect:/webtoon/episode/list/" + webToonEpisodeService.findById(episodeId).getWebToon().getId(); // 에피소드 목록 페이지로 리다이렉트
     }
 
 }

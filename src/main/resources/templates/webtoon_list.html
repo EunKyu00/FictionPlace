@@ -57,7 +57,7 @@
         </div>
 
         <!-- 빈 목록 메시지 -->
-        <div th:if="${selectedWebtoons.isEmpty()}" class="empty-message">
+        <div th:if="${selectedWebtoons == null or selectedWebtoons.isEmpty()}" class="empty-message">
             <p>등록된 웹툰이 없습니다.</p>
         </div>
     </div>

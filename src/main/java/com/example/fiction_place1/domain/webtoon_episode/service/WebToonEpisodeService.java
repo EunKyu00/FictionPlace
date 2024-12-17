@@ -92,7 +92,7 @@ public class WebToonEpisodeService {
     public List<WebToonEpisode> findByIds(List<Long> episodeIds) {
         return webToonEpisodeRepository.findAllById(episodeIds); // 해당 아이디 목록으로 회차를 조회
     }
-    public void delete(WebToonEpisode webToonEpisode){
+    public void deleteEpisode(WebToonEpisode webToonEpisode){
         this.webToonEpisodeRepository.delete(webToonEpisode);
     }
 
@@ -101,8 +101,45 @@ public class WebToonEpisodeService {
                 .orElseThrow(() -> new RuntimeException("Episode not found"));
         return webToonEpisode;
     }
-    public void updateWebToonEpisode(WebToonEpisode webToonEpisode) {
-        webToonEpisodeRepository.save(webToonEpisode);  // WebToonEpisode 수정
+
+    public void modifyWebToonEpisode(Long episodeId, String title, MultipartFile[] episodeImages, MultipartFile thumbnailImg) throws IOException {
+        // WebToonEpisode 수정하려는 에피소드 가져오기
+        WebToonEpisode webToonEpisode = webToonEpisodeRepository.findById(episodeId).orElse(null);
+        if (webToonEpisode == null) {
+            return; // 에피소드가 없으면 리턴
+        }
+
+        // 제목 수정
+        webToonEpisode.setTitle(title);
+
+        // 썸네일 이미지 수정 (Optional)
+        if (thumbnailImg != null && !thumbnailImg.isEmpty()) {
+            // 새 썸네일 이미지 업로드 처리
+            String thumbnailUrl = fileService.uploadImage(thumbnailImg);
+            webToonEpisode.setThumbnailImg(thumbnailUrl);
+        }
+
+
+        // 기존 이미지 수정 (Optional)
+        if (episodeImages != null && episodeImages.length > 0) {
+            // 새로운 에피소드 이미지 추가
+            for (MultipartFile file : episodeImages) {
+                EpisodeImage episodeImage = new EpisodeImage();
+                episodeImage.setEpisode(webToonEpisode); // 해당 WebToonEpisode에 연결
+
+                // 이미지 업로드 후 URL 받기
+                String imageUrl = fileService.uploadImage(file);
+                episodeImage.setImageUrl(imageUrl);
+
+                // 새로운 에피소드 이미지 리스트에 추가
+                webToonEpisode.getEpisodeImages().add(episodeImage);
+            }
+        }
+
+
+        // 수정된 WebToonEpisode 저장
+        webToonEpisodeRepository.save(webToonEpisode);
     }
+
 }
 
