@@ -55,25 +55,30 @@ public class WebToonService {
     public List<WebToon> getWebtoonsByUser(SiteUser siteUser) {
         return webToonRepository.findBySiteUser(siteUser);  // 사용자별 웹툰을 조회하는 쿼리
     }
+
     // 웹툰 ID로 웹툰을 찾는 메서드
     public WebToon findById(Long id) {
-        return webToonRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("웹툰을 찾을 수 없습니다. id=" + id));
+        WebToon webToon = webToonRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("WebToon not found"));
+        return webToon;
     }
 
     public List<WebToon> findSelectedWebtoons() {
         // 예시: "isSelected" 필드가 true인 웹툰만 가져오기
         return webToonRepository.findByIsSelectedTrue();
     }
+
     public WebToon save(WebToon webToon) {
         return webToonRepository.save(webToon);
     }
-    public void deleteWebtoon(WebToon webToon){
+
+    public void deleteWebtoon(WebToon webToon) {
         this.webToonRepository.delete(webToon);
     }
-    public void modifyWebToon(Long webtoonId,String title, String content, Long genreTypeId,MultipartFile thumbnailImg) throws IOException{
+
+    public void modifyWebToon(Long webtoonId, String title, String content, Long genreTypeId, MultipartFile thumbnailImg) throws IOException {
         WebToon webToon = webToonRepository.findById(webtoonId).orElse(null);
-        if (webToon == null){
+        if (webToon == null) {
             return;
         }
 
@@ -83,9 +88,19 @@ public class WebToonService {
         webToon.setContent(content);
         webToon.setGenreType(genreType);
 
-        if (thumbnailImg != null && !thumbnailImg.isEmpty()){
+        if (thumbnailImg != null && !thumbnailImg.isEmpty()) {
             String thumbnailUrl = fileService.uploadImage(thumbnailImg);
             webToon.setThumbnailImg(thumbnailUrl);
+        }
+        webToonRepository.save(webToon);
+    }
+
+    public void updateWebToonLike(Long webToonid, boolean increase) {
+        WebToon webToon = findById(webToonid);
+        if (increase) {
+            webToon.setLikes(webToon.getLikes() + 1);
+        } else {
+            webToon.setLikes(webToon.getLikes() - 1);
         }
         webToonRepository.save(webToon);
     }

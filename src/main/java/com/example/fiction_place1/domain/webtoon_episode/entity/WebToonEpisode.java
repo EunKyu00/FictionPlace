@@ -38,8 +38,10 @@ public class WebToonEpisode extends BaseEntity {
 
     @OneToMany(mappedBy = "webtoonEpisode", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
-
-
     // 선택 여부를 나타내는 필드
     private boolean isSelected;
+
+    private Integer likes = 0;
+
+    private Integer hit = 0;
 }

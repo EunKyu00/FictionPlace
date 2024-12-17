@@ -48,7 +48,7 @@ public class CommentController {
 
         // 로그인되지 않은 경우 리디렉션 처리
         if (siteUser == null && companyUser == null) {
-            redirectAttributes.addFlashAttribute("message", "로그인 후 이용해주세요.");
+            redirectAttributes.addFlashAttribute("loginMessage", "로그인 후 이용해주세요.");
             return String.format("redirect:/board/detail/%s", id);  // 로그인되지 않은 경우 리디렉션
         }
 

@@ -42,6 +42,7 @@ public class MyProfileController {
         //id로 사용자를 조회
         SiteUser siteUser = siteUserService.findById(id);
 
+
         if (siteUser != null) {
             model.addAttribute("nickname", siteUser.getNickname());
             model.addAttribute("email", siteUser.getEmail());

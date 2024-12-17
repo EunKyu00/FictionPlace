@@ -2,6 +2,8 @@ package com.example.fiction_place1.domain.webtoon.controller;
 
 import com.example.fiction_place1.domain.genre_type.entity.GenreType;
 import com.example.fiction_place1.domain.genre_type.service.GenreTypeService;
+import com.example.fiction_place1.domain.recommend.service.RecommendService;
+import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
 import com.example.fiction_place1.domain.webtoon.form.WebToonForm;
@@ -19,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,6 +35,7 @@ public class WebToonController {
     private final WebToonService webToonService;
     private final GenreTypeService genreTypeService;
     private final FileService fileService;  // FileService 추가
+    private final RecommendService recommendService;
 
 
 
@@ -97,6 +101,7 @@ public class WebToonController {
         // 성공적으로 등록된 후 리다이렉트
         return "redirect:/";  // 메인 페이지로 리다이렉트
     }
+
     //웹툰 삭제
     @GetMapping("/webtoon/delete/{id}")
     public String deleteWebToon(@PathVariable("id") Long id, HttpSession session){
@@ -110,6 +115,8 @@ public class WebToonController {
         webToonService.deleteWebtoon(webToon);
         return "redirect:/my/webtoon";
     }
+
+    //웹툰 수정
     @GetMapping("/webtoon/modify/{id}")
     public String modifyWebToon(@PathVariable("id") Long id,Model model,HttpSession session){
         WebToon webtoon = webToonService.findById(id);
@@ -128,6 +135,8 @@ public class WebToonController {
 
         return "webtoon_modify";
     }
+
+    //웹툰 수정 처리
     @PostMapping("/webtoon/modify/{id}")
     public String modifyWebToon(@PathVariable("id") Long webtoonId,
                                 @RequestParam("title") String title,
@@ -137,6 +146,40 @@ public class WebToonController {
 
         webToonService.modifyWebToon(webtoonId, title, content, genreTypeId, thumbnailImg);  // genreTypeId도 전달
         return "redirect:/my/webtoon";  // 수정 후 리다이렉트 할 페이지 (예: 웹툰 목록 페이지)
+    }
+
+    //웹툰 추천
+    @PostMapping("/webtoon/recommend/{id}")
+    public String likeWebToon(@PathVariable("id") Long id, HttpSession session, Model model, RedirectAttributes redirectAttributes){
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+        WebToon webToon = webToonService.findById(id);
+
+        if (siteUser == null && companyUser == null){
+            redirectAttributes.addFlashAttribute("message","로그인 후 이용해주세요");
+            return String.format("redirect:/main/page/webtoon/episode/%s", id);
+        }
+        // 추천 여부 확인
+        boolean hasRecommended = false;
+
+        if (siteUser != null) {
+            hasRecommended = recommendService.hasSiteUserRecommended(siteUser, webToon);
+        } else if (companyUser != null) {
+            hasRecommended = recommendService.hasCompanyUserRecommended(companyUser, webToon);
+        }
+
+        if (hasRecommended) {
+            redirectAttributes.addFlashAttribute("message", "이미 추천하셨습니다!");
+        } else {
+            if (siteUser != null) {
+                recommendService.addSiteUserRecommendation(siteUser, webToon);
+            } else if (companyUser != null) {
+                recommendService.addCompanyUserRecommendation(companyUser, webToon);
+            }
+            redirectAttributes.addFlashAttribute("message", "추천이 완료되었습니다!");
+        }
+
+        return String.format("redirect:/main/page/webtoon/episode/%s", id);
     }
 }
 

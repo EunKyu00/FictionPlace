@@ -15,6 +15,16 @@
             </div>
         </div>
     </div>
+    <!-- 상세 페이지에서 추천 버튼 -->
+    <!-- 추천 기능 -->
+    <div class="recommendation">
+        <form th:action="@{|/webtoon/recommend/${webtoon.id}|}" method="POST">
+            <!-- 추천 버튼 -->
+            <button type="submit" class="btn-recommend" th:text="${message != null ? message : '추천'}"></button>
+        </form>
+        <!-- 추천 수 -->
+        <span>추천 수: <span th:text="${webtoon.likes}"></span></span>
+    </div>
 
     <!-- 에피소드 리스트 -->
     <ul class="episode-list">

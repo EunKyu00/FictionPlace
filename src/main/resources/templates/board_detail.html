@@ -13,23 +13,22 @@
 </div>
 
 <!-- 게시글 상세 페이지에서 추천 버튼 -->
+<!-- 추천 기능 -->
 <div class="recommendation">
     <form th:action="@{|/board/recommend/${board.id}|}" method="POST">
-        <button type="submit" class="btn-recommend" th:text="${hasRecommended != null and hasRecommended ? '추천 취소' : '추천'}"></button>
+        <!-- 추천 버튼 -->
+        <button type="submit" class="btn-recommend" th:text="${message != null ? message : '추천'}"></button>
     </form>
+    <!-- 추천 수 -->
     <span>추천 수: <span th:text="${board.likes}"></span></span>
-    <!-- 로그인되지 않은 경우, 에러 메시지 출력 -->
-    <div th:if="${errorMessage}" style="color: red; margin-bottom: 20px;">
-        <p th:text="${errorMessage}"></p>
-    </div>
 </div>
 
 <!-- 댓글 입력 폼 -->
 <div class="comment-form">
     <form th:action="@{|/comment/create/${board.id}|}" method="post">
         <!-- 로그인되지 않았을 때 댓글 등록시 에러 메시지 출력 -->
-        <div th:if="${message}" style="color: red !important; margin-bottom: 20px;">
-            <p th:text="${message}"></p>
+        <div th:if="${loginMessage}" style="color: red !important; margin-bottom: 20px;">
+            <p th:text="${loginMessage}"></p>
         </div>
         <!-- 빈문자열,공백 댓글 등록시 에러 메시지 출력 -->
         <div th:if="${errorContent}" style="color: red !important; margin-bottom: 20px;">

@@ -44,6 +44,7 @@ public class WebToon extends BaseEntity {
     private String thumbnailImg;
 
     private Integer likes = 0;
+
     private Integer hit = 0;
 
 }

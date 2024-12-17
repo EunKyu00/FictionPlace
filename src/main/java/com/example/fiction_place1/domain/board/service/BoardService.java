@@ -25,9 +25,6 @@ import java.util.Optional;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardTypeRepository boardTypeRepository;
-    private final SiteUserRepository siteUserRepository;
-    private final CompanyUserRepository companyUserRepository;
-    private final CommentRepository commentRepository;
 
     // 게시판 타입에 맞는 게시글 조회
     public Page<Board> getBoardType(Long boardTypeId, Pageable pageable) {
@@ -67,16 +64,6 @@ public class BoardService {
     }
     public void delete(Board board){
         this.boardRepository.delete(board);
-    }
-    // 추천 수 증가 또는 감소
-    public void updateLikes(Long boardId, boolean increase) {
-        Board board = getBoard(boardId);
-        if (increase) {
-            board.setLikes(board.getLikes() + 1);
-        } else {
-            board.setLikes(board.getLikes() - 1);
-        }
-        boardRepository.save(board);  // 게시글 저장
     }
 }
 
