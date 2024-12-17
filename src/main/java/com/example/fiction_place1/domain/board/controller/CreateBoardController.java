@@ -146,10 +146,13 @@ public class CreateBoardController {
             RedirectAttributes redirectAttributes) {
 
         Board board = boardService.getBoard(id);
-
-        // 로그인된 사용자 정보 가져오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+
+        if(siteUser == null && companyUser == null){
+            redirectAttributes.addFlashAttribute("message","로그인 후 이용해주세요.");
+            return "redirect:/board/detail/" + id;
+        }
 
         // 추천 여부 확인
         boolean hasRecommended = false;
