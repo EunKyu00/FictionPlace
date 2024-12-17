@@ -2,6 +2,7 @@ package com.example.fiction_place1.domain.webtoon_episode.entity;
 
 
 import com.example.fiction_place1.domain.comment.entity.Comment;
+import com.example.fiction_place1.domain.recommend.entity.Recommend;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
 import com.example.fiction_place1.global.jpa.BaseEntity;
 import jakarta.persistence.*;
@@ -38,6 +39,7 @@ public class WebToonEpisode extends BaseEntity {
 
     @OneToMany(mappedBy = "webtoonEpisode", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
     // 선택 여부를 나타내는 필드
     private boolean isSelected;
 
