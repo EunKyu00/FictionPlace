@@ -126,27 +126,16 @@ public class CreateBoardController {
         // 댓글 목록 가져오기
         List<Comment> comments = commentService.getCommentsByBoard(board);
 
-        // 로그인된 사용자와 비교해 댓글 작성자 여부만 서버에서 필터링
-        List<Comment> userComments = comments.stream()
-                .filter(comment -> {
-                    if (siteUser != null) {
-                        return comment.getSiteUser() != null && comment.getSiteUser().getId().equals(siteUser.getId());
-                    } else if (companyUser != null) {
-                        return comment.getCompanyUser() != null && comment.getCompanyUser().getId().equals(companyUser.getId());
-                    }
-                    return false;
-                }).toList();
 
         model.addAttribute("board", board);
         model.addAttribute("comments", comments);
-        model.addAttribute("userComments", userComments); // 로그인된 사용자 관련 댓글만 전달
         model.addAttribute("isAuthor", isAuthor);
         model.addAttribute("loginUser", siteUser);
         model.addAttribute("loginCompanyUser", companyUser);
 
         return "board_detail";
     }
-    @PostMapping("/board/{id}/recommend")
+    @PostMapping("/board/recommend/{id}")
     public String recommendBoard(@PathVariable("id") Long id, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         // 로그인된 사용자 정보 가져오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");

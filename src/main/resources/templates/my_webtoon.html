@@ -21,7 +21,8 @@
                             <a class="modify-btn" th:href="@{/webtoon/modify/{id}(id=${webtoon.id})}">
                                 수정
                             </a>
-                            <a class="delete-btn" th:href="@{/webtoon/delete/{id}(id=${webtoon.id})}" onclick="return confirm('삭제하시겠습니까?');">
+                            <a class="delete-btn" th:href="@{/webtoon/delete/{id}(id=${webtoon.id})}"
+                               onclick="return confirm('삭제하시겠습니까?');">
                                 삭제
                             </a>
                         </div>

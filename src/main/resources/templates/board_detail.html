@@ -14,7 +14,7 @@
 
 <!-- 게시글 상세 페이지에서 추천 버튼 -->
 <div class="recommendation">
-    <form th:action="@{|/board/${board.id}/recommend|}" method="POST">
+    <form th:action="@{|/board/recommend/${board.id}|}" method="POST">
         <button type="submit" class="btn-recommend" th:text="${hasRecommended != null and hasRecommended ? '추천 취소' : '추천'}"></button>
     </form>
     <span>추천 수: <span th:text="${board.likes}"></span></span>
@@ -58,7 +58,10 @@
             <p th:text="${comment.content}"></p>
 
             <div th:if="${loginUser != null && comment.siteUser?.id == loginUser?.id || loginCompanyUser != null && comment.companyUser?.id == loginCompanyUser?.id}" class="comment-actions">
-                <a th:href="@{|/comment/delete/${comment.id}|}" class="btn-delete">댓글 삭제</a>
+                <a class="btn-delete" th:href="@{/comment/delete/{id}(id=${comment.id})}"
+                   onclick="return confirm('삭제하시겠습니까?');">
+                    댓글 삭제
+                </a>
             </div>
         </li>
     </ul>

@@ -1,5 +1,8 @@
 package com.example.fiction_place1.domain.webtoon_episode.controller;
 
+import com.example.fiction_place1.domain.comment.entity.Comment;
+import com.example.fiction_place1.domain.comment.service.CommentService;
+import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
 import com.example.fiction_place1.domain.webtoon.service.FileService;
@@ -29,6 +32,7 @@ import java.util.stream.Collectors;
 public class WebToonEpisodeController {
     private final WebToonEpisodeService webToonEpisodeService;
     private final WebToonService webToonService;
+    private final CommentService commentService;
     private final FileService fileService;
 
     @GetMapping("/")
@@ -118,16 +122,24 @@ public class WebToonEpisodeController {
 
     // 에피소드 상세 페이지
     @GetMapping("/webtoon/episode/{id}")
-    public String getWebToonEpisodeDetail(@PathVariable("id") Long episodeId, Model model) {
+    public String getWebToonEpisodeDetail(@PathVariable("id") Long episodeId, Model model,HttpSession session) {
         // 에피소드 정보 가져오기
         WebToonEpisode webToonEpisode = webToonEpisodeService.findById(episodeId);
-
         // 에피소드 이미지 가져오기
         List<EpisodeImage> episodeImages = webToonEpisodeService.getImagesByEpisodeId(episodeId);
+        //댓글 목록 가져오기
+        List<Comment> comments = commentService.getCommentByEpisode(webToonEpisode);
 
-        // 모델에 데이터 추가
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+
+
+
+        model.addAttribute("comments", comments);
         model.addAttribute("episode", webToonEpisode);
         model.addAttribute("images", episodeImages);
+        model.addAttribute("loginUser", siteUser);
+        model.addAttribute("loginCompanyUser", companyUser);
 
         return "episode_detail";
     }
