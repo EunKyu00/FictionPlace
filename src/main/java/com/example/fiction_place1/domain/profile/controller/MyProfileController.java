@@ -50,6 +50,7 @@ public class MyProfileController {
             model.addAttribute("nickname", siteUser.getNickname());
             model.addAttribute("email", siteUser.getEmail());
             model.addAttribute("profileImageUrl", session.getAttribute("profileImageUrl"));
+            model.addAttribute("description", siteUser.getMyProfile().getDescription());
         } else {
             model.addAttribute("message", "사용자를 찾을 수 없습니다.");
         }

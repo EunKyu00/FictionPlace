@@ -75,15 +75,6 @@ body {
     align-self: end;
 }
 
-.btn-submit:hover {
-    background-color: #333333;
-    transform: translateY(-2px);
-}
-
-.btn-submit:active {
-    background-color: #000000;
-    transform: translateY(0);
-}
 
 /* 네비게이션 바 스타일 (Navbar.css와 일치시키기) */
 /* 만약 네비게이션 바가 포함되어 있다면, 네비게이션 바도 블랙 앤 화이트 테마에 맞게 조정하세요 */

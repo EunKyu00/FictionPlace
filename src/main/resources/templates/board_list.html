@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/CSS/board_list.css}">
     <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
 </head>
@@ -62,6 +63,7 @@
             <span th:if="${currentPage + 1 < totalPages}">
                 <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=12|}">다음</a>
             </span>
+            <a href="/board/create" class="btn-create">게시글 등록</a>
         </div>
     </div>
 </main>

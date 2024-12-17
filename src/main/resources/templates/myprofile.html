@@ -16,7 +16,9 @@
 <!-- 사이드바 -->
 <div class="sidebar">
     <div class="sidebar-item">
-        <a th:href="@{/}" class="sidebar-link">
+        <a th:if="${loggedInUserId != null}"
+           th:href="@{/profile/user/{id}(id=${loggedInUserId})}"
+           class="sidebar-link">
             <span class="sidebar-icon">🏠</span> 프로필 홈
         </a>
     </div>
@@ -78,6 +80,7 @@
     <div id="profile-nickname" th:text="${nickname}"></div>
     <div class="email">Email :</div>
     <div id="profile-email" th:text="${email}"></div>
+    <div id="description" th:text="${description}"></div>
 </div>
 </div>
 
