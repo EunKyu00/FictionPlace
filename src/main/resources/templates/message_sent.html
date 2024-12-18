@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보낸 쪽지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: flex-start;
+            padding: 20px;
+        }
+
+        /* 메뉴를 세로로 정렬 */
+        .tabs {
+            display: flex;
+            flex-direction: column;  /* 세로 정렬 */
+            width: 200px;  /* 메뉴의 너비 */
+            margin-right: 20px;
+            border-right: 2px solid #ddd;
+        }
+
+        .tab {
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
+            color: black;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab.active {
+            background-color: #007BFF;
+            color: white;
+            border-left: 5px solid #007BFF;
+        }
+
+        .message-list {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        .message-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 왼쪽에 세로로 정렬된 메뉴 -->
+<div class="tabs">
+    <a th:href="@{/message/menu}" class="tab">받은 쪽지</a>
+    <a th:href="@{/message/sent}" class="tab active">보낸 쪽지</a>
+    <a th:href="@{/message/send}" class="tab">쪽지 보내기</a> <!-- 활성화된 메뉴 -->
+</div>
+
+<!-- 보낸 쪽지 목록 -->
+<div class="message-list">
+    <h2>보낸 쪽지</h2>
+    <div th:if="${#lists.isEmpty(messages)}">
+        <p>보낸 쪽지가 없습니다.</p>
+    </div>
+    <div th:each="message : ${messages}" class="message-item">
+        <span>받는 사람:</span>
+        <span th:text="${message.receiverSiteUser != null ? message.receiverSiteUser.nickname : (message.receiverCompanyUser != null ? message.receiverCompanyUser.companyName : '')}"></span>
+        <br>
+        <span>제목: </span>
+        <a th:href="@{/message/detail/{id}(id=${message.id})}" th:text="${message.title}"></a>
+        <span th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+    </div>
+</div>
+
+</body>
+</html>

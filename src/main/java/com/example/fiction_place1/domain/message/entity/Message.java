@@ -18,24 +18,29 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString
 public class Message extends BaseEntity {
+
+    //sender 발신자, receiver 수신자
     @ManyToOne
-    @JoinColumn(name = "site_user_id", nullable = true)
-    private SiteUser siteUser;
+    @JoinColumn(name = "sender_site_user_id", nullable = true)
+    private SiteUser senderSiteUser;
 
     @ManyToOne
-    @JoinColumn(name = "company_user_id", nullable = true)
-    private CompanyUser companyUser;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "receiver_site_user_id", nullable = true)
-//    private SiteUser receiverSiteUser;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "receiver_company_user_id", nullable = true)
-//    private CompanyUser receiverCompanyUser;
+    @JoinColumn(name = "sender_company_user_id", nullable = true)
+    private CompanyUser senderCompanyUser;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_site_user_id", nullable = true)
+    private SiteUser receiverSiteUser;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_company_user_id", nullable = true)
+    private CompanyUser receiverCompanyUser;
 
     private String title;
 
     private String content;
+
+    // 읽었는지 여부를 나타내는 필드
+    private boolean isRead = false;  // 기본값은 false (읽지 않음)
 }
 

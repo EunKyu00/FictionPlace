@@ -36,8 +36,11 @@ public class CompanyUser extends BaseEntity implements User{
     @Column(nullable = false)
     private String contactPerson; //담당자 이름
 
-    @OneToMany(mappedBy = "companyUser",fetch = FetchType.EAGER)
-    private List<Message> messages; // 회사가 보낸 메시지 목록
+    @OneToMany(mappedBy = "senderCompanyUser")
+    private List<Message> senderMessages; // 회사가 보낸 메시지 목록
+
+    @OneToMany(mappedBy = "receiverCompanyUser")
+    private List<Message> receiverMessages;
 
     @OneToMany(mappedBy = "companyUser")
     private List<Board> boards;

@@ -42,8 +42,11 @@ public class SiteUser extends BaseEntity implements User {
 
     private Boolean isSocialLogin = false;
 
-    @OneToMany(mappedBy = "siteUser",fetch = FetchType.EAGER)
-    private List<Message> messages;
+    @OneToMany(mappedBy = "senderSiteUser")
+    private List<Message> senderMessages; // 회사가 보낸 메시지 목록
+
+    @OneToMany(mappedBy = "receiverSiteUser")
+    private List<Message> receiverMessages;
 
     @OneToMany(mappedBy = "siteUser")
     private List<Board> boards;
