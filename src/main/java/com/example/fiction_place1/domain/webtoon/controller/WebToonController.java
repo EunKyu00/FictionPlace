@@ -181,6 +181,17 @@ public class WebToonController {
 
         return String.format("redirect:/main/page/webtoon/episode/%s", id);
     }
+    @GetMapping("/my/favorite/webtoon")
+    public String favoriteWebtoon(Model model){
+        return "my_favorite_webtoon";
+    }
+    @PostMapping("/webtoon/favorite/{id}")
+    public String favoriteWebtoon(@PathVariable("id") Long webtoonId, Model model, HttpSession session){
+        WebToon webToon = webToonService.findById(webtoonId);
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+
+
+    }
 }
 
 

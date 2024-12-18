@@ -108,5 +108,14 @@
     text-decoration: none; /* 밑줄 제거 */
     color: inherit; /* 텍스트 색상 상속 */
 }
+.heart-icon {
+    font-size: 1.5em;
+    color: #ccc; /* 기본 상태 (회색) */
+    transition: color 0.3s ease;
+}
+
+.heart-icon.filled {
+    color: #ff0000; /* 선택된 상태 (빨간색) */
+}
 
 

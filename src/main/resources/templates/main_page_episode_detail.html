@@ -15,16 +15,23 @@
             </div>
         </div>
     </div>
-    <!-- 상세 페이지에서 추천 버튼 -->
-    <!-- 추천 기능 -->
     <div class="recommendation">
+        <!-- 추천 버튼 -->
         <form th:action="@{|/webtoon/recommend/${webtoon.id}|}" method="POST">
-            <!-- 추천 버튼 -->
             <button type="submit" class="btn-recommend" th:text="${message != null ? message : '추천'}"></button>
         </form>
         <!-- 추천 수 -->
         <span>추천 수: <span th:text="${webtoon.likes}"></span></span>
+
+        <!-- 관심작품 등록/취소 -->
+        <form id="favoriteForm" th:action="@{|/webtoon/favorite/${webtoon.id}|}" method="POST">
+            <button type="submit" id="favoriteButton" class="btn-favorite">
+                <span id="heartIcon" class="heart-icon" th:classappend="${isFavorite} ? 'filled' : ''">♡</span>
+                <span th:text="${isFavorite} ? '관심작품 취소' : '관심작품 등록'"></span>
+            </button>
+        </form>
     </div>
+
 
     <!-- 에피소드 리스트 -->
     <ul class="episode-list">
@@ -39,3 +46,38 @@
         </a>
     </ul>
 </div>
+<script>
+    document.getElementById('favoriteForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // 폼 제출 방지
+
+        const form = this;
+        const heartIcon = document.getElementById('heartIcon');
+        const buttonText = form.querySelector('span:nth-child(2)');
+        const isFavorite = heartIcon.classList.contains('filled');
+
+        // 서버로 관심작품 상태 전송
+        fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ favorite: !isFavorite }),
+        })
+        .then(response => {
+            if (response.ok) {
+                // 상태 토글
+                if (isFavorite) {
+                    heartIcon.classList.remove('filled'); // 하트 색 제거
+                    buttonText.textContent = '관심작품 등록';
+                } else {
+                    heartIcon.classList.add('filled'); // 하트 색 추가
+                    buttonText.textContent = '관심작품 취소';
+                }
+            } else {
+                alert('작업에 실패했습니다. 다시 시도해주세요.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+
