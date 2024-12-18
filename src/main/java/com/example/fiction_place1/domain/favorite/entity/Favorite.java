@@ -1,8 +1,8 @@
-package com.example.fiction_place1.domain.message.entity;
-
+package com.example.fiction_place1.domain.favorite.entity;
 
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
+import com.example.fiction_place1.domain.webtoon.entity.WebToon;
 import com.example.fiction_place1.global.jpa.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -10,14 +10,14 @@ import jakarta.persistence.ManyToOne;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Entity
 @Getter
 @Setter
+@Entity
 @SuperBuilder(toBuilder = true)
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
-public class Message extends BaseEntity {
+public class Favorite extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "site_user_id", nullable = true)
     private SiteUser siteUser;
@@ -25,17 +25,8 @@ public class Message extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "company_user_id", nullable = true)
     private CompanyUser companyUser;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "receiver_site_user_id", nullable = true)
-//    private SiteUser receiverSiteUser;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "receiver_company_user_id", nullable = true)
-//    private CompanyUser receiverCompanyUser;
 
-    private String title;
-
-    private String content;
+    @ManyToOne
+    @JoinColumn(name = "webtoon_id", nullable = false)
+    private WebToon webtoon;
 }
-

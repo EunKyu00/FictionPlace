@@ -95,15 +95,6 @@ public class WebToonService {
         webToonRepository.save(webToon);
     }
 
-    public void updateWebToonLike(Long webToonid, boolean increase) {
-        WebToon webToon = findById(webToonid);
-        if (increase) {
-            webToon.setLikes(webToon.getLikes() + 1);
-        } else {
-            webToon.setLikes(webToon.getLikes() - 1);
-        }
-        webToonRepository.save(webToon);
-    }
 }
 
 

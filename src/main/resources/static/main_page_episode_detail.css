@@ -108,14 +108,44 @@
     text-decoration: none; /* 밑줄 제거 */
     color: inherit; /* 텍스트 색상 상속 */
 }
-.heart-icon {
-    font-size: 1.5em;
-    color: #ccc; /* 기본 상태 (회색) */
-    transition: color 0.3s ease;
+
+/* 하트 아이콘 버튼 스타일 */
+.btn-favorite {
+    background: none;
+    border: none;
+    font-size: 24px; /* 아이콘 크기 */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
 }
 
-.heart-icon.filled {
-    color: #ff0000; /* 선택된 상태 (빨간색) */
+/* 빈 하트 아이콘 */
+.fa-heart-o {
+    color: grey; /* 빈 하트 색상 */
 }
+
+/* 빨간 하트 아이콘 */
+.fa-heart {
+    color: red; /* 채워진 하트 색상 */
+}
+
+/* 하트 아이콘 크기 */
+.fa {
+    font-size: 32px; /* 하트 아이콘의 크기를 조정 */
+}
+
+/* 하트 아이콘 옆 텍스트 스타일 */
+.btn-favorite span {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #333; /* 텍스트 색상 */
+}
+
+
+
+
+
+
 
 

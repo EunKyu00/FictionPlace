@@ -1,5 +1,6 @@
 package com.example.fiction_place1.domain.webtoon.controller;
 
+import com.example.fiction_place1.domain.favorite.service.FavoriteService;
 import com.example.fiction_place1.domain.genre_type.entity.GenreType;
 import com.example.fiction_place1.domain.genre_type.service.GenreTypeService;
 import com.example.fiction_place1.domain.recommend.service.RecommendService;
@@ -7,14 +8,12 @@ import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
 import com.example.fiction_place1.domain.webtoon.form.WebToonForm;
+import com.example.fiction_place1.domain.webtoon.repository.WebToonRepository;
 import com.example.fiction_place1.domain.webtoon.service.FileService;
 import com.example.fiction_place1.domain.webtoon.service.WebToonService;
-import com.example.fiction_place1.domain.webtoon_episode.entity.WebToonEpisode;
-import com.example.fiction_place1.domain.webtoon_episode.service.WebToonEpisodeService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,9 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,7 +34,8 @@ public class WebToonController {
     private final GenreTypeService genreTypeService;
     private final FileService fileService;  // FileService 추가
     private final RecommendService recommendService;
-
+    private final WebToonRepository webToonRepository;
+    private final FavoriteService favoriteService;
 
 
     //본인 작품 관리
@@ -181,16 +180,48 @@ public class WebToonController {
 
         return String.format("redirect:/main/page/webtoon/episode/%s", id);
     }
-    @GetMapping("/my/favorite/webtoon")
-    public String favoriteWebtoon(Model model){
-        return "my_favorite_webtoon";
-    }
+
     @PostMapping("/webtoon/favorite/{id}")
-    public String favoriteWebtoon(@PathVariable("id") Long webtoonId, Model model, HttpSession session){
-        WebToon webToon = webToonService.findById(webtoonId);
+    public String toggleFavorite(@PathVariable("id") Long id, HttpSession session, Model model) {
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser"); // 세션에서 로그인한 사용자 정보 가져오기
+
+        if (siteUser == null) {
+            return "redirect:/login/user"; // 로그인하지 않은 경우
+        }
+
+        // 관심 작품 등록/해제 서비스 호출
+        favoriteService.toggleFavorite(siteUser, id);
+
+        // 해당 웹툰을 즐겨찾기 목록에서 확인
+        WebToon webToon = webToonRepository.findById(id).orElse(null);
+        boolean favorite = false;
+
+        if (webToon != null) {
+            // 웹툰이 즐겨찾기 목록에 존재하는지 확인
+            favorite = favoriteService.getFavoriteWebToons(siteUser).contains(webToon);
+        }
+
+        model.addAttribute("favorite", favorite);  // favorite 상태를 모델에 추가
+        return String.format("redirect:/main/page/webtoon/episode/%s", id); // 웹툰 상세 페이지로 리디렉션
+    }
+
+
+
+
+
+    @GetMapping("/my/favorite/webtoon")
+    public String getMyFavoriteWebtoon(HttpSession session, Model model) {
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
 
+        if (siteUser == null) {
+            return "redirect:/login/user"; // 로그인하지 않은 경우
+        }
 
+        // 사용자가 즐겨찾기한 웹툰 리스트 가져오기
+        List<WebToon> favoriteWebtoons = favoriteService.getFavoriteWebToons(siteUser);
+
+        model.addAttribute("favoriteWebtoons", favoriteWebtoons);
+        return "my_favorite_webtoon"; // 관심 작품 페이지로 이동
     }
 }
 

@@ -1,8 +1,6 @@
 package com.example.fiction_place1.domain.message.controller;
 
 import com.example.fiction_place1.domain.board_type.entity.BoardType;
-import com.example.fiction_place1.domain.message.form.MessageForm;
-import com.example.fiction_place1.domain.message.service.MessageService;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import jakarta.servlet.http.HttpSession;
@@ -17,13 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
-@Controller
-@RequiredArgsConstructor
-public class MessageController {
-    private final MessageService messageService;
-
-    @GetMapping("/send/message")
-    public String sendMessage(){
-        return "message_form";
-    }
-}
+//@Controller
+//@RequiredArgsConstructor
+//public class MessageController {
+//    private final MessageService messageService;
+//
+//    @GetMapping("/send/message")
+//    public String sendMessage(){
+//        return "message_form";
+//    }
+//}

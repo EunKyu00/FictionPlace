@@ -13,6 +13,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,6 +37,9 @@ public class WebToon extends BaseEntity {
 
     @OneToMany(mappedBy = "webToon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recommend> recommends;
+
+//    @OneToMany(mappedBy = "webtoon", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Favorite> favoritedByUsers = new ArrayList<>();
 
     // 웹툰이 선택되었는지 여부를 나타내는 필드
     private boolean isSelected;
