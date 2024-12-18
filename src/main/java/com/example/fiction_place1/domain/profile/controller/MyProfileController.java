@@ -7,6 +7,8 @@ import com.example.fiction_place1.domain.user.service.CompanyUserService;
 import com.example.fiction_place1.domain.user.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -32,7 +34,7 @@ public class MyProfileController {
     private final MyProfileService myProfileService;
     private final SiteUserService siteUserService;
     private final CompanyUserService companyUserService;
-
+    private static final Logger logger = LoggerFactory.getLogger(MyProfileController.class);
     // 일반 사용자 프로필 보기
     @GetMapping("/profile/user/{id}")
     public String getUserProfile(@PathVariable("id") Long id , Model model, HttpSession session) {
@@ -81,7 +83,8 @@ public class MyProfileController {
         // 세션에서 로그인된 사용자 정보 가져오기
         // 로그인된 사용자 정보 가져오기
         SiteUser loggedInUser = (SiteUser) session.getAttribute("loginUser");
-        System.out.println("세션에서 가져온 로그인 사용자: " + loggedInUser);
+        logger.info("로그인 사용자 ID: {}", (loggedInUser != null ? loggedInUser.getId() : "null"));
+        logger.info("요청된 사용자 ID: {}", userId);
         if (loggedInUser == null || !loggedInUser.getId().equals(userId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("접근 권한이 없습니다.");

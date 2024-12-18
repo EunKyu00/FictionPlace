@@ -25,7 +25,7 @@ public class UserSecurityConfig {
                         .requestMatchers("/user/**").hasRole("USER") // 일반 회원 전용 경로
                         .requestMatchers("/company/**").hasRole("COMPANY") // 기업 회원 전용 경로
                         .requestMatchers("/admin/**").hasRole("ADMIN") // 관리자 경로 제한
-                        .requestMatchers("/profile/user/**").authenticated() // 인증된 사용자만 접근 가능
+                        .requestMatchers("/profile/user/**", "/profile/user/**/upload-image").authenticated() // 인증된 사용자만 접근 가능
                         .anyRequest().authenticated()) // 그 외 요청은 인증 필요
                 // 단일 로그인 설정
                 .formLogin((formLogin) -> formLogin

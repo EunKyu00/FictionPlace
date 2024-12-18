@@ -76,12 +76,13 @@
             <button id="cancelButton" onclick="cancelCrop()">취소</button>
         </div>
     </div>
-    <div class="profile_nickname">닉네임 :</div>
-    <div id="profile-nickname" th:text="${nickname}"></div>
-    <div class="email">Email :</div>
-    <div id="profile-email" th:text="${email}"></div>
-    <div id="description" th:text="${description}"></div>
-</div>
+    <div class="my-info">
+        <div class="profile_nickname">닉네임 :</div>
+        <div id="profile-nickname" th:text="${nickname}"></div>
+        <div class="email">Email :</div>
+        <div id="profile-email" th:text="${email}"></div>
+        <div id="description" th:text="${description}"></div>
+    </div>
 </div>
 
 <script>

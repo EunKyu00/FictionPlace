@@ -58,6 +58,10 @@
         <input type="password" th:field="*{password}" />
     </div>
     <div>
+        <label for="description">자기소개:</label>
+        <textarea id="description" th:field="*{profile.description}" rows="5"></textarea>
+    </div>
+    <div>
         <button type="submit">수정</button>
     </div>
 </form>
