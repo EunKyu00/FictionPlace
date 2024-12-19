@@ -1,17 +1,26 @@
-/* 전체 폰트 스타일 */
+/* 전체 페이지 중앙 정렬 */
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 20px;
-    background-color: #f9f9f9;
-    color: #333;
+font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: flex-start;
+  margin: 0;
+  background-color: #2b2b2b;
+  font-family: Arial, sans-serif;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* 제목 스타일 */
-h1 {
-    text-align: center;
-    color: #4CAF50;
-    margin-bottom: 20px;
+/* 전체 컨텐츠 박스 */
+.content-wrapper {
+  width: 80%;
+  max-width: 800px;
+  background: white;
+  padding: 20px 16px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center; /* 내부 텍스트 중앙 정렬 */
+  margin-top: 10px;
+  min-height: 78vh;
 }
 
 /* 폼 레이아웃 */
@@ -19,10 +28,6 @@ form {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* 라벨 스타일 */
@@ -43,12 +48,17 @@ select {
     border-radius: 5px;
     box-sizing: border-box;
     font-size: 14px;
+    resize: none;
+}
+
+textarea {
+    height: 30vh;
 }
 
 /* 버튼 스타일 */
 button {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #000000;
+    color: #ffffff;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -57,7 +67,8 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #525252;
+    color: #fff;
 }
 
 /* 에러 메시지 스타일 */

@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface MyProfileRepository extends JpaRepository<MyProfile, Long> {
     //일반유저 정보 (닉네임, 이메일, 자기소개)
     MyProfile findBySiteUser_Username(String username);
-    MyProfile findByDescription(String discription);
+    MyProfile findByDescription(String description);
 
     MyProfile findByCompanyUser_Email(String email);
 

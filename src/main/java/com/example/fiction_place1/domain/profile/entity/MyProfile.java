@@ -17,7 +17,7 @@ public class MyProfile extends BaseEntity {
     @Column(nullable = true) // 프로필 이미지 경로 (필수 아님)
     private String profileImage;
 
-    @Column(length = 500) // 자기소개 글 (최대 500자)
+    @Column(length = 1000) // 자기소개 글
     private String description;
 
     //일반유저 id값 매핑
@@ -34,6 +34,7 @@ public class MyProfile extends BaseEntity {
     public String getEmail() {
         return siteUser != null ? siteUser.getEmail() : null;
     }
+
     //기업 id값
     @OneToOne
     @JoinColumn(name = "company_user_id")

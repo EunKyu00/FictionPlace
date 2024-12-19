@@ -36,7 +36,6 @@ public class SiteUserService {
         MyProfile profile = new MyProfile();
         profile.setSiteUser(siteUser);
         profile.setDescription("Default description"); // 기본값
-
         siteUser.setMyProfile(profile);
         myProfileService.saveProfile(profile);
 
@@ -79,6 +78,7 @@ public class SiteUserService {
         if (!updatedUser.getPassword().isEmpty()) {
             currentUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         }
+        currentUser.getMyProfile().setDescription(updatedUser.getMyProfile().getDescription());
         siteUserRepository.save(currentUser);
     }
     // findById 메서드 추가

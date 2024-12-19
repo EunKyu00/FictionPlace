@@ -3,8 +3,6 @@ package com.example.fiction_place1.domain.board.controller;
 import com.example.fiction_place1.domain.board.entity.Board;
 import com.example.fiction_place1.domain.board.form.BoardForm;
 import com.example.fiction_place1.domain.board.service.BoardService;
-import com.example.fiction_place1.domain.board_type.service.BoardTypeService;
-import com.example.fiction_place1.domain.comment.service.CommentService;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import jakarta.servlet.http.HttpSession;
@@ -45,7 +43,6 @@ public class ModifyBoardController {
                               @PathVariable("id") Long id,
                               HttpSession session) {
         Board board = boardService.getBoard(id);
-
         // 세션에서 로그인된 사용자 가져오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
@@ -58,6 +55,6 @@ public class ModifyBoardController {
         }
 
         Long boardTypeId = board.getBoardType().getId();
-        return String.format("redirect:/board?boardTypeId=%d", boardTypeId);
+        return String.format("redirect:/board/detail/{id}", boardTypeId);
     }
 }

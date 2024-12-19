@@ -2,77 +2,72 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>게시판 목록</title>
-    <link rel="stylesheet" href="/board_list.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/CSS/board_list.css}">
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
 </head>
 <body>
-<div class="container">
-    <h1>자유게시판</h1>
-    <p>Get the latest updates on your favorite genres</p>
+<div th:replace="~{navbar :: navbar}"></div>
 
-    <!-- 게시판 타입 선택 드롭다운 -->
-    <div class="board-selection">
-        <form action="/board" method="get" class="board-selection-form">
-            <label for="boardTypeId">게시판 타입:</label>
-            <select name="boardTypeId" id="boardTypeId">
-                <option th:each="boardType : ${boardTypes}"
-                        th:value="${boardType.id}"
-                        th:text="${boardType.boardTypeName}"
-                        th:selected="${boardType.id == boardTypeId}"></option>
-            </select>
-            <div class="buttons">
-                <button type="submit" class="btn-view">게시판 보기</button>
-                <a th:href="@{/board/create}" class="btn-register">게시글 등록</a>
-            </div>
-        </form>
-    </div>
+<main class="main-container">
+    <div class="content-card">
+        <!-- 카테고리 탭 영역 -->
+        <div class="category-tabs">
+            <!-- DB에서 가져온 boardTypes 반복 출력 -->
+            <!-- 현재 선택된 카테고리는 boardTypeId와 비교하여 selected 클래스 부여 -->
+            <a th:each="cat : ${boardTypes}"
+               th:classappend="${cat.id} == ${boardTypeId} ? 'selected' : ''"
+               th:href="@{|/board?boardTypeId=${cat.id}|}"
+               th:text="${cat.boardTypeName}"
+               class="tab"></a>
+        </div>
+        <!-- 게시판 목록 테이블 (흰색 바탕, 명확한 구분선, hover 시 약간 강조) -->
+        <div class="board-list">
+            <table class="board-table">
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>추천</th>
+                    <th>댓글</th>
+                    <th>작성자</th>
+                    <th>작성일자</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board, iterStat : ${boardList}">
+                    <td th:text="${totalElements - (currentPage * size + iterStat.index)}"></td>
+                    <td class="board-title">
+                        <a th:href="@{|/board/detail/${board.id}|}" th:text="${board.title}"></a>
+                    </td>
+                    <td th:text="${board.likes}"></td>
+                    <td th:text="${board.comments != null && #lists.size(board.comments) > 0 ? #lists.size(board.comments) : 0}"></td>
+                    <td>
+                        <span th:if="${board.siteUser}" th:text="${board.siteUser.nickname}"></span>
+                        <span th:if="${board.companyUser}" th:text="${board.companyUser.companyName}"></span>
+                    </td>
+                    <td th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <!-- 게시판 목록 -->
-    <div class="board-list">
-        <a th:each="board, iterStat : ${boardList}" class="board-card" th:href="@{|/board/detail/${board.id}|}">
-            <div class="card-content">
-                <!-- 왼쪽 영역: 번호와 제목 -->
-                <div class="left-content">
-                    <span class="board-number" th:text="${currentPage * size + iterStat.index + 1}"></span>
-                    <span class="board-title" th:text="${board.title}"></span>
-                </div>
-
-                <!-- 오른쪽 영역: 추천수, 작성자, 작성일 -->
-                <div class="right-content">
-                    <div class="board-likes,comments">
-                        <span>추천: </span><span th:text="${board.likes}"></span>
-                    </div>
-                    <div class="board-likes,comments">
-                        <span>댓글: </span>
-                        <span class="text-danger small ms-2"
-                              th:if="${#lists.size(board.comments) > 0}"
-                              th:text="${#lists.size(board.comments)}">
-                        </span>
-                    </div>
-
-                    <div class="board-author">
-                        <span th:if="${board.siteUser}">작성자: <span th:text="${board.siteUser.nickname}"></span></span>
-                        <span th:if="${board.companyUser}">작성자: <span th:text="${board.companyUser.companyName}"></span></span>
-                    </div>
-                    <div class="board-date">
-                        <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </div>
-
-    <!-- 페이징 -->
-    <div class="pagination">
+        <!-- 페이징 -->
+        <div class="paging">
             <span th:if="${currentPage > 0}">
-                <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=10|}">이전</a>
+                <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=12|}">이전</a>
             </span>
-        <span>페이지: <span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span></span>
-        <span th:if="${currentPage + 1 < totalPages}">
-                <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=10|}">다음</a>
+            <span>
+                <span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span>
             </span>
+            <span th:if="${currentPage + 1 < totalPages}">
+                <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=12|}">다음</a>
+            </span>
+            <a href="/board/create" class="btn-create">게시글 등록</a>
+        </div>
     </div>
+</main>
 
-</div>
+<script src="/JS/dropdown.js"></script>
 </body>
 </html>

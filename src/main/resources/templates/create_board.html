@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>게시글 작성</title>
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
     <link rel="stylesheet" href="/create_board.css">
 </head>
 <body>
-<h1>게시글 작성</h1>
-
-
+<div th:replace="~{navbar :: navbar}"></div>
+<div class="content-wrapper">
 <form th:action="@{/board/create}" th:object="${boardForm}" method="post">
     <!-- 에러 메시지 표시 -->
     <div th:if="${errorMessage}" style="color: red; margin-bottom: 20px;">
@@ -41,6 +41,7 @@
     <!-- 제출 버튼 -->
     <button type="submit">게시글 작성</button>
 </form>
-
+</div>
+<script src="/JS/dropdown.js"></script>
 </body>
 </html>

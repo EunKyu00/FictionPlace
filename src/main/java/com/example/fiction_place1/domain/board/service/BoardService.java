@@ -65,6 +65,19 @@ public class BoardService {
     public void delete(Board board){
         this.boardRepository.delete(board);
     }
+
+    //조회수증가로직
+    public Board findById(Long id) {
+        return boardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+    }
+
+    public Board incrementHit(Long boardId) {
+        Board board = findById(boardId);
+        board.setHit(board.getHit() + 1);
+        return boardRepository.save(board);
+    }
+
 }
 
 

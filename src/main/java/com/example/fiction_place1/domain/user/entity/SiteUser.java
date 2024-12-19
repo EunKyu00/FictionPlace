@@ -77,5 +77,12 @@ public class SiteUser extends BaseEntity implements User {
         }
         return "/images/unnamed.png"; // 기본 이미지 반환
     }
+
+    public void setProfile(MyProfile profile) {
+        this.myProfile = profile;
+        if (profile != null) {
+            profile.setSiteUser(this);
+        }
+    }
 }
 

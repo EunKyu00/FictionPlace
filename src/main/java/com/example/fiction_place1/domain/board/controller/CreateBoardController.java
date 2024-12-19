@@ -20,7 +20,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -52,8 +55,10 @@ public class CreateBoardController {
         // 게시글 목록 및 페이징 정보 모델에 추가
         model.addAttribute("boardList", boardPage.getContent()); // 게시글 리스트
         model.addAttribute("currentPage", boardPage.getNumber()); // 현재 페이지
+        model.addAttribute("totalElements", boardPage.getTotalElements());
         model.addAttribute("size", boardPage.getSize()); // 페이지 크기
         model.addAttribute("totalPages", boardPage.getTotalPages()); // 전체 페이지 수
+
         // 선택한 게시판 타입 모델에 추가
         model.addAttribute("boardTypeId", boardTypeId);
         return "board_list";
@@ -107,12 +112,13 @@ public class CreateBoardController {
         return "redirect:/board?boardTypeId=" + boardTypeId;
     }
 
+
     //게시글 상세
     @GetMapping("/board/detail/{id}")
     public String boardDetail(Model model, @PathVariable("id") Long id, HttpSession session) {
         // 게시글 조회
         Board board = boardService.getBoard(id);
-
+        Board boardHit = boardService.incrementHit(id);
         // 로그인된 사용자 정보 가져오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
@@ -125,15 +131,30 @@ public class CreateBoardController {
             isAuthor = board.getCompanyUser() != null && companyUser.getId().equals(board.getCompanyUser().getId());
         }
 
-        // 댓글 목록 가져오기
-        List<Comment> comments = commentService.getCommentsByBoard(board);
+        int commentCount = commentService.getCommentCountForBoard(id); //댓글 갯수 조회
 
+        // 댓글 목록 가져오기
+        List<Comment> comments = commentService.getCommentsByBoardId(id); // 정렬된 댓글 가져오기
+
+        // 로그인된 사용자와 비교해 댓글 작성자 여부만 서버에서 필터링
+        List<Comment> userComments = comments.stream()
+                .filter(comment -> {
+                    if (siteUser != null) {
+                        return comment.getSiteUser() != null && comment.getSiteUser().getId().equals(siteUser.getId());
+                    } else if (companyUser != null) {
+                        return comment.getCompanyUser() != null && comment.getCompanyUser().getId().equals(companyUser.getId());
+                    }
+                    return false;
+                }).toList();
 
         model.addAttribute("board", board);
         model.addAttribute("comments", comments);
+        model.addAttribute("comment_count", commentCount);
+        model.addAttribute("userComments", userComments); // 로그인된 사용자 관련 댓글만 전달
         model.addAttribute("isAuthor", isAuthor);
         model.addAttribute("loginUser", siteUser);
         model.addAttribute("loginCompanyUser", companyUser);
+        model.addAttribute("boardHit", boardHit);
 
         return "board_detail";
     }
