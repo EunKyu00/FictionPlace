@@ -1,107 +1,106 @@
-/* 폼의 기본 스타일 */
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
+    background-color: #eaeaea;
+}
+
+.sidebar {
+  position: fixed; /* 사이드바를 화면의 왼쪽에 고정 */
+  top: 70px; /* 네비게이션 바 바로 아래에 위치 */
+  left: 0;
+  width: 17%;
+  height: calc(100% - 80px); /* 네비게이션 바 아래부터 화면 끝까지 차지 */
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   padding: 20px;
-  background-color: #f4f4f4;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 800; /* 다른 요소들 위에 보이도록 설정 */
 }
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-form {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 500px; /* 폼의 최대 너비를 500px로 설정 */
-  margin: 0 auto;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-input[type="text"],
-textarea,
-select {
-  width: 100%;  /* 모든 입력 필드의 너비를 100%로 설정 */
-  padding: 8px;
-  margin: 5px 0 15px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* 제목 입력칸 세로 길이 줄이기 및 가로 길이 조정 */
-input[type="text"] {
-  height: 35px;  /* 제목 입력칸 높이를 조정 */
-  width: 97%;  /* 제목 입력칸 가로 길이를 90%로 설정 */
-  margin: 5px auto 15px auto;  /* 가로로 중앙 정렬 */
-}
-
-/* 내용 입력칸 세로 길이 줄이기 및 가로 길이 조정 */
-textarea {
-  resize: vertical;
-  height: 80px;  /* 내용 입력칸 높이를 줄여서 세로 길이 조정 */
-  width: 97%;  /* 내용 입력칸 가로 길이를 90%로 설정 */
-  margin: 5px auto 15px auto;  /* 가로로 중앙 정렬 */
-}
-
-select {
-  width: 100%;  /* 장르 선택 입력칸 가로 길이 90%로 설정 */
-  margin: 5px auto 15px auto;  /* 가로로 중앙 정렬 */
-}
-
-/* 파일 업로드 영역 가로 길이 조정 */
-input[type="file"] {
-  width: 90%;  /* 파일 입력칸 가로 길이를 90%로 설정 */
-  margin: 5px auto 15px auto;  /* 가로로 중앙 정렬 */
-}
-
-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 90%;  /* 버튼 가로 길이 90%로 설정 */
-  font-size: 16px;
-  margin: 0 auto;
-  display: block;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-/* 이미지 미리보기 */
-#imagePreview {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  display: block;  /* block으로 설정하여 가로 중앙 정렬 */
-  margin-left: auto;  /* 좌측 여백 자동 설정 */
-  margin-right: auto;  /* 우측 여백 자동 설정 */
-  text-align: center;  /* 이미지 내용이 있을 때 텍스트 중앙 정렬 */
+.icon-status {
   display: none;
+}
+.profile-link {
+  text-decoration: none !important;
+}
+
+.sidebar-item a {
+  display: flex;
+  margin-top: 25px; /* 각 항목 사이의 간격 */
+  cursor: pointer;
+  color: #000000 !important;
+  font-family: "Rubik", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.408px;
+  text-decoration: none !important;
+}
+
+.sidebar-item:hover {
+  color: #414141 !important; /* 항목에 마우스를 올렸을 때 색상 변경 */
+}
+
+.sidebar-icon {
+  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
+  color: #7b7b7b; /* 기본 아이콘 색상 */
+}
+
+.sidebar-item:hover .sidebar-icon {
+  color: #414141 !important; /* 호버 시 아이콘 색상 변경 */
+}
+
+.sidebar-item:first-child {
+  margin-top: 20px;
+}
+
+.container {
+    display: flex;
+    margin: 0 0 0 17%;
+    padding: 40px;
+    flex-direction: column;
+}
+
+.create-form > div > input, .create-form > div > textarea {
+    display: flex;
+}
+
+.create-form div label, select, imagePreview{
+    display: block;
+    margin-bottom: 15px;
+}
+.create-form input {
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+.create-form  textarea {
+    height: 180px;
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+#imagePreview {
+    margin-top: 10px;
+    width: 160px;
+    height: 207px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    display: none; /* 기본적으로 숨김 */
 }
 
 .error {
-  color: red;
-  font-size: 0.9em;
-}
-
-.success {
-  color: green;
-  font-size: 1em;
-  margin-top: 10px;
+    color: red;
+    font-size: 0.9em;
 }

@@ -60,12 +60,12 @@
         <!-- 로그인 상태 -->
         <div th:if="${session.loginUser != null}" class="logout-type">
             <!-- 일반회원 -->
-            <p>안녕하세요 <span th:text="${session.loginUser.nickname}"></span>  님</p>
+            <p><span th:text="${session.loginUser.nickname}"></span>  </p>
             <a href="/user/logout" class="logout-btn">로그아웃</a>
         </div>
         <div th:if="${session.loginCompanyUser != null}" class="logout-type">
             <!-- 기업회원 -->
-            <p>안녕하세요 <span th:text="${session.loginCompanyUser.companyName}"></span> 님</p>
+            <p><span th:text="${session.loginCompanyUser.companyName}"></span> </p>
             <a href="/company/logout" class="logout-btn">로그아웃</a>
         </div>
     </nav>

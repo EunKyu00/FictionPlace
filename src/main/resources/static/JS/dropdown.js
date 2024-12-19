@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ul.style.display = 'none';
                 ul.style.opacity = '0';
                 isShown = false;
-            }, 400); // 300ms 후 숨김
+            }, 300); // 300ms 후 숨김
         });
     });
 });
