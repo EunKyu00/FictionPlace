@@ -4,160 +4,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>받은 쪽지</title>
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: flex-start;
-            padding: 20px;
-            background-color: #f4f7fc; /* 배경 색 추가 */
-        }
+        /* 전체 페이지의 레이아웃 설정 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+}
 
-        /* 메뉴를 세로로 정렬 */
-        .tabs {
-            display: flex;
-            flex-direction: column;  /* 세로 정렬 */
-            width: 220px;  /* 메뉴의 너비 증가 */
-            margin-right: 30px;
-            background-color: #ffffff; /* 메뉴 배경색 */
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+/* 네비바 고정 위치 */
+.navbar {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    position: fixed;  /* 네비바를 상단에 고정 */
+    top: 0;
+    left: 0;
+    background-color: #fff;  /* 배경색 */
+    z-index: 1000;  /* 다른 콘텐츠 위에 표시되도록 설정 */
+}
 
-        .tab {
-            padding: 18px;
-            text-align: center;
-            font-weight: bold;
-            text-decoration: none;
-            color: #333;
-            border-bottom: 1px solid #eee;
-            transition: background-color 0.3s, color 0.3s;
-        }
+/* 메뉴와 메시지 리스트 배치 */
+.container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;  /* 네비바 높이만큼 마진을 주어 콘텐츠가 가려지지 않도록 함 */
+}
 
-        .tab:hover {
-            background-color: #007BFF;
-            color: white;
-        }
+.content {
+    display: flex;
+    padding: 20px;
+}
 
-        .tab.active {
-            background-color: #007BFF;
-            color: white;
-            border-left: 5px solid #0056b3;
-        }
+.tabs {
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 30px;
+}
 
-        .message-list {
-            flex-grow: 1;
-            margin-left: 30px;
-            width: calc(100% - 250px); /* 메뉴 너비에 맞게 메시지 목록 크기 조정 */
-        }
+.tab {
+    padding: 18px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s, color 0.3s;
+}
 
-        .message-item {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s;
-            display: flex; /* 가로로 정렬 */
-            justify-content: space-between; /* 항목 사이에 공간 배치 */
-            align-items: center; /* 수직 가운데 정렬 */
-        }
+.tab:hover {
+    background-color: #007BFF;
+    color: white;
+}
 
-        .message-item:hover {
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+.tab.active {
+    background-color: #007BFF;
+    color: white;
+    border-left: 5px solid #0056b3;
+}
 
-        .message-item .sender,
-        .message-item .title,
-        .message-item .date {
-            flex: 1; /* 각 항목이 동일한 너비를 가지도록 설정 */
-            text-align: left; /* 왼쪽 정렬 */
-            overflow: hidden;
-            text-overflow: ellipsis; /* 텍스트가 길어질 경우 '...' 표시 */
-            white-space: nowrap; /* 텍스트가 한 줄에 유지되도록 설정 */
-        }
+.message-list {
+    flex-grow: 1;
+    width: calc(100% - 250px); /* tabs 너비만큼을 제외한 너비 */
+}
 
-        .message-item .title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #007BFF;
-            text-decoration: none;
-            margin-top: 8px;
-            transition: color 0.3s;
-        }
+.message-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .message-item .title:hover {
-            color: #0056b3;
-        }
+.message-item:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
-        .message-item .meta {
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
-        }
+.message-item .sender,
+.message-item .title,
+.message-item .date {
+    flex: 1;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
-        .unread {
-            font-weight: bold;
-            color: red;
-        }
+.message-item .title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #007BFF;
+    text-decoration: none;
+    margin-top: 8px;
+}
 
-        a {
-            text-decoration: none;
-        }
+.message-item .title:hover {
+    color: #0056b3;
+}
 
-        /* 모바일에서 메뉴와 메시지 목록의 크기를 자동으로 조정 */
-        @media (max-width: 768px) {
-            .tabs {
-                width: 180px;
-            }
+.message-item .meta {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
 
-            .message-list {
-                margin-left: 20px;
-                width: calc(100% - 200px);
-            }
+.unread {
+    font-weight: bold;
+    color: red;
+}
 
-            .message-item {
-                flex-direction: column; /* 모바일에서는 세로 정렬 */
-            }
+a {
+    text-decoration: none;
+}
 
-            .message-item .sender,
-            .message-item .title,
-            .message-item .date {
-                text-align: center; /* 모바일에서 각 항목을 중앙 정렬 */
-                flex: none;
-            }
-        }
+/* 모바일에서 메뉴와 메시지 목록의 크기를 자동으로 조정 */
+@media (max-width: 768px) {
+    .tabs {
+        width: 180px;
+    }
+
+    .message-list {
+        margin-left: 20px;
+        width: calc(100% - 200px);
+    }
+
+    .message-item {
+        flex-direction: column;
+    }
+
+    .message-item .sender,
+    .message-item .title,
+    .message-item .date {
+        text-align: center;
+        flex: none;
+    }
+}
     </style>
 </head>
 <body>
+<div class="navbar" th:replace="~{navbar :: navbar}"></div>
 
-<!-- 왼쪽에 세로로 정렬된 메뉴 -->
-<div class="tabs">
-    <a th:href="@{/message/menu}" class="tab active">받은 쪽지</a>
-    <a th:href="@{/message/sent}" class="tab">보낸 쪽지</a>
-    <a th:href="@{/message/send}" class="tab">쪽지 보내기</a> <!-- 추가된 메뉴 -->
-</div>
+<div class="container">
+    <div class="content">
+        <div class="tabs">
+            <a th:href="@{/message/menu}" class="tab active">받은 쪽지</a>
+            <a th:href="@{/message/sent}" class="tab">보낸 쪽지</a>
+            <a th:href="@{/message/send}" class="tab">쪽지 보내기</a>
+        </div>
 
-<!-- 메시지 목록 -->
-<div class="message-list">
-    <h2>받은 쪽지</h2>
-    <div th:if="${#lists.isEmpty(messages)}">
-        <p>받은 쪽지가 없습니다.</p>
-    </div>
-    <div th:each="message : ${messages}" class="message-item"
-         th:classappend="${message.isRead ? '' : 'unread'}">
-        <div class="sender">
-            <span>보낸사람: </span>
-            <span th:text="${message.senderSiteUser != null ? message.senderSiteUser.nickname :
-                            message.senderCompanyUser != null ? message.senderCompanyUser.companyName : ''}"></span>
-        </div>
-        <div class="title">
-            <span>제목: </span>
-            <a th:href="@{/message/detail/{id}(id=${message.id})}" th:text="${message.title}"></a>  <!-- 제목 클릭 시 상세 페이지로 이동 -->
-        </div>
-        <div class="date">
-            <span th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+        <div class="message-list">
+            <h2>받은 쪽지</h2>
+            <div th:if="${#lists.isEmpty(messages)}">
+                <p>받은 쪽지가 없습니다.</p>
+            </div>
+
+            <div class="message-item" th:each="message : ${messages}"
+                 th:classappend="${message.isRead ? '' : 'unread'}">
+                <div class="sender">
+                    <span>보낸사람: </span>
+                    <span th:text="${message.senderSiteUser != null ? message.senderSiteUser.nickname :
+                                message.senderCompanyUser != null ? message.senderCompanyUser.companyName : ''}"></span>
+                </div>
+                <div class="title">
+                    <span>제목: </span>
+                    <a th:href="@{/message/detail/{id}(id=${message.id})}" th:text="${message.title}"></a>
+                </div>
+                <div class="date">
+                    <span th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

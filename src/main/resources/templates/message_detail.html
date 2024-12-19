@@ -4,21 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>쪽지 상세</title>
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
     <style>
+        /* 전체 페이지 스타일 */
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: flex-start;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
         }
 
-        /* 메뉴를 세로로 정렬 */
+        /* 네비바 고정 위치 */
+        .navbar {
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        /* 페이지 레이아웃 */
+        .container {
+            display: flex;
+            margin-top: 80px;  /* 네비바 높이만큼 마진을 주어 콘텐츠가 가려지지 않도록 함 */
+        }
+
+        /* 메뉴 */
         .tabs {
             display: flex;
-            flex-direction: column;  /* 세로 정렬 */
-            width: 200px;  /* 메뉴의 너비 */
-            margin-right: 20px;
+            flex-direction: column;
+            width: 200px;
+            background-color: #fff;
             border-right: 2px solid #ddd;
+            padding: 10px 0;
         }
 
         .tab {
@@ -30,22 +50,23 @@
             border-bottom: 1px solid #eee;
         }
 
-        .tab.active {
+        .tab:hover {
             background-color: #007BFF;
             color: white;
-            border-left: 5px solid #007BFF;
         }
 
-        /* 쪽지 상세 내용 스타일 */
+        /* 쪽지 상세 내용 */
         .message-detail {
             flex-grow: 1;
-            margin-left: 20px;
             padding: 20px;
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 800px;
+            margin-left: 20px;
+            width: 100%; /* 최대 가로 길이를 100%로 설정 */
+            max-width: 900px;  /* 최대 너비 설정 */
+            max-height: 500px;  /* 최대 높이 설정 */
+            overflow-y: auto;   /* 내용이 길어지면 스크롤 생기게 설정 */
         }
 
         .message-detail h2 {
@@ -66,63 +87,46 @@
             color: #333;
         }
 
-        /* 쪽지 보내기 폼 스타일 */
-        .message-form {
-            flex-grow: 1;
-            margin-left: 20px;
-            max-width: 600px;
+        /* 보낸 사람 텍스트에 호버 색상 적용 */
+        .message-detail .sender {
+            color: #007BFF; /* 메뉴 호버 색상 */
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            font-weight: bold;
-            display: block;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .form-group button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .form-group button:hover {
-            background-color: #0056b3;
+        /* 받는 사람 텍스트에 호버 색상 적용 */
+        .message-detail .receiver {
+            color: #007BFF; /* 메뉴 호버 색상 */
         }
     </style>
 </head>
 <body>
+<div class="navbar" th:replace="~{navbar :: navbar}"></div>
 
-<!-- 왼쪽에 세로로 정렬된 메뉴 -->
-<div class="tabs">
-    <a th:href="@{/message/menu}" class="tab active">받은 쪽지</a>
-    <a th:href="@{/message/sent}" class="tab">보낸 쪽지</a>
-    <a th:href="@{/message/send}" class="tab">쪽지 보내기</a> <!-- 활성화된 메뉴 -->
+<div class="container">
+    <!-- 왼쪽에 세로로 정렬된 메뉴 -->
+    <div class="tabs">
+        <a th:href="@{/message/menu}" class="tab">받은 쪽지</a>
+        <a th:href="@{/message/sent}" class="tab">보낸 쪽지</a>
+        <a th:href="@{/message/send}" class="tab">쪽지 보내기</a>
+    </div>
+
+    <!-- 메시지 상세 내용 -->
+    <div class="message-detail">
+        <h2>쪽지 내용</h2>
+        <!-- 보낸 사람 정보 추가 -->
+        <p><strong>보낸 사람:</strong>
+            <span class="sender" th:text="${message.senderSiteUser != null ? message.senderSiteUser.nickname :
+                                message.senderCompanyUser != null ? message.senderCompanyUser.companyName : ''}"></span>
+        </p>
+
+        <!-- 받는 사람 정보 추가 -->
+        <p><strong>받는 사람:</strong>
+            <span class="receiver" th:text="${message.receiverSiteUser != null ? message.receiverSiteUser.nickname :
+                                message.receiverCompanyUser != null ? message.receiverCompanyUser.companyName : ''}"></span>
+        </p>
+
+        <p><strong>제목:</strong> <span th:text="${message.title}"></span></p>
+        <p><strong>내용:</strong> <span th:text="${message.content}"></span></p>
+    </div>
 </div>
-
-<!-- 메시지 상세 내용 -->
-<div class="message-detail">
-    <h2>쪽지 내용</h2>
-    <p><strong>보낸 사람:</strong>
-        <span th:text="${message.senderSiteUser != null ? message.senderSiteUser.nickname :
-                        message.senderCompanyUser != null ? message.senderCompanyUser.companyName : ''}"></span>
-    </p>
-    <p><strong>제목:</strong> <span th:text="${message.title}"></span></p>
-    <p><strong>내용:</strong> <span th:text="${message.content}"></span></p>
-</div>
-
 </body>
 </html>

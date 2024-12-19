@@ -25,9 +25,14 @@ public class MessageController {
 
     //받은 쪽지 보관함
     @GetMapping("/message/menu")
-    public String sendMessage(Model model, HttpSession session) {
+    public String messageMenu(Model model, HttpSession session) {
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+
+        if (siteUser == null && companyUser == null){
+            return "access_denied";
+        }
+
         if (siteUser != null) {
             List<Message> messages = messageService.getReceiverSiteUserMessage(siteUser);
             model.addAttribute("messages",messages);
@@ -47,8 +52,7 @@ public class MessageController {
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
 
         if (siteUser == null && companyUser == null) {
-            model.addAttribute("error", "로그인 정보가 없습니다.");
-            return "redirect:/login";
+            return "access_denied";
         }
 
         if (siteUser != null) {
@@ -75,14 +79,21 @@ public class MessageController {
 
 
     @GetMapping("/message/send")
-    public String sendMessage(){
+    public String sendMessage(Model model,HttpSession session){
+        model.addAttribute("messageForm", new MessageForm());
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+
+        if (siteUser == null && companyUser == null){
+            return "access_denied";
+        }
         return "message_send";
     }
 
     //쪽지 보내기
     @PostMapping("/message/send")
     public String sendMessage(
-            @Valid MessageForm messageForm,
+            @ModelAttribute("messageForm") @Valid MessageForm messageForm,
             BindingResult bindingResult,
             HttpSession session,
             Model model) {
@@ -91,9 +102,10 @@ public class MessageController {
         SiteUser sessionSiteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser sessionCompanyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
 
+        model.addAttribute("messageForm", messageForm);
+
         if (bindingResult.hasErrors()) {
             // 입력값 오류가 있을 경우, 다시 폼으로 돌아감
-            model.addAttribute("messageForm", messageForm);
             return "message_send";
         }
 
@@ -107,21 +119,27 @@ public class MessageController {
         if (sender == null) {
             // 로그인 정보가 없는 경우 처리
             bindingResult.reject("unauthorized", "로그인이 필요합니다.");
-            model.addAttribute("messageForm", messageForm);
             return "message_send";
         }
 
-        // 수신자 찾기: 닉네임 또는 기업명으로 찾기
+        // 수신자가 입력되었는지 확인
+        if (messageForm.getReceiver() == null || messageForm.getReceiver().isEmpty()) {
+            bindingResult.rejectValue("receiver", "empty", "수신자를 입력해주세요.");
+            return "message_send";  // 수신자가 없으면 폼을 다시 보여줍니다.
+        }
+
+// 닉네임 또는 기업명으로 수신자 찾기
         User receiver = messageService.findByNickname(messageForm.getReceiver());
         if (receiver == null) {
             receiver = messageService.findByCompanyName(messageForm.getReceiver());
         }
 
+// 수신자가 존재하는지 확인
         if (receiver == null) {
-            bindingResult.rejectValue("receiver", "notFound", "수신자를 찾을 수 없습니다.");
-            model.addAttribute("messageForm", messageForm);
-            return "message_send";
+            bindingResult.rejectValue("receiver", "notFound", "존재하지 않는 수신자입니다.");
+            return "message_send";  // 수신자가 없으면 폼을 다시 보여줍니다.
         }
+
 
         // 메시지 전송
         try {
@@ -133,13 +151,13 @@ public class MessageController {
             );
         } catch (Exception e) {
             bindingResult.reject("messageError", "메시지 전송 중 오류가 발생했습니다.");
-            model.addAttribute("messageForm", messageForm);
             return "message_send";
         }
 
         // 성공적으로 전송된 경우
-        return "redirect:/"; // 메시지 전송 성공 페이지로 리다이렉트
+        return "redirect:/message/sent"; // 메시지 전송 성공 페이지로 리다이렉트
     }
+
     @GetMapping("/message/detail/{id}")
     public String showMessageDetail(@PathVariable("id") Long id, Model model, HttpSession session) {
 
