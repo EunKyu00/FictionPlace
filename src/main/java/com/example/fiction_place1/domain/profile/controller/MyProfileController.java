@@ -7,8 +7,6 @@ import com.example.fiction_place1.domain.user.service.CompanyUserService;
 import com.example.fiction_place1.domain.user.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +20,7 @@ public class MyProfileController {
     private final MyProfileService myProfileService;
     private final SiteUserService siteUserService;
     private final CompanyUserService companyUserService;
-    private static final Logger logger = LoggerFactory.getLogger(MyProfileController.class);
+
     // 일반 사용자 프로필 보기
     @GetMapping("/profile/user/{id}")
     public String getUserProfile(@PathVariable("id") Long id , Model model, HttpSession session) {
@@ -39,11 +37,11 @@ public class MyProfileController {
         if (siteUser != null) {
             model.addAttribute("nickname", siteUser.getNickname());
             model.addAttribute("email", siteUser.getEmail());
-            model.addAttribute("profileImageUrl", session.getAttribute("profileImageUrl"));
             model.addAttribute("description", siteUser.getMyProfile().getDescription());
         } else {
             model.addAttribute("message", "사용자를 찾을 수 없습니다.");
         }
+
         return "myprofile";
     }
 

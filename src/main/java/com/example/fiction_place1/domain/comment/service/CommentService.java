@@ -6,6 +6,7 @@ import com.example.fiction_place1.domain.comment.repository.CommentRepository;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.user.entity.User;
+import com.example.fiction_place1.domain.webtoon_episode.entity.WebToonEpisode;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,11 @@ public class CommentService {
     public List<Comment> getCommentsByBoard(Board board) {
         return commentRepository.findByBoard(board);  // 게시글에 해당하는 댓글을 반환
     }
+    public List<Comment> getCommentByEpisode(WebToonEpisode webToonEpisode){
+        return commentRepository.findByWebtoonEpisode(webToonEpisode);
+    }
 
-    public void createComment(Board board, String content, User user){
+    public void createBoardComment(Board board, String content, User user){
         Comment comment = new Comment();
         comment.setContent(content);
         comment.setBoard(board);
@@ -35,6 +39,22 @@ public class CommentService {
         }
         this.commentRepository.save(comment);
     }
+
+    public void createEpisodeComment(WebToonEpisode webToonEpisode,String content, User user){
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setWebtoonEpisode(webToonEpisode);
+
+        if (user instanceof  SiteUser){
+            SiteUser siteUser = (SiteUser) user;
+            comment.setSiteUser(siteUser);
+        }else if (user instanceof CompanyUser){
+            CompanyUser companyUser = (CompanyUser) user;
+            comment.setCompanyUser(companyUser);
+        }
+        this.commentRepository.save(comment);
+    }
+
     public Comment getComment(Long id) {
         return commentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("댓글을 찾을 수 없습니다."));
@@ -42,7 +62,6 @@ public class CommentService {
 
     public void delete(Comment comment){
         this.commentRepository.delete(comment);
-        //TODO 댓글 삭제 기능 추가 *필수
     }
 
     public int getCommentCountForBoard(Long boardId) {

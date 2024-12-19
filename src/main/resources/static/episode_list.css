@@ -1,0 +1,115 @@
+ body {
+     font-family: 'Arial', sans-serif;
+     background-color: #f4f4f4;
+     margin: 0;
+     padding: 20px;
+ }
+
+ /* 웹툰 제목 스타일 */
+ h1 {
+     font-size: 28px;
+     font-weight: bold;
+     color: #333;
+     margin-bottom: 10px;
+ }
+
+ /* 웹툰 썸네일 이미지 스타일 */
+ .webtoon-thumbnail {
+     width: 150px;
+     height: 150px;
+     border-radius: 8px;
+     object-fit: cover;
+     margin-bottom: 20px;
+ }
+
+ /* 회차 목록 제목 스타일 */
+ h2 {
+     font-size: 22px;
+     color: #555;
+     margin-bottom: 15px;
+ }
+
+ /* 회차 항목 리스트 스타일 */
+ ul {
+     padding: 0;
+     list-style: none;
+ }
+
+ /* 각 회차 항목 스타일 */
+ li {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     background-color: white;
+     padding: 15px;
+     margin-bottom: 10px;
+     border-radius: 8px;
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+     transition: transform 0.3s ease;
+ }
+
+ /* 회차 항목 호버 효과 */
+ li:hover {
+     transform: scale(1.02);
+ }
+
+ /* 회차 썸네일 이미지 스타일 */
+ li img {
+     width: 60px;
+     height: 60px;
+     border-radius: 8px;
+     object-fit: cover;
+     margin-right: 15px;
+ }
+
+ /* 회차 제목 및 날짜 텍스트 스타일 */
+ span {
+     font-size: 16px;
+     color: #333;
+     margin-right: 15px;
+ }
+
+ /* 날짜 텍스트 스타일 */
+ .time {
+     font-size: 12px;
+     color: #888;
+ }
+
+ /* 체크박스 스타일 */
+ input[type="checkbox"] {
+     margin-left: 10px;
+ }
+
+ /* 버튼 스타일 */
+ button {
+     background-color: #4CAF50;
+     color: white;
+     padding: 10px 20px;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     font-size: 16px;
+     transition: background-color 0.3s;
+ }
+
+ /* 버튼 호버 효과 */
+ button:hover {
+     background-color: #45a049;
+ }
+
+ /* 신규 회차 등록 버튼 스타일 */
+ a button {
+     background-color: #008CBA;
+     color: white;
+     padding: 10px 20px;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     font-size: 16px;
+     transition: background-color 0.3s;
+ }
+
+ /* 신규 회차 등록 버튼 호버 효과 */
+ a button:hover {
+     background-color: #007bb5;
+ }

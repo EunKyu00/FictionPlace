@@ -1,14 +1,19 @@
 package com.example.fiction_place1.domain.webtoon_episode.entity;
 
 
+import com.example.fiction_place1.domain.comment.entity.Comment;
+import com.example.fiction_place1.domain.recommend.entity.Recommend;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
 import com.example.fiction_place1.global.jpa.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,14 +23,27 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @ToString
 public class WebToonEpisode extends BaseEntity {
+
     @ManyToOne
-    @JoinColumn(name = "webtoon_id")
     @NotNull
+    @JoinColumn(name = "webtoon_id")
+    @OnDelete(action = OnDeleteAction.CASCADE) // 부모 삭제 시 자식도 삭제
     private WebToon webToon;
 
     private String title;
 
-    private String content;
+    private String thumbnailImg;  // 썸네일 이미지 경로
 
-    private String thumbnailImg;
+    @OneToMany(mappedBy = "episode", cascade = CascadeType.ALL, orphanRemoval = true) //에피소드 삭제시 이미지 전부 삭제
+    private List<EpisodeImage> episodeImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "webtoonEpisode", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
+
+    // 선택 여부를 나타내는 필드
+    private boolean isSelected;
+
+    private Integer likes = 0;
+
+    private Integer hit = 0;
 }

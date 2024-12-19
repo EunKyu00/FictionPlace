@@ -1,0 +1,131 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+}
+
+.episode-detail {
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail-container {
+    text-align: center;
+}
+
+.thumbnail-container img {
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.episode-images {
+    margin-top: 30px;
+}
+
+.episode-images h3 {
+    text-align: center;
+    color: #555;
+}
+
+.episode-images ul {
+    display: block;  /* 세로로 정렬 */
+    padding: 0;
+    list-style-type: none;
+}
+
+.episode-images li {
+    display: block;  /* 각 이미지를 세로로 나열 */
+    text-align: center;
+}
+
+.episode-images img {
+    max-width: 700px;  /* 가로 크기 제한 */
+    max-height: 7800px;  /* 세로 크기 제한 */
+    width: auto;  /* 비율 유지 */
+    height: auto;  /* 비율 유지 */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 댓글 폼 스타일 */
+.comment-form {
+    margin-top: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+}
+
+.comment-form .btn-submit {
+    display: inline-block;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.comment-form .btn-submit:hover {
+    background-color: #0056b3;
+}
+
+/* 댓글 목록 스타일 */
+.comments-list {
+    margin-top: 30px;
+}
+
+.comments-list h2 {
+    color: #555;
+}
+
+.comments-list ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.comment-item {
+    background-color: #f9f9f9;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #333;
+}
+
+.comment-date {
+    font-size: 0.85em;
+    color: #999;
+}
+
+.comment-item p {
+    color: #333;
+    margin-top: 10px;
+}

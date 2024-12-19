@@ -18,6 +18,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString
 public class Message extends BaseEntity {
+
+    //sender 발신자, receiver 수신자
     @ManyToOne
     @JoinColumn(name = "sender_site_user_id", nullable = true)
     private SiteUser senderSiteUser;
@@ -37,5 +39,8 @@ public class Message extends BaseEntity {
     private String title;
 
     private String content;
+
+    // 읽었는지 여부를 나타내는 필드
+    private boolean isRead = false;  // 기본값은 false (읽지 않음)
 }
 

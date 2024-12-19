@@ -7,6 +7,7 @@ import com.example.fiction_place1.domain.board_type.entity.BoardType;
 import com.example.fiction_place1.domain.board_type.service.BoardTypeService;
 import com.example.fiction_place1.domain.comment.entity.Comment;
 import com.example.fiction_place1.domain.comment.service.CommentService;
+import com.example.fiction_place1.domain.recommend.service.RecommendService;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import jakarta.servlet.http.HttpSession;
@@ -33,6 +34,7 @@ public class CreateBoardController {
     private final BoardService boardService;
     private final BoardTypeService boardTypeService;
     private final CommentService commentService;
+    private final RecommendService recommendService;
 
     // 게시판 목록 페이지
     @GetMapping("/board")
@@ -56,7 +58,6 @@ public class CreateBoardController {
         model.addAttribute("totalElements", boardPage.getTotalElements());
         model.addAttribute("size", boardPage.getSize()); // 페이지 크기
         model.addAttribute("totalPages", boardPage.getTotalPages()); // 전체 페이지 수
-
         // 선택한 게시판 타입 모델에 추가
         model.addAttribute("boardTypeId", boardTypeId);
         return "board_list";
@@ -110,13 +111,12 @@ public class CreateBoardController {
         return "redirect:/board?boardTypeId=" + boardTypeId;
     }
 
-
     //게시글 상세
     @GetMapping("/board/detail/{id}")
     public String boardDetail(Model model, @PathVariable("id") Long id, HttpSession session) {
         // 게시글 조회
         Board board = boardService.getBoard(id);
-        Board boardHit = boardService.incrementHit(id);
+
         // 로그인된 사용자 정보 가져오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
@@ -134,58 +134,53 @@ public class CreateBoardController {
         // 댓글 목록 가져오기
         List<Comment> comments = commentService.getCommentsByBoardId(id); // 정렬된 댓글 가져오기
 
-        // 로그인된 사용자와 비교해 댓글 작성자 여부만 서버에서 필터링
-        List<Comment> userComments = comments.stream()
-                .filter(comment -> {
-                    if (siteUser != null) {
-                        return comment.getSiteUser() != null && comment.getSiteUser().getId().equals(siteUser.getId());
-                    } else if (companyUser != null) {
-                        return comment.getCompanyUser() != null && comment.getCompanyUser().getId().equals(companyUser.getId());
-                    }
-                    return false;
-                }).toList();
 
         model.addAttribute("board", board);
         model.addAttribute("comments", comments);
         model.addAttribute("comment_count", commentCount);
-        model.addAttribute("userComments", userComments); // 로그인된 사용자 관련 댓글만 전달
         model.addAttribute("isAuthor", isAuthor);
         model.addAttribute("loginUser", siteUser);
         model.addAttribute("loginCompanyUser", companyUser);
-        model.addAttribute("boardHit", boardHit);
 
         return "board_detail";
     }
-    @PostMapping("/board/{id}/recommend")
-    public String recommendBoard(@PathVariable("id") Long id, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        // 로그인된 사용자 정보 가져오기
+
+    //게시글 추천
+    @PostMapping("/board/recommend/{id}")
+    public String recommendBoard(
+            @PathVariable("id") Long id,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        Board board = boardService.getBoard(id);
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
 
-        if (siteUser == null && companyUser == null){
-            redirectAttributes.addFlashAttribute("errorMessage","로그인 후 추천할 수 있습니다.");
-            return String.format("redirect:/board/detail/%d", id);
+        if(siteUser == null && companyUser == null){
+            redirectAttributes.addFlashAttribute("message","로그인 후 이용해주세요.");
+            return "redirect:/board/detail/" + id;
         }
 
-        // 세션에서 추천 상태 확인
-        Boolean hasRecommended = (Boolean) session.getAttribute("recommendedBoard_" + id);
+        // 추천 여부 확인
+        boolean hasRecommended = false;
 
-        // 추천 상태에 따라 추천 수 증가 또는 감소
-        if (hasRecommended != null && hasRecommended) {
-            // 이미 추천했다면 추천 취소
-            boardService.updateLikes(id, false);
-            session.setAttribute("recommendedBoard_" + id, false);  // 세션에서 추천 상태 취소
+        if (siteUser != null) {
+            hasRecommended = recommendService.hasSiteUserRecommended(siteUser, board);
+        } else if (companyUser != null) {
+            hasRecommended = recommendService.hasCompanyUserRecommended(companyUser, board);
+        }
+
+        if (hasRecommended) {
+            redirectAttributes.addFlashAttribute("message", "이미 추천하셨습니다!");
         } else {
-            // 추천하지 않았다면 추천 추가
-            boardService.updateLikes(id, true);
-            session.setAttribute("recommendedBoard_" + id, true);  // 세션에서 추천 상태 설정
+            if (siteUser != null) {
+                recommendService.addSiteUserRecommendation(siteUser, board);
+            } else if (companyUser != null) {
+                recommendService.addCompanyUserRecommendation(companyUser, board);
+            }
+            redirectAttributes.addFlashAttribute("message", "추천이 완료되었습니다!");
         }
-
-        // 세션에서 추천 상태 모델에 추가
-        model.addAttribute("hasRecommended", hasRecommended);
-
-        // 게시글 상세 페이지로 리다이렉트
-        return String.format("redirect:/board/detail/%d", id);
+        return "redirect:/board/detail/" + id;
     }
 
 }

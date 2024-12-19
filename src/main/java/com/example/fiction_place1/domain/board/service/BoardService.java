@@ -1,9 +1,11 @@
 package com.example.fiction_place1.domain.board.service;
 
 import com.example.fiction_place1.domain.board.entity.Board;
+import com.example.fiction_place1.domain.board.form.BoardForm;
 import com.example.fiction_place1.domain.board.repository.BoardRepository;
 import com.example.fiction_place1.domain.board_type.entity.BoardType;
 import com.example.fiction_place1.domain.board_type.repository.BoardTypeRepository;
+import com.example.fiction_place1.domain.comment.entity.Comment;
 import com.example.fiction_place1.domain.comment.repository.CommentRepository;
 import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
@@ -14,6 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -63,17 +68,6 @@ public class BoardService {
     public void delete(Board board){
         this.boardRepository.delete(board);
     }
-    // 추천 수 증가 또는 감소
-    public void updateLikes(Long boardId, boolean increase) {
-        Board board = getBoard(boardId);
-        if (increase) {
-            board.setLikes(board.getLikes() + 1);
-        } else {
-            board.setLikes(board.getLikes() - 1);
-        }
-        boardRepository.save(board);  // 게시글 저장
-    }
-
     //조회수증가로직
     public Board findById(Long id) {
         return boardRepository.findById(id)
@@ -85,7 +79,6 @@ public class BoardService {
         board.setHit(board.getHit() + 1);
         return boardRepository.save(board);
     }
-
 }
 
 

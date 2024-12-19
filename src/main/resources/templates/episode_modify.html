@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>웹툰 회차 수정</title>
+    <link rel="stylesheet" href="/episode_modify.css">
+</head>
+<body>
+<form th:action="@{/webtoon/episode/modify/{id}(id=${episode.id})}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="title">회차 제목</label>
+        <input type="text" id="title" name="title" required="required" placeholder="회차 제목을 입력하세요"
+               class="form-control" th:value="${episode.title}" />
+    </div>
+
+    <div class="form-group">
+        <label for="thumbnailImg">썸네일 이미지</label>
+        <input type="file" id="thumbnailImg" name="thumbnailImg" accept="image/*" class="form-control"
+               onchange="previewThumbnail()" />
+        <small>썸네일 이미지는 1장만 선택하세요.</small>
+    </div>
+
+    <div class="thumbnail-container" id="thumbnailPreview">
+        <img th:src="@{${episode.thumbnailImg}}" alt="Thumbnail Preview" id="currentThumbnail" style="max-width:150px; max-height:150px;" />
+        <input type="hidden" name="existingThumbnailUrl" th:value="${episode.thumbnailImg}" />
+    </div>
+
+    <div id="episodeImagesContainer">
+        <div class="form-group">
+            <label for="episodeImages">기존 회차 이미지</label>
+        </div>
+
+        <div class="episode-images-preview" id="existingImages">
+            <!-- 기존 회차 이미지를 서버로부터 받아서 동적으로 추가 -->
+            <div th:each="image : ${episode.episodeImages}">
+                <img th:src="@{${image.imageUrl}}" alt="Episode Image Preview" class="episode-image-preview" style="max-width:200px; max-height:200px;" />
+            </div>
+        </div>
+
+        <input type="file" name="episodeImages" accept="image/*" class="form-control" onchange="previewImages(this)" />
+        <small>이미지를 하나씩 선택하여 추가할 수 있습니다.</small>
+    </div>
+
+    <button type="button" id="addImageButton" class="btn" onclick="addImageInput()">이미지 추가</button>
+
+    <div class="preview-container" id="imagePreviewContainer">
+        <!-- 새로 선택한 회차 이미지 미리보기 -->
+    </div>
+
+    <button type="submit" class="btn">수정</button>
+</form>
+
+<script>
+    // 썸네일 이미지 미리보기 함수
+    function previewThumbnail() {
+        var file = document.getElementById("thumbnailImg").files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById("currentThumbnail").src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // 회차 이미지 미리보기 함수
+    function previewImages(input) {
+        var files = input.files;
+        var previewContainer = document.getElementById("imagePreviewContainer");
+
+        for (var i = 0; i < files.length; i++) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img = document.createElement("img");
+                img.src = e.target.result;
+                img.style.maxWidth = "200px";
+                img.style.maxHeight = "200px";
+                previewContainer.appendChild(img);
+            };
+            reader.readAsDataURL(files[i]);
+        }
+    }
+
+    // 이미지 추가 버튼을 누르면 새 input을 추가하는 함수
+    function addImageInput() {
+        var newInput = document.createElement("input");
+        newInput.type = "file";
+        newInput.name = "episodeImages";
+        newInput.accept = "image/*";
+        newInput.classList.add("form-control");
+        newInput.onchange = function () {
+            previewImages(newInput);
+        };
+
+        document.getElementById("episodeImagesContainer").appendChild(newInput);
+    }
+</script>
+</body>
+</html>
