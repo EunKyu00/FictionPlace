@@ -13,7 +13,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://127.0.0.1:3306/Fiction_dev
     username: root
-    password:
+    password: 1234
   jpa:
     hibernate:
       ddl-auto: update # DB ??? ????, ?? ?????? ???? ????. create = 시작할 때 마다 생성

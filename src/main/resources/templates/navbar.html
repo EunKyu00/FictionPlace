@@ -25,6 +25,7 @@
         <ul class="nav-links">
             <li><a href="/">웹툰</a></li>
             <li><a href="/board">게시판</a></li>
+
             <li th:if="${session.loginUser != null}">
                 <!-- 일반회원 프로필 -->
                 <a th:if="${session.loginUser != null}"
@@ -69,6 +70,7 @@
             <a href="/company/logout" class="logout-btn">로그아웃</a>
         </div>
     </nav>
+
 
     <!-- Search Box -->
     <div class="search-box">

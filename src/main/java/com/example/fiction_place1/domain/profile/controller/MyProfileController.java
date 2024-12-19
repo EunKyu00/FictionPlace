@@ -23,27 +23,21 @@ public class MyProfileController {
     private final SiteUserService siteUserService;
     private final CompanyUserService companyUserService;
     private static final Logger logger = LoggerFactory.getLogger(MyProfileController.class);
+
     // 일반 사용자 프로필 보기
     @GetMapping("/profile/user/{id}")
-    public String getUserProfile(@PathVariable("id") Long id , Model model, HttpSession session) {
+    public String getUserProfile(@PathVariable("id") Long id , Model model) {
         //id로 사용자를 조회
         SiteUser siteUser = siteUserService.findById(id);
-        SiteUser loggedInUser = siteUserService.getLoggedInUser(session);
-        if (loggedInUser != null) {
-            System.out.println("로그인된 사용자 ID: " + loggedInUser.getId());
-            model.addAttribute("loggedInUserId", loggedInUser.getId());
-        } else {
-            System.out.println("로그인된 사용자 없음");
-            model.addAttribute("loggedInUserId", null);
-        }
+
+
         if (siteUser != null) {
             model.addAttribute("nickname", siteUser.getNickname());
             model.addAttribute("email", siteUser.getEmail());
-            model.addAttribute("profileImageUrl", session.getAttribute("profileImageUrl"));
-            model.addAttribute("description", siteUser.getMyProfile().getDescription());
         } else {
             model.addAttribute("message", "사용자를 찾을 수 없습니다.");
         }
+
         return "myprofile";
     }
 
@@ -62,7 +56,6 @@ public class MyProfileController {
 
         return "myprofile";
     }
-
     //일반 유저 정보 변경
     @GetMapping("/profile/user/{id}/modify")
     public String userModifyForm (@PathVariable("id") Long id, HttpSession session, Model model) {
