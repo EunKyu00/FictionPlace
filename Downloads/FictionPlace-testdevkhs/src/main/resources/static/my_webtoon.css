@@ -1,0 +1,113 @@
+/* 웹툰 카드 컨테이너 */
+.webtoon-container {
+    display: flex;
+    flex-direction: column; /* 내용이 세로로 쌓이도록 설정 */
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    position: relative;
+    min-height: 200px; /* 최소 높이 설정하여 버튼이 내용 아래에 오도록 */
+}
+
+/* 썸네일 이미지 */
+.webtoon-thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+/* 웹툰 정보 (제목, 장르, 내용) */
+.webtoon-info {
+    display: block; /* 제목과 내용이 세로로 정렬되도록 설정 */
+    margin-bottom: 30px; /* 내용과 버튼 사이의 간격 */
+}
+
+/* 웹툰 제목 스타일 */
+.webtoon-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+/* 장르 스타일 */
+.webtoon-genre {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 10px; /* 제목과 내용 사이의 간격 */
+}
+
+/* 웹툰 내용 스타일 */
+.webtoon-content {
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* 버튼들이 위치할 컨테이너 */
+.webtoon-buttons {
+    display: flex;
+    justify-content: flex-end; /* 버튼들을 오른쪽으로 정렬 */
+    gap: 10px; /* 버튼 사이의 간격 */
+}
+
+/* 수정 버튼 */
+.modify-btn {
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.modify-btn:hover {
+    background-color: #45a049;
+}
+
+/* 삭제 버튼 */
+.delete-btn {
+    padding: 8px 15px;
+    background-color: #f44336;
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #e53935;
+}
+.no-webtoons-message {
+    text-align: center; /* 가운데 정렬 */
+    padding: 20px; /* 여백 추가 */
+    background-color: #f9f9f9; /* 배경 색 */
+    border: 1px solid #ddd; /* 테두리 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    width: 300px; /* 너비 설정 */
+    margin: 50px auto; /* 화면 가운데 배치 */
+}
+
+.no-webtoons-message p {
+    font-size: 16px; /* 글자 크기 */
+    color: #333; /* 글자 색 */
+    margin-bottom: 20px; /* 문단 간격 */
+}
+
+.create-webtoon-btn {
+    padding: 10px 20px; /* 버튼 크기 */
+    font-size: 14px; /* 버튼 글자 크기 */
+    background-color: #007bff; /* 버튼 배경 색 */
+    color: white; /* 버튼 글자 색 */
+    border: none; /* 테두리 없애기 */
+    border-radius: 5px; /* 버튼 모서리 둥글게 */
+    cursor: pointer; /* 커서 모양 */
+    transition: background-color 0.3s ease; /* 마우스 오버시 색 변경 효과 */
+}
+
+.create-webtoon-btn:hover {
+    background-color: #0056b3; /* 마우스 오버 시 색 변경 */
+}

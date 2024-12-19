@@ -1,0 +1,151 @@
+/* 전체 웹툰 컨테이너 */
+.webtoon-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 웹툰 헤더: 썸네일과 제목, 작가 정보 */
+.webtoon-header {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+/* 웹툰 썸네일 이미지 */
+.webtoon-thumbnail {
+    width: 160px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+/* 웹툰 세부 정보 */
+.webtoon-details {
+    flex: 1;
+}
+
+/* 웹툰 제목 스타일 */
+.webtoon-details h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* 웹툰 내용 스타일 */
+.webtoon-details p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+/* 웹툰 장르 및 작가 정보 */
+.webtoon-info p {
+    font-size: 14px;
+    color: #888;
+}
+
+/* 에피소드 리스트 */
+.episode-list {
+    display: flex;
+    flex-direction: column; /* 세로로 나열 */
+    gap: 20px; /* 항목 간 간격 */
+    padding: 0;
+    margin-top: 30px;
+    list-style: none;
+}
+
+/* 에피소드 카드 스타일 */
+.episode-list li {
+    display: flex;
+    align-items: center; /* 썸네일과 제목, 날짜를 수평으로 정렬 */
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    gap: 15px; /* 썸네일과 텍스트 사이 간격 */
+}
+
+/* 에피소드 카드 호버 효과 */
+.episode-list li:hover {
+    transform: scale(1.02);
+}
+
+/* 에피소드 썸네일 이미지 */
+.episode-thumbnail {
+    width: 80px; /* 썸네일 크기 */
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* 에피소드 제목과 날짜를 세로로 배치 */
+.episode-details {
+    display: flex;
+    flex-direction: column; /* 제목과 날짜를 세로로 배치 */
+    gap: 5px;
+}
+
+/* 에피소드 제목 */
+.episode-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 에피소드 날짜 */
+.episode-date {
+    font-size: 12px;
+    color: #888;
+}
+
+/* a 태그 밑줄 제거 */
+.episode-link {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 텍스트 색상 상속 */
+}
+
+/* 하트 아이콘 버튼 스타일 */
+.btn-favorite {
+    background: none;
+    border: none;
+    font-size: 24px; /* 아이콘 크기 */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+/* 빈 하트 아이콘 */
+.fa-heart-o {
+    color: grey; /* 빈 하트 색상 */
+}
+
+/* 빨간 하트 아이콘 */
+.fa-heart {
+    color: red; /* 채워진 하트 색상 */
+}
+
+/* 하트 아이콘 크기 */
+.fa {
+    font-size: 32px; /* 하트 아이콘의 크기를 조정 */
+}
+
+/* 하트 아이콘 옆 텍스트 스타일 */
+.btn-favorite span {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #333; /* 텍스트 색상 */
+}
+
+
+
+
+
+
+
+

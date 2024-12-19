@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쪽지 보내기</title>
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+    <style>
+        /* 전체 레이아웃 설정 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 네비게이션 바 상단에 고정 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        /* 메뉴 부분 */
+        .content {
+            display: flex;
+            padding-top: 60px; /* 네비게이션 바 높이만큼 패딩 추가 */
+        }
+
+        /* 메뉴 */
+        .tabs {
+            display: flex;
+            flex-direction: column;
+            width: 250px; /* 메뉴의 너비 */
+            margin-right: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab {
+            padding: 15px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .tab:hover {
+            background-color: #007BFF;
+            color: #ffffff;
+        }
+
+        .tab.active {
+            background-color: #007BFF;
+            color: #ffffff;
+            border-left: 5px solid #0056b3;
+        }
+
+        /* 쪽지 폼 */
+        .message-form {
+            flex-grow: 1;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 900px; /* 폼의 최대 너비 설정 */
+        }
+
+        .message-form h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: none;
+        }
+
+        .button-group {
+            text-align: right; /* 버튼을 오른쪽으로 정렬 */
+        }
+
+        .button-group button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button-group button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 에러 메시지 스타일 */
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                align-items: center;
+                padding-top: 20px;
+            }
+
+            .tabs {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+
+            .tab {
+                flex: 1;
+                text-align: center;
+            }
+
+            .message-form {
+                max-width: 100%;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="navbar" th:replace="~{navbar :: navbar}">네비게이션 바</div>
+
+<div class="content">
+    <!-- 왼쪽에 세로로 정렬된 메뉴 -->
+    <div class="tabs">
+        <a th:href="@{/message/menu}" class="tab">받은 쪽지</a>
+        <a th:href="@{/message/sent}" class="tab">보낸 쪽지</a>
+        <a th:href="@{/message/send}" class="tab active">쪽지 보내기</a>
+    </div>
+
+    <!-- 쪽지 보내기 폼 -->
+    <div class="message-form">
+        <h2>쪽지 보내기</h2>
+        <form th:action="@{/message/send}" method="post" th:object="${messageForm}">
+            <div class="form-group">
+                <label for="receiver">받는 사람</label>
+                <input type="text" id="receiver" name="receiver" placeholder="받는 사람의 닉네임 또는 기업명을 입력하세요." th:field="*{receiver}" required>
+                <!-- 수신자 에러 메시지 -->
+                <div th:if="${#fields.hasErrors('receiver')}" class="error-message">
+                    <p th:errors="*{receiver}"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="title">쪽지 제목</label>
+                <input type="text" id="title" name="title" placeholder="제목을 입력하세요" th:field="*{title}" required>
+                <!-- 제목 에러 메시지 -->
+                <div th:if="${#fields.hasErrors('title')}" class="error-message">
+                    <p th:errors="*{title}"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="content">쪽지 내용</label>
+                <textarea id="content" name="content" rows="4" placeholder="내용을 입력하세요" th:field="*{content}" required></textarea>
+                <!-- 내용 에러 메시지 -->
+                <div th:if="${#fields.hasErrors('content')}" class="error-message">
+                    <p th:errors="*{content}"></p>
+                </div>
+            </div>
+
+            <!-- 전체 폼 에러 메시지 -->
+            <div th:if="${#fields.hasGlobalErrors()}" class="error-message">
+                <p th:errors="*{global}"></p>
+            </div>
+
+            <div class="form-group button-group">
+                <button type="submit">쪽지 보내기</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

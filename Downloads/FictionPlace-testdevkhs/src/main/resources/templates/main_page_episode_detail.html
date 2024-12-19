@@ -1,0 +1,86 @@
+<head>
+    <link rel="stylesheet" href="/main_page_episode_detail.css" />
+    <!-- Font Awesome 최신 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<div class="webtoon-container">
+    <div class="webtoon-header">
+        <img th:src="@{${webtoon.thumbnailImg}}" alt="웹툰 썸네일" class="webtoon-thumbnail" />
+        <div class="webtoon-details">
+            <h1 th:text="${webtoon.title}"></h1>
+            <p th:text="${webtoon.content}"></p>
+            <div class="webtoon-info">
+                <p th:text="'# ' + ${webtoon.genreType.genreTypename}"></p>
+                <p th:text="'작가: ' + ${webtoon.siteUser.nickname}"></p>
+            </div>
+        </div>
+    </div>
+    <div class="recommendation">
+        <form th:action="@{|/webtoon/recommend/${webtoon.id}|}" method="POST">
+            <button type="submit" class="btn-recommend" th:text="${message != null ? message : '추천'}"></button>
+        </form>
+        <span>추천 수: <span th:text="${webtoon.likes}"></span></span>
+
+        <form th:action="@{/webtoon/favorite/{id}(id=${webtoon.id})}" method="POST">
+            <button type="submit" class="btn-favorite" id="favorite-btn">
+                <!-- 하트 아이콘을 별로 대체 -->
+                <span th:class="${favorite != null and favorite ? 'favorite-registered' : 'favorite-not-registered'}">
+                    <i class="fas fa-star"></i>
+                    <span th:text="${favorite != null and favorite ? '관심작품 해제' : '관심작품 등록'}"></span>
+                </span>
+            </button>
+        </form>
+    </div>
+
+    <!-- 에피소드 리스트 -->
+    <ul class="episode-list">
+        <a th:each="episode : ${episodesByWebtoon[webtoon.id]}" th:href="@{/webtoon/episode/{id}(id=${episode.id})}" class="episode-link">
+            <li>
+                <img th:src="@{${episode.thumbnailImg}}" alt="에피소드 썸네일" class="episode-thumbnail" />
+                <div class="episode-details">
+                    <span class="episode-title" th:text="${episode.title}"></span>
+                    <span class="episode-date" th:text="${#temporals.format(episode.createdDate, 'yyyy-MM-dd')}"></span>
+                </div>
+            </li>
+        </a>
+    </ul>
+</div>
+
+<style>
+    /* 등록 상태일 때 스타일 (노란 별, 노란색 버튼) */
+    .favorite-registered {
+        background-color: #f0f0f0; /* 밝은 회색 배경 */
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    /* 미등록 상태일 때 스타일 (회색 별, 회색 버튼) */
+    .favorite-not-registered {
+        background-color: #f0f0f0; /* 밝은 회색 배경 */
+        color: black;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    /* 별 아이콘 색상 설정 */
+    .favorite-registered i {
+        color: #FFCC00; /* 진한 노란색 별 */
+    }
+
+    .favorite-not-registered i {
+        color: #808080; /* 회색 별 */
+    }
+
+    /* 버튼 텍스트 색상 */
+    .favorite-registered span,
+    .favorite-not-registered span {
+        font-weight: bold;
+    }
+
+    .favorite-registered:hover,
+    .favorite-not-registered:hover {
+        opacity: 0.8;
+    }
+</style>

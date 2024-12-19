@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: dev  # ?????? application-dev.yml ? ????? ??
+    include: secret # active ?? ???? (application-dev.yml) ??? application-secret.yml ? ????? ??
+  spring:
+    web:
+      resources:
+        static-locations:
+          - classpath:/static/
+          - file:///C:/uploads/
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100 # Lazy ??? ? ? ??? DB?? ???? ???? ?
+        show_sql: true # SQL ??? ?? ?? ???
+        format_sql: true # SQL ??? ?????
+        use_sql_comments: true # SQL ??? ???
+        dialect: # 데이터베이스에 맞는 Dialect 설정
+          # PostgreSQL 설정
+          # spring.profiles.active가 'prod'일 때 PostgreSQL Dialect 사용
+          if: "${spring.profiles.active == 'prod'}"
+          value: org.hibernate.dialect.PostgreSQLDialect
+  logging:
+    level:
+      # SQL? ??? ?? ????, SQL? ??? ??
+      org.hibernate.SQL: DEBUG
+      org.hibernate.orm.jdbc.bind: TRACE
+      org.hibernate.orm.jdbc.extract: TRACE
+      org.springframework.transaction.interceptor: TRACE
+      org:
+        springframework:
+          web=DEBUG:
+

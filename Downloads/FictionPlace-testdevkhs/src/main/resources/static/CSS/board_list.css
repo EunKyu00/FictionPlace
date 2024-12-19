@@ -1,0 +1,143 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #222; /* 어두운 배경, 디테일 페이지와 동일한 톤 */
+    font-family: sans-serif;
+    color: #333;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.content-card {
+    background: #fff;
+    width: 80%;
+    max-width: 1100px;
+    padding: 30px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+ /* 탭 컨테이너 */
+.category-tabs {
+    background: #fff;
+    border-bottom: 1px solid #ccc;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 각 카테고리 탭 */
+.category-tabs .tab {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #f5f5f5;
+    color: #333;
+    text-decoration: none;
+    border-radius: 3px 3px 0 0;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    font-size: 0.9em;
+}
+
+.category-tabs .tab:hover {
+    background: #eee;
+    cursor: pointer;
+}
+
+/* 현재 선택된 카테고리 탭 강조: 붉은색, 굵게 */
+.category-tabs .tab.selected {
+    color: red;
+    font-weight: bold;
+    background: #fff;
+    border-bottom: 1px solid #fff;
+}
+
+/* 테이블 스타일: 흰색 배경, 짙은 회색 텍스트, 헤더는 연한 회색, 본문 hover 효과 */
+.board-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    table-layout: fixed; /* 고정 레이아웃으로 컬럼 폭 제어 */
+}
+
+/* 모든 셀의 기본 패딩/정렬 */
+.board-table th, .board-table td {
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 헤더 스타일 */
+.board-table thead th {
+    background: #f7f7f7;
+    border-bottom: 1px solid #ccc;
+    font-weight: 600;
+    color: #333;
+}
+
+/* 제목 칸(두 번째 컬럼) 폭 확장 */
+.board-table thead th:nth-child(2) {
+    width: 40%; /* 필요에 따라 조정 (예: 40%로 넓게 확보) */
+}
+
+/* 본문 hover 시 강조 */
+.board-table tbody tr:hover {
+    background-color: #f0f0f0;
+}
+
+/* 제목 칸 내용 왼쪽 정렬 */
+.board-table tbody td:nth-child(2) {
+    text-align: left;
+}
+
+/* 제목 링크가 길 경우 말줄임 처리 */
+.board-title a {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333;
+    text-decoration: none;
+}
+/* 페이징 */
+.paging {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #333;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+}
+
+.paging a {
+    margin: 0 5px;
+    text-decoration: none;
+}
+
+.paging a:hover {
+    text-decoration: underline;
+}
+/* 게시글 등록 버튼 스타일 */
+.btn-create {
+    display: inline-block;
+    padding: 2px 7px;
+    background-color: #000000; /* 검은색 배경 */
+    color: #ffffff; /* 흰색 텍스트 */
+    border: 2px solid #000000; /* 검은색 테두리 */
+    border-radius: 4px; /* 둥근 모서리 */
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}

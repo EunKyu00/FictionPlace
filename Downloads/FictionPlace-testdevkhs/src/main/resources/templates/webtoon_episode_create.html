@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>웹툰 회차 등록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #555;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        small {
+            display: block;
+            margin-bottom: 10px;
+            color: #888;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .thumbnail-container {
+            margin-top: 10px;
+        }
+
+        .thumbnail-container img {
+            max-width: 150px;
+            max-height: 150px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-container {
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 400px;
+            padding: 0;
+            margin-top: 10px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .preview-container img {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 10px 0;
+            border-radius: 0;
+        }
+    </style>
+</head>
+<body>
+<h1>웹툰 회차 등록</h1>
+
+<form enctype="multipart/form-data" method="post" th:action="@{/webtoon/episode/create/{id}(id=${webtoon.id})}">
+    <div class="form-group">
+        <label for="title">회차 제목</label>
+        <input class="form-control" id="title" name="title" placeholder="회차 제목을 입력하세요" required="required" type="text"/>
+    </div>
+
+    <div class="form-group">
+        <label for="thumbnailImg">썸네일 이미지</label>
+        <input accept="image/*" class="form-control" id="thumbnailImg" name="thumbnailImg" onchange="previewThumbnail()"
+               type="file"/>
+        <small>썸네일 이미지는 1장만 선택하세요.</small>
+    </div>
+
+    <div class="thumbnail-container" id="thumbnailPreview"></div>
+
+    <div id="episodeImagesContainer">
+        <div class="form-group">
+            <label for="episodeImages">회차 이미지</label>
+            <input accept="image/*" class="form-control" name="episodeImages" onchange="previewImages(this)"
+                   type="file"/>
+            <small>이미지를 하나씩 선택하여 추가할 수 있습니다.</small>
+        </div>
+    </div>
+
+    <button class="btn" id="addImageButton" onclick="addImageInput()" type="button">이미지 추가</button>
+
+    <div class="preview-container" id="imagePreviewContainer">
+        <!-- 회차 미리보기 이미지가 여기에 표시됩니다 -->
+    </div>
+
+    <button class="btn" type="submit">등록</button>
+</form>
+
+<script>
+    let imageCount = 0; // 이미지 순서 추적
+
+    // 이미지 추가 버튼 클릭 시 새로운 파일 input 추가
+    function addImageInput() {
+        var container = document.getElementById("episodeImagesContainer");
+
+        var newInput = document.createElement("div");
+        newInput.classList.add("form-group");
+
+        var inputElement = document.createElement("input");
+        inputElement.setAttribute("type", "file");
+        inputElement.setAttribute("name", "episodeImages");
+        inputElement.setAttribute("accept", "image/*");
+        inputElement.setAttribute("class", "form-control");
+        inputElement.setAttribute("onchange", "previewImages(this)");
+
+        newInput.appendChild(inputElement);
+        container.appendChild(newInput);
+    }
+
+    // 이미지 미리보기 함수
+    function previewImages(input) {
+        var previewContainer = document.getElementById("imagePreviewContainer");
+
+        // 새로 선택한 파일을 읽어오기
+        var file = input.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = document.createElement("img");
+                img.src = e.target.result;
+                img.classList.add("preview-img");
+
+                // 순서대로 추가
+                var orderLabel = document.createElement('p');
+                orderLabel.innerText = `순서: ${imageCount + 1}`;
+                previewContainer.appendChild(orderLabel);
+
+                previewContainer.appendChild(img);
+                imageCount++; // 순서 증가
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // 썸네일 미리보기
+    function previewThumbnail() {
+        var thumbnailPreview = document.getElementById("thumbnailPreview");
+        var file = document.getElementById("thumbnailImg").files[0];
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = document.createElement("img");
+            img.src = e.target.result;
+            thumbnailPreview.innerHTML = "";
+            thumbnailPreview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
+
+</body>
+</html>

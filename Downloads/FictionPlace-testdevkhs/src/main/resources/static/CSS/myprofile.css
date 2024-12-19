@@ -1,0 +1,190 @@
+body {
+    background-color: #FAFAFA;
+}
+.main-container {
+    display: flex;
+}
+.sidebar {
+  position: sticky; /* 사이드바를 화면의 왼쪽에 고정 */
+  left: 0;
+  width: 17%;
+  height: 100vh; /* 네비게이션 바 아래부터 화면 끝까지 차지 */
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 800; /* 다른 요소들 위에 보이도록 설정 */
+}
+.icon-status {
+  display: none;
+}
+.profile-link {
+  text-decoration: none !important;
+}
+
+.sidebar-item a {
+  display: flex;
+  margin-top: 25px; /* 각 항목 사이의 간격 */
+  cursor: pointer;
+  color: #000000 !important;
+  font-family: "Rubik", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.408px;
+  text-decoration: none !important;
+}
+
+.sidebar-item:hover {
+  color: #414141 !important; /* 항목에 마우스를 올렸을 때 색상 변경 */
+}
+
+.sidebar-icon {
+  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
+  color: #7b7b7b; /* 기본 아이콘 색상 */
+}
+
+.sidebar-item:hover .sidebar-icon {
+  color: #414141 !important; /* 호버 시 아이콘 색상 변경 */
+}
+
+.sidebar-item:first-child {
+  margin-top: 20px;
+}
+
+/* 전체 부모 컨테이너 */
+.profile_home {
+    display: flex; /* 요소를 가로로 정렬 */
+    align-items: flex-start; /* 세로 정렬 기준을 위로 설정 */
+    justify-content: flex-start; /* 가로 정렬 기준을 왼쪽으로 설정 */
+    gap: 10px; /* 요소 간격 */
+    margin: 50px 10% 50px 6%;
+    width: 71%;
+    padding: 30px;
+    border: 1px solid;
+    border-radius: 20px;
+    background-color: #eaeaea;
+}
+
+/* 프로필 이미지 컨테이너 */
+.profile-container {
+    box-sizing: border-box;
+    width: 200px;
+    height: 200px;
+    background-color: #d3d3d3;
+    border: 1px solid #000000;
+    border-radius: 30px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 프로필 이미지 */
+.profile-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* 프로필 정보 컨테이너 */
+.profile-info {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    gap: 10px; /* 요소 간 간격 */
+    flex: 1; /* 프로필 정보 영역이 남은 공간을 차지 */
+}
+
+/* 닉네임 스타일 */
+#profile-nickname {
+    font-family: "Rubik";
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 22px;
+    color: #000000;
+}
+
+/* 이메일 스타일 */
+#profile-email {
+    font-family: "Roboto";
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+/* 자기소개 카드 */
+.discription-card {
+    width: 50%;
+    height: 150px;
+    resize: none;
+    overflow: auto;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* 자기소개 텍스트 */
+.discription-card .discription {
+    font-family: "Roboto";
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #333333;
+}
+.crop-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.crop-container img {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.upload-input {
+  display: none;
+}
+
+
+
+.sidebar-link.disabled {
+    color: gray;
+    pointer-events: none; /* 클릭 불가 상태 */
+    cursor: not-allowed;
+}
+
+.my-info {
+    gap: 24px;
+    padding: 10px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+#description {
+    border: 1px solid;
+    padding: 10px;
+    border-radius: 10px;
+    height: 150px;
+    background-color: #fff;
+}

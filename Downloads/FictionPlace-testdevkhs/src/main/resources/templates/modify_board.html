@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+    <link rel="stylesheet" href="/modify_board.css">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+
+<div class="content-wrapper">
+    <form th:action="@{|/board/modify/${id}|}" method="post" class="modify-body">
+        <!-- 제목 입력란 -->
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" th:value="${boardForm.title}" required />
+        </div>
+        <!-- 내용 입력란 -->
+        <div class="form-group">
+            <label for="content">내용</label>
+            <textarea id="content" name="content" rows="10" required
+                      th:text="${boardForm.content}"></textarea>
+        </div>
+        <!-- 수정 버튼 -->
+        <button type="submit" class="btn-submit">수정하기</button>
+    </form>
+</div>
+<script src="/JS/dropdown.js"></script>
+</body>
+</html>

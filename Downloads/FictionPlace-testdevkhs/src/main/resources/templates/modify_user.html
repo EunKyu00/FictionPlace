@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필 페이지</title>
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+    <link rel="stylesheet" th:href="@{/CSS/user_modify.css}">
+
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+<div class="main-container">
+<!-- 사이드바 -->
+<div class="sidebar">
+    <div class="sidebar-item">
+        <a th:if="${user.Id != null}"
+           th:href="@{/profile/user/{id}(id=${user.Id})}"
+           class="sidebar-link">
+            <span class="sidebar-icon">🏠</span> 프로필 홈
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/}" class="sidebar-link">
+            <span class="sidebar-icon">📋</span> 작품 관리
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/}" class="sidebar-link">
+            <span class="sidebar-icon">✏️</span> 작품 등록
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/}" class="sidebar-link">
+            <span class="sidebar-icon">❤️</span> 관심 작품
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/}" class="sidebar-link">
+            <span class="sidebar-icon">✉️</span> 쪽지함
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/profile/user/{id}/modify(id=${id})}" class="sidebar-link">
+            <span class="sidebar-icon">🖊️</span> 정보 수정
+        </a>
+    </div>
+</div>
+<div class="modify-type">
+<form th:action="@{/profile/user/{id}/modify(id=${user.id})}" th:object="${user}" method="post" class="user-modify-form">
+    <h2>사용자 이용정보 입력</h2>
+    <div class="nickname">
+        <label>닉네임:</label>
+        <input type="text" th:field="*{nickname}" />
+    </div>
+    <div class="email">
+        <label>이메일:</label>
+        <input type="email" th:field="*{email}" />
+    </div>
+    <div class="password">
+        <label>비밀번호:</label>
+        <input type="password" th:field="*{password}" />
+    </div>
+    <div class="description">
+        <label>자기소개:</label>
+        <textarea id="description" th:field="*{myProfile.description}"></textarea>
+    </div>
+    <div class="modify-btn">
+        <button type="submit">수정</button>
+    </div>
+</form>
+</div>
+</div>
+</body>
+</html>

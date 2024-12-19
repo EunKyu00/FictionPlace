@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+    <link rel="stylesheet" th:href="@{/CSS/board_detail.css}">
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+
+    <div class="content-wrapper">
+        <div class="post-details">
+            <h1 th:text="${board.title}"></h1>
+            <div class="details">
+                <span class="details-info">
+                <span class="nickname" th:text="'👤' + ${board.siteUser != null ? board.siteUser.nickname : board.companyUser.companyName}"></span>
+                <span class="category" th:text="'📂' + ${board.boardType.boardTypeName}"></span>
+                <span class="comments" th:text="'💬' + ${comment_count}"></span>
+                <span class="views" th:text="'👀' + ${board.hit}"></span>
+                <span class="likes" th:text="'👍' + ${board.likes}"></span>
+                </span>
+                <!-- 로그인된 사용자(일반/기업)와 작성자 비교 -->
+                <div  class="post-btn" th:if="(${loginUser != null and board.siteUser != null and loginUser.id == board.siteUser.id})
+                or (${loginCompanyUser != null and board.companyUser != null and loginCompanyUser.id == board.companyUser.id})">
+                    <a th:href="@{|/board/modify/${board.id}|}">수정</a>
+                    <a th:href="@{|/board/delete/${board.id}|}" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+                </div>
+            </div>
+            <div class="post-content">
+                <p th:text="${board.content}"></p>
+                <!-- 추천 기능 -->
+                <div class="vote">
+                    <form th:action="@{|/board/recommend/${board.id}|}" method="POST">
+                        <!-- 추천 버튼 -->
+                        <button type="submit" class="btn-recommend">👍</button>
+                    </form>
+                    <!-- 추천 수 -->
+                    <span>추천 수: <span th:text="${board.likes}"></span></span>
+                </div>
+                <!-- 로그인되지 않은 경우, 에러 메시지 출력 -->
+                <div th:if="${errorMessage}" style="color: red; margin-bottom: 20px;">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+
+            </div>
+        </div>
+            <div class="comments-section">
+                <h2>💬 댓글</h2>
+                <!-- 댓글 입력 폼 -->
+                <div class="comment-form">
+                    <form th:action="@{|/comment/create/${board.id}|}" method="post">
+                        <!-- 로그인되지 않았을 때 댓글 등록시 에러 메시지 출력 -->
+                        <div th:if="${message}" style="color: red !important; margin-bottom: 20px;">
+                            <p th:text="${message}"></p>
+                        </div>
+                        <!-- 빈문자열,공백 댓글 등록시 에러 메시지 출력 -->
+                        <div th:if="${errorContent}" style="color: red !important; margin-bottom: 20px;">
+                            <p th:text="${errorContent}"></p>
+                        </div>
+                        <textarea name="content" id="content" rows="4" placeholder="댓글을 입력하세요..."></textarea>
+                        <button type="submit" class="btn-submit">댓글등록</button>
+                    </form>
+                </div>
+
+                <div th:each="comment : ${comments}" class="comment">
+                    <div class="comment-info">
+                    <span class="author"
+                          th:text="'👤' + ${comment.siteUser != null ? comment.siteUser.nickname : comment.companyUser.companyName}">
+                        <!-- 예: 👤 닉네임 또는 기업명 -->
+                    </span>
+                        <span class="time" th:text="${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm')}">
+                        <!-- 작성 시간 (예: 2023-01-01 12:34) -->
+                    </span>
+                        <p th:text="${comment.content}"></p>
+                    </div>
+                    <div class="delite">
+                        <div th:if="${loginUser != null && comment.siteUser?.id == loginUser?.id || loginCompanyUser != null && comment.companyUser?.id == loginCompanyUser?.id}"
+                             class="comment-delete">
+                            <a th:href="@{|/comment/delete/${comment.id}|}" class="btn-delete">x</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="/JS/dropdown.js"></script>
+</body>
+</html>

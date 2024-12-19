@@ -1,0 +1,96 @@
+/* 전체 페이지 중앙 정렬 */
+body {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0;
+  background-color: #2b2b2b;
+  font-family: Arial, sans-serif;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 전체 컨텐츠 박스 */
+.content-wrapper {
+  width: 80%;
+  max-width: 800px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center; /* 내부 텍스트 중앙 정렬 */
+  margin-top: 10px;
+  min-height: 78vh;
+}
+
+/* 폼 스타일 */
+.modify-body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 폼 그룹 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* 라벨 스타일 */
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* 입력 필드 스타일 */
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 1em;
+    background-color: #ffffff;
+    color: #000000;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: none;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    border-color: #000000;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 스타일 */
+.btn-submit {
+    padding: 12px 20px;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    align-self: end;
+}
+
+
+/* 네비게이션 바 스타일 (Navbar.css와 일치시키기) */
+/* 만약 네비게이션 바가 포함되어 있다면, 네비게이션 바도 블랙 앤 화이트 테마에 맞게 조정하세요 */
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .content-wrapper {
+        margin: 40px 20px;
+        padding: 15px;
+    }
+
+    .content-wrapper h1 {
+        font-size: 1.5em;
+    }
+
+    .btn-submit {
+        width: 100%;
+    }
+}

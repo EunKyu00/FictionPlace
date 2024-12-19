@@ -1,0 +1,118 @@
+body {
+    background-color: #FAFAFA;
+}
+
+.main-container {
+    display: flex;
+}
+.sidebar {
+  position: sticky; /* 사이드바를 화면의 왼쪽에 고정 */
+  left: 0;
+  width: 17%;
+  min-height: 100vh; /* 네비게이션 바 아래부터 화면 끝까지 차지 */
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 800; /* 다른 요소들 위에 보이도록 설정 */
+}
+.icon-status {
+  display: none;
+}
+.profile-link {
+  text-decoration: none !important;
+}
+
+.sidebar-item a {
+  display: flex;
+  margin-top: 25px; /* 각 항목 사이의 간격 */
+  cursor: pointer;
+  color: #000000 !important;
+  font-family: "Rubik", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.408px;
+  text-decoration: none !important;
+}
+
+.sidebar-item:hover {
+  color: #414141 !important; /* 항목에 마우스를 올렸을 때 색상 변경 */
+}
+
+.sidebar-icon {
+  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
+  color: #7b7b7b; /* 기본 아이콘 색상 */
+}
+
+.sidebar-item:hover .sidebar-icon {
+  color: #414141 !important; /* 호버 시 아이콘 색상 변경 */
+}
+
+.sidebar-item:first-child {
+  margin-top: 20px;
+}
+
+.container {
+    display: flex;
+    margin: 0 0 0 3%;
+    padding: 40px;
+    flex-direction: column;
+    min-width: 100vh;
+}
+
+.create-form {
+    min-width: 500px;
+}
+
+.create-form > div > input, .create-form > div > textarea {
+    display: flex;
+}
+
+.create-form div label, select, imagePreview{
+    display: block;
+    margin-bottom: 15px;
+}
+.create-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+.create-form  textarea {
+    height: 180px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+#imagePreview {
+    min-width: 160px;
+    max-width: 160px;
+    height: 207px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 34px;
+    background-color: #fff;
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
+}
+
+.form-container {
+    display: flex;
+}
