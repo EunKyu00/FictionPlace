@@ -78,9 +78,7 @@ public class SiteUserService {
         if (!updatedUser.getPassword().isEmpty()) {
             currentUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         }
-        if (updatedUser.getMyProfile() != null && updatedUser.getMyProfile().getDescription() != null) {
-            currentUser.getMyProfile().setDescription(updatedUser.getMyProfile().getDescription());
-        }
+        currentUser.getMyProfile().setDescription(updatedUser.getMyProfile().getDescription());
         siteUserRepository.save(currentUser);
     }
     // findById 메서드 추가

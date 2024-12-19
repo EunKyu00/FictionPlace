@@ -1,5 +1,5 @@
 body {
-    background-color: #f9f9f9;
+    background-color: #eaeaea;
 }
 
 /* 슬라이더 css */
@@ -56,19 +56,15 @@ body {
 }
 /* 정보 수정 폼 */
 .modify-type {
-    position: absolute;
+    position: relative;
     display: flex;
-    height: 350px;
-    top: 28%; /* 부모 높이의 50% */
-    left: 50%; /* 부모 너비의 50% */
-    transform: translate(-50%, -50%); /* 본인의 크기 기준으로 이동 */
     padding: 20px;
-    max-width: 600px;
-    margin: 50px auto;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    align-items: center
+    margin: 17px 22% 17px 22%;
+    min-width: 70%;
+}
+
+.user-modify-form {
+    width: 100%;
 }
 /* 레이블 스타일 */
 .user-modify-form label {
@@ -79,7 +75,7 @@ body {
 }
 /* 입력 필드 스타일 */
 .user-modify-form input {
-    width: 100%;
+    width: 50%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -87,11 +83,21 @@ body {
     font-size: 14px;
     box-sizing: border-box;
 }
+.description > textarea {
+    height: 180px;
+    width: 65%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    resize: none;
+}
 /* 버튼 스타일 */
 .user-modify-form button {
-    width: 100%;
     padding: 10px;
-    background-color: #4caf50;
+    background-color: #000;
     color: white;
     font-size: 16px;
     border: none;
@@ -100,5 +106,5 @@ body {
     transition: background-color 0.3s ease;
 }
 .user-modify-form button:hover {
-    background-color: #0056b3;
+    background-color: ##5a4bcd;
 }

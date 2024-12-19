@@ -45,23 +45,24 @@
 </div>
 <div class="modify-type">
 <form th:action="@{/profile/user/{id}/modify(id=${user.id})}" th:object="${user}" method="post" class="user-modify-form">
-    <div>
+    <h2>사용자 이용정보 입력</h2>
+    <div class="nickname">
         <label>닉네임:</label>
         <input type="text" th:field="*{nickname}" />
     </div>
-    <div>
+    <div class="email">
         <label>이메일:</label>
         <input type="email" th:field="*{email}" />
     </div>
-    <div>
+    <div class="password">
         <label>비밀번호:</label>
         <input type="password" th:field="*{password}" />
     </div>
-    <div>
-        <label for="description">자기소개:</label>
-        <textarea id="description" th:field="*{profile.description}" rows="5"></textarea>
+    <div class="description">
+        <label>자기소개:</label>
+        <textarea id="description" th:field="*{myProfile.description}"></textarea>
     </div>
-    <div>
+    <div class="modify-btn">
         <button type="submit">수정</button>
     </div>
 </form>
