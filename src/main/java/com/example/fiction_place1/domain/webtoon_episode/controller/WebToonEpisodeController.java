@@ -1,5 +1,6 @@
 package com.example.fiction_place1.domain.webtoon_episode.controller;
 
+import com.example.fiction_place1.domain.board.entity.Board;
 import com.example.fiction_place1.domain.comment.entity.Comment;
 import com.example.fiction_place1.domain.comment.service.CommentService;
 import com.example.fiction_place1.domain.favorite.service.FavoriteService;
@@ -13,6 +14,9 @@ import com.example.fiction_place1.domain.webtoon_episode.entity.WebToonEpisode;
 import com.example.fiction_place1.domain.webtoon_episode.service.WebToonEpisodeService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -169,57 +173,43 @@ public class WebToonEpisodeController {
         return "redirect:/"; // 메인 페이지로 리다이렉트
     }
 
-    // 메인 페이지 웹툰 리스트
     @GetMapping("/main/page/webtoon/episode/{id}")
-    public String mainPageWebToonEpisodeList(@PathVariable("id") Long webtoonId, Model model,HttpSession session) {
+    public String mainPageWebToonEpisodeList(@PathVariable("id") Long webtoonId, Model model, HttpSession session,
+                                             @RequestParam(value = "page", defaultValue = "0") int page,
+                                             @RequestParam(value = "size", defaultValue = "10") int size) {
 
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
 
+        // 선택된 웹툰 목록 가져오기
         List<WebToon> selectedWebtoons = webToonService.findSelectedWebtoons();
-        Map<Long, List<WebToonEpisode>> episodesByWebtoon = new HashMap<>();
 
-        // 선택된 에피소드들만 가져오기
-        List<WebToonEpisode> selectedWebtoonEpisodes = webToonEpisodeService.findSelectedWebtoonEpisodes();
+        // 요청받은 웹툰을 찾기
+        WebToon targetWebtoon = selectedWebtoons.stream()
+                .filter(webToon -> webToon.getId().equals(webtoonId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid WebToon ID"));
 
-        // 각 웹툰에 대해 해당하는 선택된 에피소드 목록 가져오기
-        WebToon targetWebtoon = null; // 선택된 웹툰을 저장할 변수
-        for (WebToon webToon : selectedWebtoons) {
-            if (webToon.getId().equals(webtoonId)) {
-                targetWebtoon = webToon; // 요청받은 웹툰 ID와 일치하는 웹툰 저장
-            }
-
-            // 해당 웹툰에 맞는 선택된 에피소드들 필터링
-            List<WebToonEpisode> episodesForWebtoon = selectedWebtoonEpisodes.stream()
-                    .filter(episode -> episode.getWebToon().getId().equals(webToon.getId()))
-                    .collect(Collectors.toList());
-
-            episodesByWebtoon.put(webToon.getId(), episodesForWebtoon); // 웹툰 ID를 키로, 에피소드 목록을 값으로 저장
-        }
-
-        if (targetWebtoon == null) {
-            throw new IllegalArgumentException("Invalid WebToon ID");
-        }
+        // 페이징 처리된 에피소드들 가져오기
+        Pageable pageable = PageRequest.of(page, size);
+        Page<WebToonEpisode> webtoonEpisodesPage = webToonEpisodeService.findSelectedWebtoonEpisodesPaged(webtoonId, pageable);
 
         // 즐겨찾기 여부 확인
         boolean favorite = false;
         if (siteUser != null) {
             WebToon webtoon = webToonService.findById(webtoonId);
             if (webtoon != null) {
-                // 해당 웹툰이 즐겨찾기 목록에 존재하는지 확인
                 favorite = favoriteService.getFavoriteWebToons(siteUser).contains(webtoon);
             }
         }
 
-        // 웹툰 정보 가져오기
-        WebToon webtoon = webToonService.findById(webtoonId);
-
-        model.addAttribute("webtoon", webtoon);
-        model.addAttribute("webtoon", targetWebtoon); // 선택된 웹툰을 모델에 추가
-        model.addAttribute("episodesByWebtoon", episodesByWebtoon); // 에피소드 목록 추가
-        model.addAttribute("favorite", favorite); // 즐겨찾기 상태 추가
+        // 웹툰 정보 모델에 추가
+        model.addAttribute("webtoon", targetWebtoon); // 선택된 웹툰
+        model.addAttribute("favorite", favorite); // 즐겨찾기 상태
+        model.addAttribute("episodesPage", webtoonEpisodesPage); // 페이징된 에피소드 리스트
 
         return "main_page_episode_detail";
     }
+
 
     //웹툰 에피소드 삭제
     @GetMapping("/webtoon/episode/delete/{id}")

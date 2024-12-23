@@ -7,149 +7,177 @@
     <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
     <style>
         /* 전체 페이지의 레이아웃 설정 */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f7fc;
-}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+        }
 
-/* 네비바 고정 위치 */
-.navbar {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0;
-    position: fixed;  /* 네비바를 상단에 고정 */
-    top: 0;
-    left: 0;
-    background-color: #fff;  /* 배경색 */
-    z-index: 1000;  /* 다른 콘텐츠 위에 표시되도록 설정 */
-}
+        /* 네비바 고정 위치 */
+        .navbar {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            position: fixed;  /* 네비바를 상단에 고정 */
+            top: 0;
+            left: 0;
+            background-color: #fff;  /* 배경색 */
+            z-index: 1000;  /* 다른 콘텐츠 위에 표시되도록 설정 */
+        }
 
-/* 메뉴와 메시지 리스트 배치 */
-.container {
-    display: flex;
-    flex-direction: column;
-    margin-top: 60px;  /* 네비바 높이만큼 마진을 주어 콘텐츠가 가려지지 않도록 함 */
-}
+        /* 메뉴와 메시지 리스트 배치 */
+        .container {
+            display: flex;
+            flex-direction: column;
+            margin-top: 60px;  /* 네비바 높이만큼 마진을 주어 콘텐츠가 가려지지 않도록 함 */
+        }
 
-.content {
-    display: flex;
-    padding: 20px;
-}
+        .content {
+            display: flex;
+            padding: 20px;
+        }
 
-.tabs {
-    display: flex;
-    flex-direction: column;
-    width: 220px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-right: 30px;
-}
+        .tabs {
+            display: flex;
+            flex-direction: column;
+            width: 220px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-right: 30px;
+        }
 
-.tab {
-    padding: 18px;
-    text-align: center;
-    font-weight: bold;
-    text-decoration: none;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.3s, color 0.3s;
-}
+        .tab {
+            padding: 18px;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-.tab:hover {
-    background-color: #007BFF;
-    color: white;
-}
+        .tab:hover {
+            background-color: #007BFF;
+            color: white;
+        }
 
-.tab.active {
-    background-color: #007BFF;
-    color: white;
-    border-left: 5px solid #0056b3;
-}
+        .tab.active {
+            background-color: #007BFF;
+            color: white;
+            border-left: 5px solid #0056b3;
+        }
 
-.message-list {
-    flex-grow: 1;
-    width: calc(100% - 250px); /* tabs 너비만큼을 제외한 너비 */
-}
+        .message-list {
+            flex-grow: 1;
+            width: calc(100% - 250px); /* tabs 너비만큼을 제외한 너비 */
+        }
 
-.message-item {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .message-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.message-item:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
+        .message-item:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-.message-item .sender,
-.message-item .title,
-.message-item .date {
-    flex: 1;
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+        .message-item .sender,
+        .message-item .title,
+        .message-item .date {
+            flex: 1;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-.message-item .title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #007BFF;
-    text-decoration: none;
-    margin-top: 8px;
-}
+        .message-item .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #007BFF;
+            text-decoration: none;
+            margin-top: 8px;
+        }
 
-.message-item .title:hover {
-    color: #0056b3;
-}
+        .message-item .title:hover {
+            color: #0056b3;
+        }
 
-.message-item .meta {
-    font-size: 12px;
-    color: #888;
-    margin-top: 5px;
-}
+        .message-item .meta {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
 
-.unread {
-    font-weight: bold;
-    color: red;
-}
+        .unread {
+            font-weight: bold;
+            color: red;
+        }
 
-a {
-    text-decoration: none;
-}
+        a {
+            text-decoration: none;
+        }
 
-/* 모바일에서 메뉴와 메시지 목록의 크기를 자동으로 조정 */
-@media (max-width: 768px) {
-    .tabs {
-        width: 180px;
-    }
+        /* 모바일에서 메뉴와 메시지 목록의 크기를 자동으로 조정 */
+        @media (max-width: 768px) {
+            .tabs {
+                width: 180px;
+            }
 
-    .message-list {
-        margin-left: 20px;
-        width: calc(100% - 200px);
-    }
+            .message-list {
+                margin-left: 20px;
+                width: calc(100% - 200px);
+            }
 
-    .message-item {
-        flex-direction: column;
-    }
+            .message-item {
+                flex-direction: column;
+            }
 
-    .message-item .sender,
-    .message-item .title,
-    .message-item .date {
-        text-align: center;
-        flex: none;
-    }
-}
+            .message-item .sender,
+            .message-item .title,
+            .message-item .date {
+                text-align: center;
+                flex: none;
+            }
+        }
+
+        /* 페이징 스타일 */
+        .pagination {
+            display: flex;
+            justify-content: center; /* 중앙 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .pagination a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 5px 10px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+        }
+
+        .pagination a:hover {
+            text-decoration: underline;
+            background-color: #f0f8ff;
+        }
+
+        .pagination span {
+            font-size: 1rem;
+            color: #555;
+        }
 
     </style>
 </head>
@@ -163,14 +191,12 @@ a {
             <a th:href="@{/message/sent}" class="tab active">보낸 쪽지</a>
             <a th:href="@{/message/send}" class="tab">쪽지 보내기</a>
         </div>
-
         <div class="message-list">
             <h2>보낸 쪽지</h2>
-            <div th:if="${#lists.isEmpty(messages)}">
+            <div th:if="${messagePage == null or messagePage.content.isEmpty()}">
                 <p>보낸 쪽지가 없습니다.</p>
             </div>
-
-            <div class="message-item" th:each="message : ${messages}">
+            <div class="message-item" th:each="message : ${messagePage}">
                 <div class="sender">
                     <span>받는 사람:</span>
                     <span th:text="${message.receiverSiteUser != null ? message.receiverSiteUser.nickname :
@@ -183,6 +209,19 @@ a {
                 <div class="date">
                     <span th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </div>
+            </div>
+            <div class="pagination" th:if="${messagePage != null}">
+                    <span th:if="${messagePage.number > 0}">
+                        <a th:href="@{|/message/sent?page=${messagePage.number - 1}&size=${size != null ? size : 10}|}">이전</a>
+                    </span>
+                <span>
+                    <span th:text="${messagePage.totalPages > 0 ? messagePage.number + 1 : 1}"></span> /
+                    <span th:text="${messagePage.totalPages > 0 ? messagePage.totalPages : 1}"></span>
+                </span>
+
+                <span th:if="${messagePage.number + 1 < messagePage.totalPages}">
+                    <a th:href="@{|/message/sent?page=${messagePage.number + 1}&size=${size != null ? size : 10}|}">다음</a>
+                </span>
             </div>
         </div>
     </div>

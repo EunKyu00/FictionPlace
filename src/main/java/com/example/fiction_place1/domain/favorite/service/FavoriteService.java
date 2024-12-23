@@ -49,4 +49,5 @@ public class FavoriteService {
                 .map(Favorite::getWebtoon)  // 수정된 부분
                 .collect(Collectors.toList());
     }
+
 }

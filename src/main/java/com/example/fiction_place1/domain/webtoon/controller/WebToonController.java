@@ -40,10 +40,11 @@ public class WebToonController {
 
     //본인 작품 관리
     @GetMapping("/my/webtoon")
-    public String myWebtoon(Model model,HttpSession session ){
+    public String myWebtoon(Model model,HttpSession session,
+                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "size", defaultValue = "3") int size){
         // 세션에서 로그인된 사용자 정보 가져오기
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
-
 
         if (siteUser == null ){
             return "redirect:/login/user";

@@ -8,10 +8,9 @@ import com.example.fiction_place1.domain.user.entity.User;
 import com.example.fiction_place1.domain.user.repository.CompanyUserRepository;
 import com.example.fiction_place1.domain.user.repository.SiteUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,21 +43,6 @@ public class MessageService {
         this.messageRepository.save(message);
     }
 
-
-    public List<Message> getSenderSiteUserMessage(SiteUser siteUser){
-        return messageRepository.findBySenderSiteUser(siteUser);
-    }
-
-    public List<Message> getSenderCompanyMessage(CompanyUser companyUser){
-        return messageRepository.findBySenderCompanyUser(companyUser);
-    }
-    public List<Message> getReceiverSiteUserMessage(SiteUser siteUser){
-        return messageRepository.findByReceiverSiteUser(siteUser);
-    }
-    public List<Message> getReceiverCompanyUserMessage(CompanyUser companyUser){
-        return messageRepository.findByReceiverCompanyUser(companyUser);
-    }
-
     public SiteUser findByNickname(String nickname) {
         return siteUserRepository.findByNickname(nickname)
                 .orElse(null);
@@ -77,6 +61,27 @@ public class MessageService {
         return messageRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("쪽지를 찾을 수 없습니다."));
     }
+    public Page<Message> getReceiverSiteUserMessage(SiteUser siteUser, Pageable pageable) {
+        return messageRepository.findByReceiverSiteUserOrderByCreatedDateDesc(siteUser, pageable);
+    }
 
+    public Page<Message> getReceiverCompanyUserMessage(CompanyUser companyUser, Pageable pageable) {
+        return messageRepository.findByReceiverCompanyUserOrderByCreatedDateDesc(companyUser, pageable);
+    }
+    public Page<Message> getSenderSiteUserMessage(SiteUser siteUser,Pageable pageable){
+        return messageRepository.findBySenderSiteUserOrderByCreatedDateDesc(siteUser,pageable);
+    }
+
+    public Page<Message> getSenderCompanyMessage(CompanyUser companyUser,Pageable pageable){
+        return messageRepository.findBySenderCompanyUserOrderByCreatedDateDesc(companyUser,pageable);
+    }
+    public long countUnreadMessagesForUser(SiteUser siteUser) {
+        return messageRepository.countByReceiverSiteUserAndIsReadFalse(siteUser);
+    }
+
+    // CompanyUser의 미확인 쪽지 수
+    public long countUnreadMessagesForCompanyUser(CompanyUser companyUser) {
+        return messageRepository.countByReceiverCompanyUserAndIsReadFalse(companyUser);
+    }
 }
 

@@ -10,6 +10,9 @@ import com.example.fiction_place1.domain.user.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +28,10 @@ public class MessageController {
 
     //받은 쪽지 보관함
     @GetMapping("/message/menu")
-    public String messageMenu(Model model, HttpSession session) {
+    public String messageMenu(Model model, HttpSession session,
+                              @RequestParam(value = "page", defaultValue = "0") int page,
+                              @RequestParam(value = "size", defaultValue = "10") int size) {
+
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
 
@@ -33,13 +39,21 @@ public class MessageController {
             return "access_denied";
         }
 
+        Pageable pageable = PageRequest.of(page, size);
+
         if (siteUser != null) {
-            List<Message> messages = messageService.getReceiverSiteUserMessage(siteUser);
-            model.addAttribute("messages",messages);
+            Page<Message> messagePage = messageService.getReceiverSiteUserMessage(siteUser,pageable);
+            model.addAttribute("messagePage",messagePage);
+            // 페이지 내의 메시지 목록을 가져와 읽지 않은 메시지 수를 계산
+            long unreadCountForSiteUser = messageService.countUnreadMessagesForUser(siteUser);
+            model.addAttribute("unreadCountForSiteUser", unreadCountForSiteUser);
         }
         if (companyUser != null){
-            List<Message> messages = messageService.getReceiverCompanyUserMessage(companyUser);
-            model.addAttribute("messages",messages);
+            Page<Message> messagePage = messageService.getReceiverCompanyUserMessage(companyUser,pageable);
+            model.addAttribute("messagePage",messagePage);
+
+            long unreadCountForCompanyUser = messageService.countUnreadMessagesForCompanyUser(companyUser);
+            model.addAttribute("unreadCountForCompanyUser", unreadCountForCompanyUser);
         }
 
         return "message_menu";
@@ -47,7 +61,9 @@ public class MessageController {
 
     //보낸 쪽지
     @GetMapping("/message/sent")
-    public String sentMessages(Model model, HttpSession session) {
+    public String sentMessages(Model model, HttpSession session,
+                               @RequestParam(value = "page", defaultValue = "0") int page,
+                               @RequestParam(value = "size", defaultValue = "10") int size) {
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
 
@@ -55,24 +71,17 @@ public class MessageController {
             return "access_denied";
         }
 
-        if (siteUser != null) {
-            List<Message> messages = messageService.getSenderSiteUserMessage(siteUser);
-            model.addAttribute("messages", messages);
+        Pageable pageable = PageRequest.of(page, size);
 
-            // 읽지 않은 쪽지 수를 계산하여 표시
-            long unreadCount = messages.stream().filter(message -> !message.isRead()).count();
-            model.addAttribute("unreadCount", unreadCount);
+        if (siteUser != null) {
+            Page<Message> messages = messageService.getSenderSiteUserMessage(siteUser,pageable);
+            model.addAttribute("messagePage", messages);
         }
 
         if (companyUser != null) {
-            List<Message> messages = messageService.getSenderCompanyMessage(companyUser);
-            model.addAttribute("messages", messages);
-
-            // 읽지 않은 쪽지 수를 계산하여 표시
-            long unreadCount = messages.stream().filter(message -> !message.isRead()).count();
-            model.addAttribute("unreadCount", unreadCount);
+            Page<Message> messages = messageService.getSenderCompanyMessage(companyUser,pageable);
+            model.addAttribute("messagePage", messages);
         }
-
 
         return "message_sent";  // fallback, 일반적으로는 이 부분까지 오지 않음
     }

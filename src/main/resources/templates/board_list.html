@@ -67,7 +67,7 @@
             <span th:if="${currentPage > 0}">
                 <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=10|}">이전</a>
             </span>
-        <span>페이지: <span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span></span>
+        <span><span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span></span>
         <span th:if="${currentPage + 1 < totalPages}">
                 <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=10|}">다음</a>
             </span>

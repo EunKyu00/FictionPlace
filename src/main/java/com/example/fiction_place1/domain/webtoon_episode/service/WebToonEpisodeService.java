@@ -9,6 +9,8 @@ import com.example.fiction_place1.domain.webtoon_episode.entity.WebToonEpisode;
 import com.example.fiction_place1.domain.webtoon_episode.repository.EpisodeImageRepository;
 import com.example.fiction_place1.domain.webtoon_episode.repository.WebToonEpisodeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -80,11 +82,6 @@ public class WebToonEpisodeService {
         return episodeImageRepository.findByEpisodeIdOrderByOrderAsc(episodeId); // order 필드 기준으로 오름차순 정렬
     }
 
-    public List<WebToonEpisode> findSelectedWebtoonEpisodes() {
-        // 예시: "isSelected" 필드가 true인 웹툰만 가져오기
-        return webToonEpisodeRepository.findByIsSelectedTrue();
-    }
-
     public WebToonEpisode save(WebToonEpisode episode) {
         return webToonEpisodeRepository.save(episode); // JpaRepository의 save 메소드 사용
     }
@@ -136,10 +133,14 @@ public class WebToonEpisodeService {
             }
         }
 
-
         // 수정된 WebToonEpisode 저장
         webToonEpisodeRepository.save(webToonEpisode);
     }
+
+    public Page<WebToonEpisode> findSelectedWebtoonEpisodesPaged(Long webtoonId, Pageable pageable) {
+        return webToonEpisodeRepository.findByWebToonIdOrderByCreatedDateDesc(webtoonId, pageable);
+    }
+
 
 }
 

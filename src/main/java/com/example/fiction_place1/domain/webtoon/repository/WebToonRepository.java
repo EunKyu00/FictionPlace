@@ -2,6 +2,9 @@ package com.example.fiction_place1.domain.webtoon.repository;
 
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
+import com.example.fiction_place1.domain.webtoon_episode.entity.WebToonEpisode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
