@@ -12,8 +12,8 @@
 <div class="content_wrap">
   <div class="sidebar">
     <div class="sidebar-item">
-      <a th:if="${loggedInUserId != null}"
-         th:href="@{/profile/user/{id}(id=${loggedInUserId})}"
+      <a th:if="${loginUser != null}"
+         th:href="@{/profile/user/{id}(id=${loginUser})}"
          class="sidebar-link">
         <span class="sidebar-icon">🏠</span> 프로필 홈
       </a>
@@ -39,7 +39,7 @@
       </a>
     </div>
     <div class="sidebar-item">
-      <a th:href="@{/profile/user/{id}/modify(id=${id})}" class="sidebar-link">
+      <a th:href="@{/profile/user/{id}/modify(id=${loginUser})}" class="sidebar-link">
         <span class="sidebar-icon">🖊️</span> 정보 수정
       </a>
     </div>
@@ -82,7 +82,9 @@
         <span th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></span>
       </form>
     </div>
-    <img id="imagePreview" src="" alt="대표 이미지 미리보기"/>
+  </div>
+  <div class="preview">
+    <img id="imagePreview" src="" alt="썸네일 사진 크기는 160x207 입니다"/>
   </div>
 </div>
 <script>

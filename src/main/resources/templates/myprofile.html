@@ -13,6 +13,7 @@
 </head>
 <body>
 <div th:replace="~{navbar :: navbar}"></div>
+<div class="content_wrap">
 <!-- 사이드바 -->
 <div class="sidebar">
     <div class="sidebar-item">
@@ -83,6 +84,7 @@
         <div id="profile-email" th:text="${email}"></div>
         <div id="description" th:text="${description}"></div>
     </div>
+</div>
 </div>
 
 <script>

@@ -3,22 +3,18 @@ body {
 }
 
 .content_wrap {
-    outline: 1px solid red;
+    display: flex;
+    min-height: calc(100vh - 70px);
 }
 
 .sidebar {
-  position: fixed; /* 사이드바를 화면의 왼쪽에 고정 */
-  top: 70px; /* 네비게이션 바 바로 아래에 위치 */
-  left: 0;
-  width: 17%;
-  height: calc(100% - 80px); /* 네비게이션 바 아래부터 화면 끝까지 차지 */
+  width: 17%;/* 네비게이션 바 아래부터 화면 끝까지 차지 */
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  z-index: 800; /* 다른 요소들 위에 보이도록 설정 */
 }
 .icon-status {
   display: none;
@@ -60,7 +56,7 @@ body {
 
 .container {
     display: flex;
-    margin: 0 0 0 17%;
+    margin: 0 0 0 15%;
     padding: 40px;
     flex-direction: column;
 }
@@ -74,7 +70,7 @@ body {
     margin-bottom: 15px;
 }
 .create-form input {
-    width: 50%;
+    width: 80%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -84,7 +80,7 @@ body {
 }
 .create-form  textarea {
     height: 180px;
-    width: 50%;
+    width: 80%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -94,17 +90,28 @@ body {
     resize: none;
 }
 
+.preview {
+    display: flex;
+    width: 35%;
+    justify-content: flex-start;
+}
+
 #imagePreview {
-    margin-top: 10px;
-    width: 160px;
-    height: 207px;
+    width: 320px;
+    height: 414px;
     border: 1px solid #ddd;
     padding: 5px;
     border-radius: 5px;
-    display: none; /* 기본적으로 숨김 */
+    top: 144px;
+    position: relative;
+    margin: 10px 30px;
 }
 
 .error {
     color: red;
     font-size: 0.9em;
+}
+
+.image-preview {
+    flex-grow: 1;
 }

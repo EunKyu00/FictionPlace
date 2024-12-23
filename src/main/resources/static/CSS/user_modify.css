@@ -1,21 +1,19 @@
 body {
     background-color: #eaeaea;
 }
-
+.content_wrap {
+    display: flex;
+    min-height: calc(100vh - 70px);
+}
 /* 슬라이더 css */
 .sidebar {
-  position: fixed; /* 사이드바를 화면의 왼쪽에 고정 */
-  top: 70px; /* 네비게이션 바 바로 아래에 위치 */
-  left: 0;
-  width: 17%;
-  height: calc(100% - 80px); /* 네비게이션 바 아래부터 화면 끝까지 차지 */
+  width: 17%;/* 네비게이션 바 아래부터 화면 끝까지 차지 */
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  z-index: 800; /* 다른 요소들 위에 보이도록 설정 */
 }
 .icon-status {
   display: none;
@@ -58,9 +56,8 @@ body {
 .modify-type {
     position: relative;
     display: flex;
-    padding: 20px;
-    margin: 17px 22% 17px 22%;
     min-width: 70%;
+    padding: 40px 70px;
 }
 
 .user-modify-form {

@@ -3,10 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>나의 웹툰</title>
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
     <link rel="stylesheet" href="/my_webtoon.css" />
 </head>
 <body>
-<div th:if="${webtoons != null}">
+<div th:replace="~{navbar :: navbar}"></div>
+<div class="toonlist-container">
+<!-- 사이드바 -->
+<div class="sidebar">
+        <div class="sidebar-item">
+            <a th:if="${loggedInUserId != null}"
+               th:href="@{/profile/user/{id}(id=${loggedInUserId})}"
+               class="sidebar-link">
+                <span class="sidebar-icon">🏠</span> 프로필 홈
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/webtoon/create}" class="sidebar-link">
+                <span class="sidebar-icon">✏️</span> 작품 등록
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/my/webtoon}" class="sidebar-link">
+                <span class="sidebar-icon">📋</span> 작품 관리
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/my/favorite/webtoon}" class="sidebar-link">
+                <span class="sidebar-icon">❤️</span> 관심 작품
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/message/menu}" class="sidebar-link">
+                <span class="sidebar-icon">✉️</span> 쪽지함
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/profile/user/{id}/modify(id=${id})}" class="sidebar-link">
+                <span class="sidebar-icon">🖊️</span> 정보 수정
+            </a>
+        </div>
+    </div>
+<div th:if="${webtoons != null}" class="container">
     <div class="webtoon-list">
         <div th:each="webtoon : ${webtoons}" class="webtoon-card">
             <a th:href="@{/webtoon/episode/list/{id}(id=${webtoon.id})}" style="text-decoration: none;">
@@ -38,6 +76,7 @@
     <a th:href="@{/webtoon/create}">
         <button class="create-webtoon-btn">웹툰 등록하러 가기</button>
     </a>
+</div>
 </div>
 </body>
 </html>

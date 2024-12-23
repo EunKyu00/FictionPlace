@@ -18,12 +18,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -67,6 +69,7 @@ public class WebToonController {
         List<GenreType> genreTypes = genreTypeService.getAllGenres();
         model.addAttribute("genreTypes", genreTypes);
         model.addAttribute("webToonForm", new WebToonForm());
+        model.addAttribute("loginUser", siteUser.getId());
         return "webtoon_create_form";
     }
 
