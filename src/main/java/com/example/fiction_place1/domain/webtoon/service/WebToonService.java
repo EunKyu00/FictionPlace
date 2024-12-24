@@ -1,5 +1,6 @@
 package com.example.fiction_place1.domain.webtoon.service;
 
+import com.example.fiction_place1.domain.board.entity.Board;
 import com.example.fiction_place1.domain.genre_type.entity.GenreType;
 import com.example.fiction_place1.domain.genre_type.repository.GenreTypeRepository;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
@@ -94,7 +95,10 @@ public class WebToonService {
         }
         webToonRepository.save(webToon);
     }
-
+    public List<WebToon> searchWebToon(String keyword) {
+        return webToonRepository.findByTitleContainingOrSiteUser_NicknameContaining(
+                keyword, keyword);
+    }
 }
 
 

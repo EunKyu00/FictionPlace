@@ -2,13 +2,17 @@ package com.example.fiction_place1.domain.favorite.service;
 
 import com.example.fiction_place1.domain.favorite.entity.Favorite;
 import com.example.fiction_place1.domain.favorite.repository.FavoriteRepository;
+import com.example.fiction_place1.domain.user.entity.CompanyUser;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
+import com.example.fiction_place1.domain.user.entity.User;
 import com.example.fiction_place1.domain.user.repository.SiteUserRepository;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
 import com.example.fiction_place1.domain.webtoon.repository.WebToonRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,33 +24,56 @@ public class FavoriteService {
     private final WebToonRepository webToonRepository;
 
     // 관심 작품 등록 또는 해제
-    public void toggleFavorite(SiteUser siteUser, Long webtoonId) {
-        WebToon webToon = webToonRepository.findById(webtoonId).orElse(null);
+    public void toggleFavorite(Long webtoonId, User user) {
+        WebToon webToon = webToonRepository.findById(webtoonId)
+                .orElseThrow(() -> new EntityNotFoundException("웹툰을 찾을 수 없습니다."));
 
-        if (webToon == null) {
-            throw new IllegalArgumentException("웹툰을 찾을 수 없습니다.");
+        Favorite existingFavorite = null;
+
+        if (user instanceof SiteUser) {
+            // SiteUser의 즐겨찾기 확인
+            existingFavorite = favoriteRepository.findBySiteUserAndWebtoon((SiteUser) user, webToon).stream().findFirst().orElse(null);
+        } else if (user instanceof CompanyUser) {
+            // CompanyUser의 즐겨찾기 확인
+            existingFavorite = favoriteRepository.findByCompanyUserAndWebtoon((CompanyUser) user, webToon).stream().findFirst().orElse(null);
         }
 
-        // 사용자가 이미 관심 작품에 등록되어 있는지 확인
-        List<Favorite> favorites = favoriteRepository.findBySiteUserAndWebtoon(siteUser, webToon);  // 수정된 부분
-
-        if (!favorites.isEmpty()) {
-            // 이미 등록되어 있으면, 즐겨찾기 해제
-            favoriteRepository.delete(favorites.get(0));  // 수정된 부분
+        if (existingFavorite != null) {
+            this.favoriteRepository.delete(existingFavorite);
         } else {
-            // 없으면, 관심 작품 추가
             Favorite favorite = new Favorite();
-            favorite.setSiteUser(siteUser);
-            favorite.setWebtoon(webToon);  // 수정된 부분
-            favoriteRepository.save(favorite);
+            favorite.setWebtoon(webToon);
+
+            if (user instanceof SiteUser) {
+                SiteUser siteUser = (SiteUser) user;
+                favorite.setSiteUser(siteUser);
+            } else if (user instanceof CompanyUser) {
+                CompanyUser companyUser = (CompanyUser) user;
+                favorite.setCompanyUser(companyUser);
+            }
+            this.favoriteRepository.save(favorite);
         }
     }
 
     // 사용자가 즐겨찾기한 웹툰 리스트 가져오기
-    public List<WebToon> getFavoriteWebToons(SiteUser siteUser) {
-        List<Favorite> favorites = favoriteRepository.findBySiteUser(siteUser);
+    public List<WebToon> getFavoriteWebToons(User user) {
+        List<Favorite> favorites;
+        // SiteUser일 경우
+        if (user instanceof SiteUser) {
+            SiteUser siteUser = (SiteUser) user;
+            favorites = favoriteRepository.findBySiteUser(siteUser);
+        }
+        // CompanyUser일 경우
+        else if (user instanceof CompanyUser) {
+            CompanyUser companyUser = (CompanyUser) user;
+            favorites = favoriteRepository.findByCompanyUser(companyUser);
+        } else {
+            // 사용자가 SiteUser나 CompanyUser가 아닌 경우
+            throw new IllegalArgumentException("사용자가 유효하지 않습니다.");
+        }
+
         return favorites.stream()
-                .map(Favorite::getWebtoon)  // 수정된 부분
+                .map(Favorite::getWebtoon)
                 .collect(Collectors.toList());
     }
 

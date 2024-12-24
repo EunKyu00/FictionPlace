@@ -30,17 +30,19 @@
             </div>
         </div>
     </div>
+
     <div class="recommendation">
         <form th:action="@{|/webtoon/recommend/${webtoon.id}|}" method="POST">
             <button type="submit" class="btn-recommend" th:text="${message != null ? message : '추천'}"></button>
         </form>
         <span>추천 수: <span th:text="${webtoon.likes}"></span></span>
 
+        <!-- 로그인된 사용자에 따라 즐겨찾기 버튼 처리 -->
         <form th:action="@{/webtoon/favorite/{id}(id=${webtoon.id})}" method="POST">
             <button type="submit" class="btn-favorite" id="favorite-btn">
-                <span th:class="${favorite != null and favorite ? 'favorite-registered' : 'favorite-not-registered'}">
+                <span th:class="${favorite ? 'favorite-registered' : 'favorite-not-registered'}">
                     <i class="fas fa-star"></i>
-                    <span th:text="${favorite != null and favorite ? '관심작품 해제' : '관심작품 등록'}"></span>
+                    <span th:text="${favorite ? '관심작품 해제' : '관심작품 등록'}"></span>
                 </span>
             </button>
         </form>

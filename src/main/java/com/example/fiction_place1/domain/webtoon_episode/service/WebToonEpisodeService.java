@@ -1,5 +1,6 @@
 package com.example.fiction_place1.domain.webtoon_episode.service;
 
+import com.example.fiction_place1.domain.board.entity.Board;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
 import com.example.fiction_place1.domain.webtoon.repository.WebToonRepository;
 import com.example.fiction_place1.domain.webtoon.service.FileService;
@@ -132,7 +133,6 @@ public class WebToonEpisodeService {
                 webToonEpisode.getEpisodeImages().add(episodeImage);
             }
         }
-
         // 수정된 WebToonEpisode 저장
         webToonEpisodeRepository.save(webToonEpisode);
     }
@@ -140,7 +140,6 @@ public class WebToonEpisodeService {
     public Page<WebToonEpisode> findSelectedWebtoonEpisodesPaged(Long webtoonId, Pageable pageable) {
         return webToonEpisodeRepository.findByWebToonIdOrderByCreatedDateDesc(webtoonId, pageable);
     }
-
 
 }
 

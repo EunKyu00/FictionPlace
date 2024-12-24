@@ -10,4 +10,7 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board,Long> {
     Page<Board> findByBoardTypeOrderByCreatedDateDesc(BoardType boardType, Pageable pageable);
+    // 제목, 내용, 회사회원, 일반회원으로 검색
+    List<Board> findByTitleContainingOrContentContainingOrCompanyUser_CompanyNameContainingOrSiteUser_NicknameContaining(
+            String title, String content, String companyName, String nickname);
 }

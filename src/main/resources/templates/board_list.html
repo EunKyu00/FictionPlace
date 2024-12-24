@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>게시판 목록</title>
     <link rel="stylesheet" href="/board_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <div class="container">
-    <h1>자유게시판</h1>
+    <h1>게시판</h1>
     <p>Get the latest updates on your favorite genres</p>
 
     <!-- 게시판 타입 선택 드롭다운 -->
@@ -27,7 +28,56 @@
         </form>
     </div>
 
-    <!-- 게시판 목록 -->
+    <!-- 검색 폼 -->
+    <div class="search-form">
+        <form action="/board/search" method="get">
+            <div class="input-container">
+                <input type="text" name="keyword"
+                       th:placeholder="${nullMessage != null ? nullMessage : '제목 또는 작성자를 입력하세요.'}"
+                       th:value="${keyword}">
+                <button type="submit" class="search-icon">
+                    <i class="fas fa-search"></i> <!-- FontAwesome 아이콘 사용 -->
+                </button>
+            </div>
+        </form>
+    </div>
+    <!-- 검색된 게시글 목록 -->
+    <div>
+        <h2>검색 결과</h2>
+        <div class="board-list">
+            <a th:each="board, iterStat : ${boards}" class="board-card" th:href="@{|/board/detail/${board.id}|}">
+                <div class="card-content">
+                    <!-- 왼쪽 영역: 번호와 제목 -->
+                    <div class="left-content">
+                        <span class="board-number" th:text="${(currentPage != null ? currentPage : 0) * (size != null ? size : 10) + iterStat.index + 1}"></span>
+                        <span class="board-title" th:text="${board.title}"></span>
+                    </div>
+
+                    <!-- 오른쪽 영역: 추천수, 작성자, 작성일 -->
+                    <div class="right-content">
+                        <div class="board-likes">
+                            <span>추천: </span><span th:text="${board.likes}"></span>
+                        </div>
+                        <div class="board-comments">
+                            <span>댓글: </span>
+                            <span class="text-danger small ms-2" th:if="${#lists.size(board.comments) > 0}"
+                                  th:text="${#lists.size(board.comments)}"></span>
+                        </div>
+
+                        <div class="board-author">
+                            <span th:if="${board.siteUser}">작성자: <span th:text="${board.siteUser.nickname}"></span></span>
+                            <span th:if="${board.companyUser}">작성자: <span th:text="${board.companyUser.companyName}"></span></span>
+                        </div>
+                        <div class="board-date">
+                            <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 기본 게시판 목록 -->
     <div class="board-list">
         <a th:each="board, iterStat : ${boardList}" class="board-card" th:href="@{|/board/detail/${board.id}|}">
             <div class="card-content">
@@ -64,13 +114,16 @@
 
     <!-- 페이징 -->
     <div class="pagination">
-            <span th:if="${currentPage > 0}">
-                <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=10|}">이전</a>
-            </span>
-        <span><span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span></span>
-        <span th:if="${currentPage + 1 < totalPages}">
-                <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=10|}">다음</a>
-            </span>
+        <span th:if="${currentPage != null and currentPage > 0}">
+            <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage - 1}&size=${size != null ? size : 10}|}">이전</a>
+        </span>
+        <span>
+            <span th:text="${currentPage != null ? currentPage + 1 : 1}"></span> /
+            <span th:text="${totalPages != null ? totalPages : 1}"></span>
+        </span>
+        <span th:if="${currentPage != null and currentPage + 1 < (totalPages != null ? totalPages : 1)}">
+            <a th:href="@{|/board?boardTypeId=${boardTypeId}&page=${currentPage + 1}&size=${size != null ? size : 10}|}">다음</a>
+        </span>
     </div>
 
 </div>

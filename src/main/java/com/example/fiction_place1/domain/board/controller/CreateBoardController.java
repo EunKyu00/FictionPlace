@@ -40,6 +40,7 @@ public class CreateBoardController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             Model model) {
+
         // 모든 게시판 타입 목록 가져오기
         List<BoardType> boardTypes = boardTypeService.getAllBoardTypes();
         model.addAttribute("boardTypes", boardTypes);
@@ -174,6 +175,31 @@ public class CreateBoardController {
             redirectAttributes.addFlashAttribute("message", "추천이 완료되었습니다!");
         }
         return "redirect:/board/detail/" + id;
+    }
+
+    //게시판 검색 기능
+    @GetMapping("/board/search")
+    public String searchBoard(@RequestParam(value = "keyword", required = false) String keyword,
+                              @RequestParam(value = "boardTypeId", required = false) Long boardTypeId,
+                              Model model) {
+
+        List<Board> searchResults;
+        List<BoardType> boardTypes = boardTypeService.getAllBoardTypes();
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            model.addAttribute("nullMessage","※ 검색어를 입력해주세요. ※");
+            model.addAttribute("boardTypes", boardTypes);
+            return "board_list"; // 기본 게시글 목록
+        } else {
+            searchResults = boardService.searchBoards(keyword); // 검색 실행
+        }
+
+        model.addAttribute("boards", searchResults);
+        model.addAttribute("keyword", keyword);  // 검색어를 뷰에서 사용할 수 있도록 모델에 추가
+        model.addAttribute("boardTypeId", boardTypeId);
+        model.addAttribute("boardTypes", boardTypes);
+
+        return "board_list";  // 게시글 목록 페이지로 리다이렉트
     }
 
 }

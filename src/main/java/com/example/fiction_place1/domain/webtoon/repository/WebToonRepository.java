@@ -1,5 +1,6 @@
 package com.example.fiction_place1.domain.webtoon.repository;
 
+import com.example.fiction_place1.domain.board.entity.Board;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
 import com.example.fiction_place1.domain.webtoon_episode.entity.WebToonEpisode;
@@ -15,4 +16,7 @@ public interface WebToonRepository extends JpaRepository<WebToon,Long> {
     List<WebToon> findByIsSelectedTrue();
 
     List<WebToon> findAllById(Iterable<Long> ids);
+
+    List<WebToon> findByTitleContainingOrSiteUser_NicknameContaining(String title, String nickname);
+
 }

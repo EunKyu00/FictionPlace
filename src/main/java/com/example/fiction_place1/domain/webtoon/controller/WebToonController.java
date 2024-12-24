@@ -185,21 +185,29 @@ public class WebToonController {
     @PostMapping("/webtoon/favorite/{id}")
     public String toggleFavorite(@PathVariable("id") Long id, HttpSession session, Model model) {
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser"); // 세션에서 로그인한 사용자 정보 가져오기
+        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
 
-        if (siteUser == null) {
+        if (siteUser == null && companyUser == null) {
             return "redirect:/login/user"; // 로그인하지 않은 경우
         }
 
-        // 관심 작품 등록/해제 서비스 호출
-        favoriteService.toggleFavorite(siteUser, id);
+        if (siteUser != null) {
+            favoriteService.toggleFavorite(id, siteUser);
+        } else if (companyUser != null) {
+            favoriteService.toggleFavorite(id, companyUser);
+        }
 
         // 해당 웹툰을 즐겨찾기 목록에서 확인
         WebToon webToon = webToonRepository.findById(id).orElse(null);
         boolean favorite = false;
 
         if (webToon != null) {
-            // 웹툰이 즐겨찾기 목록에 존재하는지 확인
-            favorite = favoriteService.getFavoriteWebToons(siteUser).contains(webToon);
+            // 즐겨찾기 목록에서 웹툰을 찾는 로직을 두 가지 경우로 분리
+            if (siteUser != null) {
+                favorite = favoriteService.getFavoriteWebToons(siteUser).contains(webToon);
+            } else if (companyUser != null) {
+                favorite = favoriteService.getFavoriteWebToons(companyUser).contains(webToon);
+            }
         }
 
         model.addAttribute("favorite", favorite);  // favorite 상태를 모델에 추가
@@ -207,22 +215,53 @@ public class WebToonController {
     }
 
 
-
-
-
     @GetMapping("/my/favorite/webtoon")
     public String getMyFavoriteWebtoon(HttpSession session, Model model) {
-        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
 
-        if (siteUser == null) {
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+
+        if (siteUser == null && companyUser == null) {
             return "redirect:/login/user"; // 로그인하지 않은 경우
         }
 
-        // 사용자가 즐겨찾기한 웹툰 리스트 가져오기
-        List<WebToon> favoriteWebtoons = favoriteService.getFavoriteWebToons(siteUser);
+        if (siteUser != null){
+            List<WebToon> favoriteWebtoons = favoriteService.getFavoriteWebToons(siteUser);
+            model.addAttribute("favoriteWebtoons", favoriteWebtoons);
+        } else if (companyUser != null){
+            List<WebToon> favoriteWebtoons = favoriteService.getFavoriteWebToons(companyUser);
+            model.addAttribute("favoriteWebtoons", favoriteWebtoons);
+        }
 
-        model.addAttribute("favoriteWebtoons", favoriteWebtoons);
         return "my_favorite_webtoon"; // 관심 작품 페이지로 이동
+    }
+    @GetMapping("/webtoon/search")
+    public String webToonSearch(Model model,
+                                @RequestParam(value = "keyword", required = false) String keyword) {
+        List<WebToon> searchResults = new ArrayList<>();
+
+        // 전체 웹툰 목록 가져오기
+        List<WebToon> webToons = webToonService.findSelectedWebtoons();
+
+        // 검색어가 없을 경우
+        if (keyword == null || keyword.trim().isEmpty()) {
+            model.addAttribute("nullMessage", "※ 검색어를 입력해주세요. ※");
+            model.addAttribute("selectedWebtoons", webToons); // 전체 웹툰 목록 표시
+            model.addAttribute("keyword", ""); // 검색어를 빈 값으로 설정
+        } else {
+            // 검색어가 있을 경우 검색된 웹툰 목록을 가져오기
+            searchResults = webToonService.searchWebToon(keyword);
+
+            if (searchResults.isEmpty()) {
+                model.addAttribute("searchErrorMessage", "※ 검색된 웹툰이 없습니다. ※"); // 검색 결과 없음 메시지
+                model.addAttribute("selectedWebtoons", webToons); // 전체 웹툰 목록 표시
+            } else {
+                model.addAttribute("selectedWebtoons", searchResults); // 검색된 웹툰만 표시
+            }
+            model.addAttribute("keyword", keyword); // 검색어 유지
+        }
+
+        return "webtoon_list"; // 웹툰 리스트 페이지로 이동
     }
 }
 

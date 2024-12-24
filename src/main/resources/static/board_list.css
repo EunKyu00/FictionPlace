@@ -174,3 +174,44 @@ p {
 .pagination a:hover {
     text-decoration: underline;
 }
+.search-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px; /* 최대 너비 */
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px 40px 10px 10px; /* 오른쪽 여백을 충분히 줘서 아이콘 공간 확보 */
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* padding을 포함한 너비 계산 */
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px; /* 오른쪽 끝에 딱 붙이기 */
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+.search-icon:hover {
+    color: #0056b3;
+}
+input[type="text"]::placeholder {
+    font-size: 0.9rem; /* 글씨 크기 조정 */
+    color: #6c757d; /* 글씨 색상 조정 (선택 사항) */
+}
+

@@ -179,6 +179,7 @@ public class WebToonEpisodeController {
                                              @RequestParam(value = "size", defaultValue = "10") int size) {
 
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
 
         // 선택된 웹툰 목록 가져오기
         List<WebToon> selectedWebtoons = webToonService.findSelectedWebtoons();
@@ -199,6 +200,11 @@ public class WebToonEpisodeController {
             WebToon webtoon = webToonService.findById(webtoonId);
             if (webtoon != null) {
                 favorite = favoriteService.getFavoriteWebToons(siteUser).contains(webtoon);
+            }
+        } else if (companyUser != null) {
+            WebToon webtoon = webToonService.findById(webtoonId);
+            if (webtoon != null) {
+                favorite = favoriteService.getFavoriteWebToons(companyUser).contains(webtoon);
             }
         }
 
