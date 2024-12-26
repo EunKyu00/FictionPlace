@@ -19,4 +19,8 @@ public interface WebToonRepository extends JpaRepository<WebToon,Long> {
 
     List<WebToon> findByTitleContainingOrSiteUser_NicknameContaining(String title, String nickname);
 
+    List<WebToon> findAll();
+
+    // 장르 ID에 따른 웹툰 리스트
+    List<WebToon> findByGenreTypeId(Long genreId);
 }

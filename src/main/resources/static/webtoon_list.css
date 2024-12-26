@@ -69,7 +69,7 @@ a {
 .sort-buttons {
     display: flex;
     gap: 10px; /* 버튼 간 간격 */
-    margin-right: 155px; /* 검색창과 버튼 간의 간격을 40px로 늘림 */
+    margin-right: 360px; /* 검색창과 버튼 간의 간격을 40px로 늘림 */
 }
 
 /* 추천순, 업데이트순 버튼 스타일 */
@@ -130,4 +130,9 @@ input[type="text"]::placeholder {
     font-size: 0.9rem; /* 글씨 크기 조정 */
     color: #6c757d; /* 글씨 색상 조정 (선택 사항) */
 }
+.genre-button.selected {
+    background-color: #007BFF;
+    color: white;
+}
+
 

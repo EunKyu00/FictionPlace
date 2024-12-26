@@ -182,6 +182,7 @@ public class WebToonController {
         return String.format("redirect:/main/page/webtoon/episode/%s", id);
     }
 
+    //관심작품 등록 처리
     @PostMapping("/webtoon/favorite/{id}")
     public String toggleFavorite(@PathVariable("id") Long id, HttpSession session, Model model,RedirectAttributes redirectAttributes) {
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser"); // 세션에서 로그인한 사용자 정보 가져오기
@@ -197,7 +198,6 @@ public class WebToonController {
         } else if (companyUser != null) {
             favoriteService.toggleFavorite(id, companyUser);
         }
-
         // 해당 웹툰을 즐겨찾기 목록에서 확인
         WebToon webToon = webToonRepository.findById(id).orElse(null);
         boolean favorite = false;
@@ -216,6 +216,7 @@ public class WebToonController {
     }
 
 
+    //본인 프로필 관심작품 메뉴
     @GetMapping("/my/favorite/webtoon")
     public String getMyFavoriteWebtoon(HttpSession session, Model model) {
 
@@ -234,8 +235,10 @@ public class WebToonController {
             model.addAttribute("favoriteWebtoons", favoriteWebtoons);
         }
 
-        return "my_favorite_webtoon"; // 관심 작품 페이지로 이동
+        return "my_favorite_webtoon";
     }
+
+    //웹툰 검색 기능
     @GetMapping("/webtoon/search")
     public String webToonSearch(Model model,
                                 @RequestParam(value = "keyword", required = false) String keyword) {
@@ -262,8 +265,31 @@ public class WebToonController {
             model.addAttribute("keyword", keyword); // 검색어 유지
         }
 
-        return "webtoon_list"; // 웹툰 리스트 페이지로 이동
+        return "webtoon_list";
     }
+
+    //장르별 웹툰
+    @GetMapping("/webtoons")
+    public String getWebtoonsByGenre(@RequestParam(name = "genreId", required = false) Long genreId, Model model) {
+        List<WebToon> webtoons;
+
+        if (genreId != null) {
+            // 장르 ID가 있으면 해당 장르의 웹툰만 조회
+            webtoons = webToonService.getWebtoonsByGenreId(genreId);
+        } else {
+            // 장르 ID가 없으면 모든 웹툰 조회
+            webtoons = webToonService.findAll();
+        }
+        model.addAttribute("selectedGenreId", genreId);
+        model.addAttribute("selectedWebtoons", webtoons);
+
+        // 장르 선택에 따른 메시지 전달 (선택된 장르가 없으면 기본 메시지)
+        String nullMessage = (genreId != null) ? "선택된 장르의 웹툰이 없습니다." : "모든 웹툰을 확인하세요.";
+        model.addAttribute("nullMessage", nullMessage);
+
+        return "webtoon_list"; // 웹툰 리스트 페이지 반환
+    }
+
 }
 
 

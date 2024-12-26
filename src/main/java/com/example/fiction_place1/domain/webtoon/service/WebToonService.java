@@ -100,8 +100,17 @@ public class WebToonService {
         return webToonRepository.findByTitleContainingOrSiteUser_NicknameContaining(
                 keyword, keyword);
     }
+    //전체목록 추천순
     public List<WebToon> getWebtoonsSortedByLikes() {
         return webToonRepository.findAll(Sort.by(Sort.Order.desc("likes"))); // likes 기준 내림차순
+    }
+
+    public List<WebToon> getWebtoonsByGenreId(Long genreId) {
+        return webToonRepository.findByGenreTypeId(genreId);
+    }
+
+    public List<WebToon> findAll(){
+        return webToonRepository.findAll();
     }
 }
 
