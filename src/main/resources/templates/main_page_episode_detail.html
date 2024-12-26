@@ -1,26 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-    <link rel="stylesheet" href="/main_page_episode_detail.css" />
+    <meta charset="UTF-8">
+    <title>웹툰 에피소드</title>
+    <link href="/main_page_episode_detail.css" rel="stylesheet"/>
     <!-- Font Awesome 최신 CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        .favorite-not-registered i {
-            color: gray; /* 기본 상태는 회색 */
-        }
-
-        .favorite-registered i {
-            color: gold; /* 등록된 상태는 노란색 */
-        }
-
-        .favorite-not-registered span,
-        .favorite-registered span {
-            font-size: 14px;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
-
+<body>
 <div class="webtoon-container">
     <div class="webtoon-header">
-        <img th:src="@{${webtoon.thumbnailImg}}" alt="웹툰 썸네일" class="webtoon-thumbnail" />
+        <img alt="웹툰 썸네일" class="webtoon-thumbnail" th:src="@{${webtoon.thumbnailImg}}"/>
         <div class="webtoon-details">
             <h1 th:text="${webtoon.title}"></h1>
             <p th:text="${webtoon.content}"></p>
@@ -31,28 +21,36 @@
         </div>
     </div>
 
-    <div class="recommendation">
-        <form th:action="@{|/webtoon/recommend/${webtoon.id}|}" method="POST">
-            <button type="submit" class="btn-recommend" th:text="${message != null ? message : '추천'}"></button>
+    <div class="webtoon-actions">
+        <!-- 추천 버튼 -->
+        <form method="POST" th:action="@{|/webtoon/recommend/${webtoon.id}|}">
+            <button class="btn-recommend" type="submit">
+                추천 <span class="recommend-count" th:text="${webtoon.likes}"></span>
+            </button>
         </form>
-        <span>추천 수: <span th:text="${webtoon.likes}"></span></span>
 
-        <!-- 로그인된 사용자에 따라 즐겨찾기 버튼 처리 -->
-        <form th:action="@{/webtoon/favorite/{id}(id=${webtoon.id})}" method="POST">
-            <button type="submit" class="btn-favorite" id="favorite-btn">
-                <span th:class="${favorite ? 'favorite-registered' : 'favorite-not-registered'}">
-                    <i class="fas fa-star"></i>
-                    <span th:text="${favorite ? '관심작품 해제' : '관심작품 등록'}"></span>
-                </span>
+        <!-- 관심작품 버튼 -->
+        <form method="POST" th:action="@{/webtoon/favorite/{id}(id=${webtoon.id})}">
+            <button class="btn-favorite" id="favorite-btn" type="submit">
+            <span th:class="${favorite ? 'favorite-registered' : 'favorite-not-registered'}">
+                <i class="fas fa-star"></i>
+                <span th:text="${favorite ? '관심작품 해제' : '관심작품 등록'}"></span>
+            </span>
             </button>
         </form>
     </div>
+    <!-- 에러 메시지 표시 -->
+    <div class="error-message" th:if="${message}">
+        <p th:text="${message}"></p>
+    </div>
+
 
     <!-- 에피소드 리스트 -->
     <ul class="episode-list">
-        <a th:each="episode : ${episodesPage.content}" th:href="@{/webtoon/episode/{id}(id=${episode.id})}" class="episode-link">
+        <a class="episode-link" th:each="episode : ${episodesPage.content}"
+           th:href="@{/webtoon/episode/{id}(id=${episode.id})}">
             <li>
-                <img th:src="@{${episode.thumbnailImg}}" alt="에피소드 썸네일" class="episode-thumbnail" />
+                <img alt="에피소드 썸네일" class="episode-thumbnail" th:src="@{${episode.thumbnailImg}}"/>
                 <div class="episode-details">
                     <span class="episode-title" th:text="${episode.title}"></span>
                     <span class="episode-date" th:text="${#temporals.format(episode.createdDate, 'yyyy-MM-dd')}"></span>
@@ -66,32 +64,12 @@
         <span th:if="${episodesPage.number > 0}">
             <a th:href="@{|/main/page/webtoon/episode/${webtoon.id}?page=${episodesPage.number - 1}&size=${size != null ? size : 10}|}">이전</a>
         </span>
-        <span><span th:text="${episodesPage.number + 1}"></span> / <span th:text="${episodesPage.totalPages}"></span></span>
+        <span><span th:text="${episodesPage.number + 1}"></span> / <span
+                th:text="${episodesPage.totalPages}"></span></span>
         <span th:if="${episodesPage.number + 1 < episodesPage.totalPages}">
             <a th:href="@{|/main/page/webtoon/episode/${webtoon.id}?page=${episodesPage.number + 1}&size=${size != null ? size : 10}|}">다음</a>
         </span>
     </div>
 </div>
-
-<script>
-    // "관심작품 등록" 버튼을 클릭했을 때 별 색상과 텍스트 변경
-    document.getElementById('favorite-btn').addEventListener('click', function(e) {
-        e.preventDefault();  // 폼 제출을 막음 (페이지 리로드 방지)
-        const favoriteSpan = this.querySelector('span');
-        const favoriteText = favoriteSpan.querySelector('span');
-
-        // 상태에 따라 색상 및 텍스트 변경
-        if (favoriteSpan.classList.contains('favorite-registered')) {
-            favoriteSpan.classList.remove('favorite-registered');
-            favoriteSpan.classList.add('favorite-not-registered');
-            favoriteText.textContent = '관심작품 등록';
-        } else {
-            favoriteSpan.classList.remove('favorite-not-registered');
-            favoriteSpan.classList.add('favorite-registered');
-            favoriteText.textContent = '관심작품 해제';
-        }
-
-        // 폼을 실제로 제출하려면 아래 코드 주석을 해제
-        this.closest('form').submit();
-    });
-</script>
+</body>
+</html>

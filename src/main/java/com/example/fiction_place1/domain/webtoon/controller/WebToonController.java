@@ -156,7 +156,7 @@ public class WebToonController {
         WebToon webToon = webToonService.findById(id);
 
         if (siteUser == null && companyUser == null){
-            redirectAttributes.addFlashAttribute("message","로그인 후 이용해주세요");
+            redirectAttributes.addFlashAttribute("message","로그인 후 이용해주세요.");
             return String.format("redirect:/main/page/webtoon/episode/%s", id);
         }
         // 추천 여부 확인
@@ -183,12 +183,13 @@ public class WebToonController {
     }
 
     @PostMapping("/webtoon/favorite/{id}")
-    public String toggleFavorite(@PathVariable("id") Long id, HttpSession session, Model model) {
+    public String toggleFavorite(@PathVariable("id") Long id, HttpSession session, Model model,RedirectAttributes redirectAttributes) {
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser"); // 세션에서 로그인한 사용자 정보 가져오기
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
 
         if (siteUser == null && companyUser == null) {
-            return "redirect:/login/user"; // 로그인하지 않은 경우
+            redirectAttributes.addFlashAttribute("message", "로그인 후 이용해주세요.");
+            return String.format("redirect:/main/page/webtoon/episode/%s", id); // 웹툰 상세 페이지로 리디렉션
         }
 
         if (siteUser != null) {
