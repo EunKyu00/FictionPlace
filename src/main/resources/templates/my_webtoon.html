@@ -12,8 +12,8 @@
 <!-- 사이드바 -->
 <div class="sidebar">
         <div class="sidebar-item">
-            <a th:if="${loggedInUserId != null}"
-               th:href="@{/profile/user/{id}(id=${loggedInUserId})}"
+            <a th:if="${user.id != null}"
+               th:href="@{/profile/user/{id}(id=${user.id})}"
                class="sidebar-link">
                 <span class="sidebar-icon">🏠</span> 프로필 홈
             </a>

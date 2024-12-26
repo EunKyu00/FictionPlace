@@ -53,6 +53,7 @@ public class WebToonController {
         if (siteUser != null ){
             List<WebToon> webtoons = webToonService.getWebtoonsByUser(siteUser);
             model.addAttribute("webtoons", webtoons);  // 웹툰 목록을 모델에 추가
+            model.addAttribute("user", siteUser);
         }
         return "my_webtoon";
     }
