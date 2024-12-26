@@ -10,6 +10,7 @@ import com.example.fiction_place1.domain.webtoon.repository.WebToonRepository;
 import com.example.fiction_place1.domain.webtoon_episode.entity.WebToonEpisode;
 import com.example.fiction_place1.domain.webtoon_episode.repository.WebToonEpisodeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -98,6 +99,9 @@ public class WebToonService {
     public List<WebToon> searchWebToon(String keyword) {
         return webToonRepository.findByTitleContainingOrSiteUser_NicknameContaining(
                 keyword, keyword);
+    }
+    public List<WebToon> getWebtoonsSortedByLikes() {
+        return webToonRepository.findAll(Sort.by(Sort.Order.desc("likes"))); // likes 기준 내림차순
     }
 }
 

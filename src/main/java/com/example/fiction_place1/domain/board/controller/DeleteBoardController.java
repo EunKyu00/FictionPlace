@@ -18,7 +18,7 @@ public class DeleteBoardController {
     @GetMapping("/board/delete/{id}")
     public String deleteBoard(@PathVariable("id") Long id){
         Board board = this.boardService.getBoard(id);
-        this.boardService.delete(board);
+        this.boardService.deleteBoard(board);
         Long boardTypeId = board.getBoardType().getId();
         return String.format("redirect:/board?boardTypeId=%d", boardTypeId);
     }

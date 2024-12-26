@@ -83,5 +83,8 @@ public class MessageService {
     public long countUnreadMessagesForCompanyUser(CompanyUser companyUser) {
         return messageRepository.countByReceiverCompanyUserAndIsReadFalse(companyUser);
     }
+    public void deleteMessage(Message message){
+        this.messageRepository.delete(message);
+    }
 }
 

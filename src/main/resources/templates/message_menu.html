@@ -217,6 +217,10 @@
                 <div class="date">
                     <span th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </div>
+<!--                <div class="delete-btn">-->
+<!--                    <a th:href="@{/message/delete/{id}(id=${message.id})}" class="btn-delete"-->
+<!--                       onclick="return confirm('정말 삭제하시겠습니까?');" style="color: red; font-weight: bold;">X</a>-->
+<!--                </div>-->
             </div>
 
             <!-- 페이징 기능을 메시지 리스트 하단에 중앙 정렬로 배치 -->

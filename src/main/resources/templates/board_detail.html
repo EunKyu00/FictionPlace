@@ -42,7 +42,8 @@
 <!-- 게시글 수정/삭제 버튼 -->
 <div th:if="${isAuthor}" class="board-actions">
     <a th:href="@{|/board/modify/${board.id}|}" class="btn-edit">수정하기</a>
-    <a th:href="@{|/board/delete/${board.id}|}" class="btn-delete">삭제하기</a>
+    <a th:href="@{|/board/delete/${board.id}|}" class="btn-delete"
+       onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</a>
 </div>
 
 <!-- 댓글 목록 출력 -->
@@ -57,7 +58,8 @@
             <p th:text="${comment.content}"></p>
 
             <div th:if="${loginUser != null && comment.siteUser?.id == loginUser?.id || loginCompanyUser != null && comment.companyUser?.id == loginCompanyUser?.id}" class="comment-actions">
-                <a class="btn-delete" th:href="@{/comment/delete/{id}(id=${comment.id})}"
+                <a class="btn-delete"
+                   th:href="@{/comment/delete/{id}(id=${comment.id})}"
                    onclick="return confirm('삭제하시겠습니까?');">
                     댓글 삭제
                 </a>

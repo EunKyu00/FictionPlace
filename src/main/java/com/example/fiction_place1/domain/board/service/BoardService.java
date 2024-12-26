@@ -65,12 +65,8 @@ public class BoardService {
         this.boardRepository.save(board);
     }
 
-    public void delete(Board board){
-        if (boardRepository.existsById(board.getId())) {
-            this.boardRepository.delete(board);
-        } else {
-            throw new EntityNotFoundException("Board not found for deletion");
-        }
+    public void deleteBoard(Board board){
+        this.boardRepository.delete(board);
     }
     // 게시글 검색 기능
     public List<Board> searchBoards(String keyword) {

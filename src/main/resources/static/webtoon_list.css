@@ -57,12 +57,39 @@ a {
     text-decoration: none; /* 링크 밑줄 제거 */
     color: inherit; /* 텍스트 색상 유지 */
 }
+/* 추천순, 업데이트순 버튼과 검색창을 중앙에 배치하는 스타일 */
 .search-form {
     display: flex;
-    justify-content: center;
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: center; /* 가로 중앙 정렬 */
     margin-top: 20px;
 }
 
+/* 추천순, 업데이트순 버튼 스타일 */
+.sort-buttons {
+    display: flex;
+    gap: 10px; /* 버튼 간 간격 */
+    margin-right: 155px; /* 검색창과 버튼 간의 간격을 40px로 늘림 */
+}
+
+/* 추천순, 업데이트순 버튼 스타일 */
+.sort-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    transition: background-color 0.3s;
+
+}
+
+/* 추천순, 업데이트순 버튼 호버 효과 */
+.sort-button:hover {
+    background-color: #ddd;
+}
+
+/* 검색창 스타일 */
 .input-container {
     position: relative;
     width: 100%;
@@ -93,7 +120,14 @@ input[type="text"] {
 .search-icon:hover {
     color: #0056b3;
 }
+
+.sort-button.active {
+    background-color: #007BFF;
+    color: white;
+}
+
 input[type="text"]::placeholder {
     font-size: 0.9rem; /* 글씨 크기 조정 */
     color: #6c757d; /* 글씨 색상 조정 (선택 사항) */
 }
+

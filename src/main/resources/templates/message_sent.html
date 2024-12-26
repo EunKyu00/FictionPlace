@@ -209,6 +209,10 @@
                 <div class="date">
                     <span th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </div>
+<!--                <div class="delete-btn">-->
+<!--                    <a th:href="@{/message/sent/delete/{id}(id=${message.id})}" class="btn-delete"-->
+<!--                       onclick="return confirm('정말 삭제하시겠습니까?');" style="color: red; font-weight: bold;">X</a>-->
+<!--                </div>-->
             </div>
             <div class="pagination" th:if="${messagePage != null}">
                     <span th:if="${messagePage.number > 0}">

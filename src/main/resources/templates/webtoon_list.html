@@ -32,11 +32,13 @@
     <!-- Featured Webtoons -->
     <div class="featured-section">
         <h2>Featured Webtoons</h2>
-        <div class="button-group">
-            <button class="active-button">연재</button>
-            <button class="active-button">완결</button>
-        </div>
         <div class="search-form">
+            <!-- 추천순, 업데이트순 버튼 -->
+            <div class="sort-buttons">
+                <button class="sort-button active" onclick="location.href='/'">업데이트순</button>
+                <button class="sort-button" onclick="location.href='/webtoon/likes'">추천순</button>
+            </div>
+            <!-- 검색창 -->
             <form action="/webtoon/search" method="get">
                 <div class="input-container">
                     <input type="text" name="keyword" th:placeholder="${nullMessage != null ? nullMessage : '제목 또는 작성자를 입력하세요.'}"

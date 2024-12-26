@@ -186,5 +186,18 @@ public class MessageController {
         model.addAttribute("message", message);
         return "message_detail";  // 쪽지 디테일 페이지로 이동
     }
+    //TODO 삭제시 디비에서 완전히 삭제됨
+//    @GetMapping("/message/delete/{id}")
+//    public String deleteMessage(@PathVariable("id") Long messageId){
+//        Message message = messageService.findById(messageId);
+//        this.messageService.deleteMessage(message);
+//        return "redirect:/message/menu";
+//    }
+//    @GetMapping("/message/sent/delete/{id}")
+//    public String deleteSentMessage(@PathVariable("id") Long messageId){
+//        Message message = messageService.findById(messageId);
+//        this.messageService.deleteMessage(message);
+//        return "redirect:/message/sent";
+//    }
 }
 
