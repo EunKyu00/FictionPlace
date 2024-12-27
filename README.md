@@ -1,6 +1,7 @@
 ## 📌 픽션플레이스 (FictionPlace)
 - 웹툰 작가와 기업을 연결하는 매칭 플랫폼
 
+
 ## 📢 프로젝트 목표
 - 웹툰 작가와 기업 간 매칭
 - 웹툰 작가 작품 관리 및 홍보 지원
@@ -9,8 +10,10 @@
 - 웹툰 창작 및 채용 정보 공유
 - 직관적인 UI/UX 제공
 
+
 ## 📅 개발 기간
 - 2024년 11월 17일 ~ 2024년 12월 20일
+
 
 ## 💻 개발 환경
 
@@ -50,34 +53,34 @@
   - **Figma** 
   - **Git / GitHub** 
 
+
 ## 🗂️ DB 테이블 설계
-![Frame 2](https://github.com/user-attachments/assets/a26b7273-ae9c-433c-8c08-8790e26c43f7)
 
-주요 테이블
-회원 (siteUser)
-
-일반회원 및 기업회원 정보 관리
-웹툰 (webtoon)
-
-웹툰 작품 정보 관리
-웹툰 에피소드 (webtoon_episode)
-
-각 웹툰의 회차 정보 관리
-게시판 (board)
-
-게시글 및 댓글 관리
-쪽지 (message)
-
-회원 간 메시지 송수신
+board: 게시판에 대한 정보를 저장하는 테이블.
+board_type: 게시판의 유형을 정의하는 테이블.
+comment: 게시물과 웹툰 에피소드에 달린 댓글을 저장하는 테이블.
+site_user: 플랫폼 사용자(일반회원)의 정보를 저장하는 테이블.
+company_user: 기업 사용자의 정보를 저장하는 테이블.
+episode_image: 웹툰 회차에 해당하는 이미지 파일을 저장하는 테이블.
+favorite: 사용자가 즐겨찾기한 웹툰 정보를 저장하는 테이블.
+genre_type: 웹툰의 장르 유형을 정의하는 테이블.
+message: 사용자 간에 주고받은 메시지를 저장하는 테이블.
+my_profile: 사용자의 프로필 정보를 저장하는 테이블.
+recommend: 웹툰과 게시글에 대한 추천 정보를 저장하는 테이블.
+web_toon: 웹툰 작품에 대한 정보를 저장하는 테이블.
+web_toon_episode: 웹툰의 개별 회차 정보를 저장하는 테이블.
 
 
 ## 📊 E-R 다이어그램
-(E-R 다이어그램 이미지 또는 링크 첨부)
+
+![Frame 2](https://github.com/user-attachments/assets/a26b7273-ae9c-433c-8c08-8790e26c43f7)
+
 
 ## 👥 역할 분담
 이름	역할	담당 업무
 [이은규]	팀장 / Backend 개발	Spring Boot 기반 백엔드 개발, DB 설계 
 [길현수] 팀원 / Frontend 개발	Thymeleaf, HTML, CSS, JavaScript를 사용한 프론트엔드 개발 및 UI/UX 구현
+
 
 ## 🐞 트러블슈팅
 1. 사용자 인증 및 세션 관리 문제
