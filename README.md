@@ -2,15 +2,27 @@
 웹툰 작가와 기업을 연결하는 매칭 플랫폼
 
 ## 📅 개발 기간
-2024년 MM월 DD일 ~ 2024년 MM월 DD일
+2024년 11월 17일 ~ 2024년 12월 20일
 
 ## 💻 개발 환경
 Backend: Spring Boot, Java 17
+
 Frontend: Thymeleaf, HTML, CSS, JavaScript
+
 Database: MySQL
+
 Build Tool: Gradle
+
 Version Control: Git, GitHub
+
 IDE: IntelliJ IDEA, VS Code
+
+|Backend| Spring Boot, Java 17|
+|Frontend|Thymeleaf, HTML, CSS, JavaScript|
+|Database|MySQL|
+|Build Tool|Gradle|
+|Version Control|Git, GitHub|
+|IDE|IntelliJ IDEA, VS Code|
 
 ## 🛠️ 기술 스택
 구분	기술
