@@ -1,6 +1,5 @@
 ## 📌 픽션플레이스 (FictionPlace)
 - 웹툰 작가와 기업을 연결하는 매칭 플랫폼
-- <span style="background-color:#fff5b1"> 노란형광펜 </span>
   
 ## 📢 프로젝트 목표
 - 웹툰 작가와 기업 간 매칭
@@ -76,10 +75,11 @@
 
 
 ## 👥 역할 분담
-이름	역할	담당 업무
-[이은규]	팀장 / Backend 개발	Spring Boot 기반 백엔드 개발, DB 설계 
-[길현수] 팀원 / Frontend 개발	Thymeleaf, HTML, CSS, JavaScript를 사용한 프론트엔드 개발 및 UI/UX 구현
 
+|이름|역할|담당 업무|
+|------|---|---|
+|이은규|팀장 / Backend 개발|Spring Boot 기반 백엔드 개발, DB 설계, ERD 설계|
+|길현수|팀원 / Frontend 개발|Thymeleaf, HTML, CSS, JavaScript를 사용한 프론트엔드 개발 및 UI/UX 구현|
 
 ## 🐞 트러블슈팅
 1. 사용자 인증 및 세션 관리 문제
