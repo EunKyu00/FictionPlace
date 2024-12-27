@@ -5,41 +5,42 @@
 2024년 11월 17일 ~ 2024년 12월 20일
 
 ## 💻 개발 환경
-Backend: Spring Boot, Java 17
 
-Frontend: Thymeleaf, HTML, CSS, JavaScript
+- **Java**: Java 23 (GraalVM JDK 23 - GraalVM 24.1.1)
+- **Spring**: Spring Framework
+- **Spring Boot**: Spring Boot 3.3.5
+- **MariaDB**
+- **JQuery**
+- **JPA**
+- **HTML / CSS**
+- **JavaScript**
+- **Thymeleaf**
+- **ERDCloud**
+- **Figma**
+- **Git / GitHub**
 
-Database: MySQL
-
-Build Tool: Gradle
-
-Version Control: Git, GitHub
-
-IDE: IntelliJ IDEA, VS Code
-
-|------|---|
-|Backend| Spring Boot, Java 17|
-|Frontend|Thymeleaf, HTML, CSS, JavaScript|
-|Database|MySQL|
-|Build Tool|Gradle|
-|Version Control|Git, GitHub|
-|IDE|IntelliJ IDEA, VS Code|
-
-|제목|내용|설명|
-|------|---|---|
-|테스트1|테스트2|테스트3|
-|테스트1|테스트2|테스트3|
-|테스트1|테스트2|테스트3|
 
 ## 🛠️ 기술 스택
-구분	기술
-Frontend	Thymeleaf, HTML5, CSS3, JavaScript
-Backend	Spring Boot, Java
-Database	MySQL
-Security	Spring Security, Session 기반 인증
-Build Tool	Gradle
-Version Control	Git & GitHub
-Deployment	TBD (예: AWS, Docker 등 추가 가능)
+- **백엔드**
+  - **Java 23** (GraalVM JDK 23)
+  - **Spring Boot 3.3.5**
+  - **JPA (Hibernate)**
+  - **Spring Security**
+  - **Thymeleaf**
+
+- **프론트엔드**
+  - **HTML / CSS**
+  - **JavaScript**
+  - **JQuery**
+
+- **데이터베이스**
+  - **MariaDB**
+  - **PostgreSQL**
+
+- **도구**
+  - **ERDCloud**
+  - **Figma** 
+  - **Git / GitHub** 
 
 ## 🗂️ DB 테이블 설계
 주요 테이블
@@ -78,3 +79,9 @@ Deployment	TBD (예: AWS, Docker 등 추가 가능)
 ## 📄 기타 참고사항
 프로젝트는 지속적으로 개선 및 업데이트될 예정입니다.
 버그나 개선사항이 있다면 이슈로 등록해 주세요.
+
+|제목|내용|설명|
+|------|---|---|
+|테스트1|테스트2|테스트3|
+|테스트1|테스트2|테스트3|
+|테스트1|테스트2|테스트3|
