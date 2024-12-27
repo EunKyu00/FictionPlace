@@ -36,10 +36,12 @@ public class MessageController {
         if (siteUser != null) {
             List<Message> messages = messageService.getReceiverSiteUserMessage(siteUser);
             model.addAttribute("messages",messages);
+            model.addAttribute("user", siteUser);
         }
         if (companyUser != null){
             List<Message> messages = messageService.getReceiverCompanyUserMessage(companyUser);
             model.addAttribute("messages",messages);
+            model.addAttribute("companyuser", companyUser);
         }
 
         return "message_menu";
@@ -58,6 +60,7 @@ public class MessageController {
         if (siteUser != null) {
             List<Message> messages = messageService.getSenderSiteUserMessage(siteUser);
             model.addAttribute("messages", messages);
+            model.addAttribute("user", siteUser);
 
             // 읽지 않은 쪽지 수를 계산하여 표시
             long unreadCount = messages.stream().filter(message -> !message.isRead()).count();
@@ -83,7 +86,11 @@ public class MessageController {
         model.addAttribute("messageForm", new MessageForm());
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
         CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
-
+        if (siteUser != null) {
+            model.addAttribute("user", siteUser);
+        } else if (companyUser != null) {
+            model.addAttribute("companyUser", companyUser);
+        }
         if (siteUser == null && companyUser == null){
             return "access_denied";
         }
@@ -103,7 +110,7 @@ public class MessageController {
         CompanyUser sessionCompanyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
 
         model.addAttribute("messageForm", messageForm);
-
+        model.addAttribute("user", sessionSiteUser);
         if (bindingResult.hasErrors()) {
             // 입력값 오류가 있을 경우, 다시 폼으로 돌아감
             return "message_send";

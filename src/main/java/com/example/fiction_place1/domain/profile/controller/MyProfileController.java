@@ -20,7 +20,6 @@ public class MyProfileController {
     private final MyProfileService myProfileService;
     private final SiteUserService siteUserService;
     private final CompanyUserService companyUserService;
-
     // 일반 사용자 프로필 보기
     @GetMapping("/profile/user/{id}")
     public String getUserProfile(@PathVariable("id") Long id , Model model, HttpSession session) {
@@ -64,11 +63,13 @@ public class MyProfileController {
     //일반 유저 정보 변경
     @GetMapping("/profile/user/{id}/modify")
     public String userModifyForm (@PathVariable("id") Long id, HttpSession session, Model model) {
-        SiteUser loginUser = siteUserService.getLoggedInUser(session);
-        if(!loginUser.getId().equals(id)){
+        SiteUser loggedInUser = siteUserService.getLoggedInUser(session);
+        if(!loggedInUser.getId().equals(id)){
             throw new IllegalStateException("접근권한 없음");
         }
-         model.addAttribute("user", loginUser);
+        if(loggedInUser!= null) {
+            model.addAttribute("user", loggedInUser);
+        }
         return "modify_user"; //수정화면
     }
 

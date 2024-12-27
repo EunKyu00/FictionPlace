@@ -1,8 +1,8 @@
 /* 공통 스타일 초기화 */
 body {
   margin: 0;
-
 }
+
 * {
   box-sizing: border-box;
   cursor: url('/images/cursor/얼룩냥_일반.cur'), auto;

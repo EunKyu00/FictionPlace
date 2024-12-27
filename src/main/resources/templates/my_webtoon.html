@@ -39,7 +39,7 @@
             </a>
         </div>
         <div class="sidebar-item">
-            <a th:href="@{/profile/user/{id}/modify(id=${id})}" class="sidebar-link">
+            <a th:href="@{/profile/user/{id}/modify(id=${user.id})}" class="sidebar-link">
                 <span class="sidebar-icon">🖊️</span> 정보 수정
             </a>
         </div>
@@ -69,14 +69,15 @@
             </a>
         </div>
     </div>
+    <!-- webtoons가 null일 때 웹툰 등록 버튼 보이기 -->
+    <div th:if="${webtoons == null or webtoons.size() == 0}" class="no-webtoons-message">
+        <p>등록된 웹툰이 없습니다.</p>
+        <a th:href="@{/webtoon/create}">
+            <button class="create-webtoon-btn">웹툰 등록하러 가기</button>
+        </a>
+    </div>
 </div>
-<!-- webtoons가 null일 때 웹툰 등록 버튼 보이기 -->
-<div th:if="${webtoons == null or webtoons.size() == 0}" class="no-webtoons-message">
-    <p>등록된 웹툰이 없습니다.</p>
-    <a th:href="@{/webtoon/create}">
-        <button class="create-webtoon-btn">웹툰 등록하러 가기</button>
-    </a>
-</div>
+
 </div>
 </body>
 </html>

@@ -5,156 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>받은 쪽지</title>
     <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
-    <style>
-        /* 전체 페이지의 레이아웃 설정 */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f7fc;
-}
-
-/* 네비바 고정 위치 */
-.navbar {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0;
-    position: fixed;  /* 네비바를 상단에 고정 */
-    top: 0;
-    left: 0;
-    background-color: #fff;  /* 배경색 */
-    z-index: 1000;  /* 다른 콘텐츠 위에 표시되도록 설정 */
-}
-
-/* 메뉴와 메시지 리스트 배치 */
-.container {
-    display: flex;
-    flex-direction: column;
-    margin-top: 60px;  /* 네비바 높이만큼 마진을 주어 콘텐츠가 가려지지 않도록 함 */
-}
-
-.content {
-    display: flex;
-    padding: 20px;
-}
-
-.tabs {
-    display: flex;
-    flex-direction: column;
-    width: 220px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-right: 30px;
-}
-
-.tab {
-    padding: 18px;
-    text-align: center;
-    font-weight: bold;
-    text-decoration: none;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.tab:hover {
-    background-color: #007BFF;
-    color: white;
-}
-
-.tab.active {
-    background-color: #007BFF;
-    color: white;
-    border-left: 5px solid #0056b3;
-}
-
-.message-list {
-    flex-grow: 1;
-    width: calc(100% - 250px); /* tabs 너비만큼을 제외한 너비 */
-}
-
-.message-item {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.message-item:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.message-item .sender,
-.message-item .title,
-.message-item .date {
-    flex: 1;
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.message-item .title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #007BFF;
-    text-decoration: none;
-    margin-top: 8px;
-}
-
-.message-item .title:hover {
-    color: #0056b3;
-}
-
-.message-item .meta {
-    font-size: 12px;
-    color: #888;
-    margin-top: 5px;
-}
-
-.unread {
-    font-weight: bold;
-    color: red;
-}
-
-a {
-    text-decoration: none;
-}
-
-/* 모바일에서 메뉴와 메시지 목록의 크기를 자동으로 조정 */
-@media (max-width: 768px) {
-    .tabs {
-        width: 180px;
-    }
-
-    .message-list {
-        margin-left: 20px;
-        width: calc(100% - 200px);
-    }
-
-    .message-item {
-        flex-direction: column;
-    }
-
-    .message-item .sender,
-    .message-item .title,
-    .message-item .date {
-        text-align: center;
-        flex: none;
-    }
-}
-    </style>
+    <link rel="stylesheet" th:href="@{/CSS/message.css}">
 </head>
 <body>
 <div class="navbar" th:replace="~{navbar :: navbar}"></div>
+<div class="content_wrap">
+<!-- 사이드바 -->
+<div class="sidebar">
+    <div class="sidebar-item">
+        <!-- 일반 사용자를 위한 링크 -->
+        <a th:if="${user != null and user.id != null}"
+           th:href="@{/profile/user/{id}(id=${user.id})}"
+           class="sidebar-link">
+            <span class="sidebar-icon">🏠</span> 프로필 홈
+        </a>
 
+        <!-- 회사 사용자를 위한 링크 -->
+        <a th:if="${companyuser != null and companyuser.id != null}"
+           th:href="@{/profile/company/{id}(id=${companyuser.id})}"
+           class="sidebar-link">
+            <span class="sidebar-icon">🏢</span> 회사 프로필 홈
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/webtoon/create}" class="sidebar-link">
+            <span class="sidebar-icon">✏️</span> 작품 등록
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/my/webtoon}" class="sidebar-link">
+            <span class="sidebar-icon">📋</span> 작품 관리
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/my/favorite/webtoon}" class="sidebar-link">
+            <span class="sidebar-icon">❤️</span> 관심 작품
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/message/menu}" class="sidebar-link">
+            <span class="sidebar-icon">✉️</span> 쪽지함
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a  th:if="${user != null and user.id != null}"
+            th:href="@{/profile/user/{id}/modify(id=${user.id})}" class="sidebar-link">
+            <span class="sidebar-icon">🖊️</span> 정보 수정
+        </a>
+        <!-- 회사 사용자를 위한 링크 -->
+        <a th:if="${companyuser != null and companyuser.id != null}"
+           th:href="@{/profile/company/{id}(id=${companyuser.id})}" class="sidebar-link">
+            <span class="sidebar-icon">🖊️</span> 정보 수정
+        </a>
+    </div>
+</div>
 <div class="container">
     <div class="content">
         <div class="tabs">
@@ -164,7 +68,6 @@ a {
         </div>
 
         <div class="message-list">
-            <h2>받은 쪽지</h2>
             <div th:if="${#lists.isEmpty(messages)}">
                 <p>받은 쪽지가 없습니다.</p>
             </div>
@@ -172,12 +75,10 @@ a {
             <div class="message-item" th:each="message : ${messages}"
                  th:classappend="${message.isRead ? '' : 'unread'}">
                 <div class="sender">
-                    <span>보낸사람: </span>
                     <span th:text="${message.senderSiteUser != null ? message.senderSiteUser.nickname :
                                 message.senderCompanyUser != null ? message.senderCompanyUser.companyName : ''}"></span>
                 </div>
                 <div class="title">
-                    <span>제목: </span>
                     <a th:href="@{/message/detail/{id}(id=${message.id})}" th:text="${message.title}"></a>
                 </div>
                 <div class="date">
@@ -187,6 +88,6 @@ a {
         </div>
     </div>
 </div>
-
+</div>
 </body>
 </html>

@@ -44,9 +44,15 @@
         </a>
     </div>
     <div class="sidebar-item">
-        <a th:href="@{/profile/user/{id}/modify(id=${id})}" class="sidebar-link">
-            <span class="sidebar-icon">🖊️</span> 정보 수정
-        </a>
+            <a  th:if="${loggedInUserId != null}"
+                th:href="@{/profile/user/{id}/modify(id=${loggedInUserId})}" class="sidebar-link">
+                <span class="sidebar-icon">🖊️</span> 정보 수정
+            </a>
+            <!-- 회사 사용자를 위한 링크 -->
+            <a th:if="${companyuser != null and companyuser.id != null}"
+               th:href="@{/profile/company/{id}(id=${id})}" class="sidebar-link">
+                <span class="sidebar-icon">🖊️</span> 정보 수정
+            </a>
     </div>
 </div>
 

@@ -67,13 +67,12 @@
     border-radius: 8px;
     background-color: #fff;
     position: relative;
-    min-height: 200px; /* 최소 높이 설정하여 버튼이 내용 아래에 오도록 */
 }
 
 /* 썸네일 이미지 */
 .webtoon-thumbnail {
     width: 160px;
-    height: 207px;
+    height: 120px;
     object-fit: cover;
     margin-right: 20px;
 }
@@ -95,6 +94,7 @@
     font-weight: bold;
     font-size: 1.2em;
     margin-bottom: 5px;
+    color: #101010;
 }
 
 /* 장르 스타일 */
