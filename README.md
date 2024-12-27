@@ -51,6 +51,8 @@
   - **Git / GitHub** 
 
 ## 🗂️ DB 테이블 설계
+![Frame 2](https://github.com/user-attachments/assets/a26b7273-ae9c-433c-8c08-8790e26c43f7)
+
 주요 테이블
 회원 (siteUser)
 
