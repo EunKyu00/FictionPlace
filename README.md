@@ -17,7 +17,7 @@ Version Control: Git, GitHub
 
 IDE: IntelliJ IDEA, VS Code
 
-|------|---|---|
+|------|---|
 |Backend| Spring Boot, Java 17|
 |Frontend|Thymeleaf, HTML, CSS, JavaScript|
 |Database|MySQL|
