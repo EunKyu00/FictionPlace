@@ -1,5 +1,6 @@
 ## 📌 픽션플레이스 (FictionPlace)
 - 웹툰 작가와 기업을 연결하는 매칭 플랫폼
+- <span style="background-color:#fff5b1"> 노란형광펜 </span>
   
 ## 📢 프로젝트 목표
 - 웹툰 작가와 기업 간 매칭
