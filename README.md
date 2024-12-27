@@ -25,6 +25,12 @@ IDE: IntelliJ IDEA, VS Code
 |Version Control|Git, GitHub|
 |IDE|IntelliJ IDEA, VS Code|
 
+|제목|내용|설명|
+|------|---|---|
+|테스트1|테스트2|테스트3|
+|테스트1|테스트2|테스트3|
+|테스트1|테스트2|테스트3|
+
 ## 🛠️ 기술 스택
 구분	기술
 Frontend	Thymeleaf, HTML5, CSS3, JavaScript
