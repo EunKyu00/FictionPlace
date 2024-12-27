@@ -81,7 +81,274 @@
 | 길현수   | 팀원 / Frontend 개발 | Thymeleaf, HTML, CSS, JavaScript를 사용한 프론트엔드 개발 및 UI/UX 구현 |
 
 
-C:\work\fiction_place1\src\main\java
+src
+│  ├─main
+│  │  ├─generated
+│  │  ├─java
+│  │  │  └─com
+│  │  │      └─example
+│  │  │          └─fiction_place1
+│  │  │              │  FictionPlace1Application.java
+│  │  │              │
+│  │  │              ├─domain
+│  │  │              │  ├─board
+│  │  │              │  │  ├─controller
+│  │  │              │  │  │      CreateBoardController.java
+│  │  │              │  │  │      DeleteBoardController.java
+│  │  │              │  │  │      ModifyBoardController.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─entity
+│  │  │              │  │  │      Board.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─form
+│  │  │              │  │  │      BoardForm.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─repository
+│  │  │              │  │  │      BoardRepository.java
+│  │  │              │  │  │
+│  │  │              │  │  └─service
+│  │  │              │  │          BoardService.java
+│  │  │              │  │
+│  │  │              │  ├─board_type
+│  │  │              │  │  ├─entity
+│  │  │              │  │  │      BoardType.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─repository
+│  │  │              │  │  │      BoardTypeRepository.java
+│  │  │              │  │  │
+│  │  │              │  │  └─service
+│  │  │              │  │          BoardTypeService.java
+│  │  │              │  │
+│  │  │              │  ├─comment
+│  │  │              │  │  ├─controller
+│  │  │              │  │  │      CommentController.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─entity
+│  │  │              │  │  │      Comment.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─repository
+│  │  │              │  │  │      CommentRepository.java
+│  │  │              │  │  │
+│  │  │              │  │  └─service
+│  │  │              │  │          CommentService.java
+│  │  │              │  │
+│  │  │              │  ├─favorite
+│  │  │              │  │  ├─entity
+│  │  │              │  │  │      Favorite.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─repository
+│  │  │              │  │  │      FavoriteRepository.java
+│  │  │              │  │  │
+│  │  │              │  │  └─service
+│  │  │              │  │          FavoriteService.java
+│  │  │              │  │
+│  │  │              │  ├─genre_type
+│  │  │              │  │  ├─entity
+│  │  │              │  │  │      GenreType.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─repository
+│  │  │              │  │  │      GenreTypeRepository.java
+│  │  │              │  │  │
+│  │  │              │  │  └─service
+│  │  │              │  │          GenreTypeService.java
+│  │  │              │  │
+│  │  │              │  ├─message
+│  │  │              │  │  ├─controller
+│  │  │              │  │  │      MessageController.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─entity
+│  │  │              │  │  │      Message.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─form
+│  │  │              │  │  │      MessageForm.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─repository
+│  │  │              │  │  │      MessageRepository.java
+│  │  │              │  │  │
+│  │  │              │  │  └─service
+│  │  │              │  │          MessageService.java
+│  │  │              │  │
+│  │  │              │  ├─profile
+│  │  │              │  │  ├─controller
+│  │  │              │  │  │      MyProfileController.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─entity
+│  │  │              │  │  │      MyProfile.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─repository
+│  │  │              │  │  │      MyProfileRepository.java
+│  │  │              │  │  │
+│  │  │              │  │  └─service
+│  │  │              │  │          MyProfileService.java
+│  │  │              │  │
+│  │  │              │  ├─recommend
+│  │  │              │  │  ├─entity
+│  │  │              │  │  │      Recommend.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─repository
+│  │  │              │  │  │      RecommendRepository.java
+│  │  │              │  │  │
+│  │  │              │  │  └─service
+│  │  │              │  │          RecommendService.java
+│  │  │              │  │
+│  │  │              │  ├─user
+│  │  │              │  │  ├─controller
+│  │  │              │  │  │      CompanyUserController.java
+│  │  │              │  │  │      LoginController.java
+│  │  │              │  │  │      SiteUserController.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─entity
+│  │  │              │  │  │      CompanyUser.java
+│  │  │              │  │  │      SiteUser.java
+│  │  │              │  │  │      User.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─form
+│  │  │              │  │  │      CompanyUserCreateForm.java
+│  │  │              │  │  │      SiteUserCreateForm.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─repository
+│  │  │              │  │  │      CompanyUserRepository.java
+│  │  │              │  │  │      SiteUserRepository.java
+│  │  │              │  │  │
+│  │  │              │  │  └─service
+│  │  │              │  │          CompanyUserService.java
+│  │  │              │  │          SiteUserService.java
+│  │  │              │  │
+│  │  │              │  ├─webtoon
+│  │  │              │  │  ├─controller
+│  │  │              │  │  │      FileController.java
+│  │  │              │  │  │      WebToonController.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─entity
+│  │  │              │  │  │      WebToon.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─form
+│  │  │              │  │  │      WebToonForm.java
+│  │  │              │  │  │
+│  │  │              │  │  ├─repository
+│  │  │              │  │  │      WebToonRepository.java
+│  │  │              │  │  │
+│  │  │              │  │  └─service
+│  │  │              │  │          FileService.java
+│  │  │              │  │          WebToonService.java
+│  │  │              │  │
+│  │  │              │  └─webtoon_episode
+│  │  │              │      ├─controller
+│  │  │              │      │      WebToonEpisodeController.java
+│  │  │              │      │
+│  │  │              │      ├─entity
+│  │  │              │      │      EpisodeImage.java
+│  │  │              │      │      WebToonEpisode.java
+│  │  │              │      │
+│  │  │              │      ├─form
+│  │  │              │      │      WebToonEpisodeForm.java
+│  │  │              │      │
+│  │  │              │      ├─repository
+│  │  │              │      │      EpisodeImageRepository.java
+│  │  │              │      │      WebToonEpisodeRepository.java
+│  │  │              │      │
+│  │  │              │      └─service
+│  │  │              │              WebToonEpisodeService.java
+│  │  │              │
+│  │  │              └─global
+│  │  │                  ├─initData
+│  │  │                  │      Init.java
+│  │  │                  │
+│  │  │                  ├─jpa
+│  │  │                  │      BaseEntity.java
+│  │  │                  │
+│  │  │                  └─security
+│  │  │                          UserSecurityConfig.java
+│  │  │                          WebMvcConfig.java
+│  │  │
+│  │  └─resources
+│  │      │  application-dev.yml
+│  │      │  application-secret.yml.default
+│  │      │  application.properties
+│  │      │  application.yml
+│  │      │
+│  │      ├─static
+│  │      │  │  access_denied.css
+│  │      │  │  board_detail.css
+│  │      │  │  board_list.css
+│  │      │  │  create_board.css
+│  │      │  │  episode_detail.css
+│  │      │  │  episode_list.css
+│  │      │  │  episode_modify.css
+│  │      │  │  main_page_episode_detail.css
+│  │      │  │  modify_board.css
+│  │      │  │  my_favorite_webtoon.css
+│  │      │  │  my_webtoon.css
+│  │      │  │  webtoon_create_form.css
+│  │      │  │  webtoon_list.css
+│  │      │  │  webtoon_modify.css
+│  │      │  │
+│  │      │  ├─CSS
+│  │      │  │      companysignup.css
+│  │      │  │      company_login.css
+│  │      │  │      myprofile.css
+│  │      │  │      Navber.css
+│  │      │  │      siteusersignup.css
+│  │      │  │      userlogin.css
+│  │      │  │      user_modify.css
+│  │      │  │      Webtoon_list.css
+│  │      │  │
+│  │      │  ├─images
+│  │      │  │  │  logoimage.gif
+│  │      │  │  │  slick1.png
+│  │      │  │  │  slick2.png
+│  │      │  │  │  slick3.jpg
+│  │      │  │  │  unnamed.png
+│  │      │  │  │
+│  │      │  │  └─cursor
+│  │      │  │          얼룩냥_연결.cur
+│  │      │  │          얼룩냥_일반.cur
+│  │      │  │
+│  │      │  ├─JS
+│  │      │  │      dropdown.js
+│  │      │  │
+│  │      │  └─upload
+│  │      │          13_profile.png
+│  │      │
+│  │      └─templates
+│  │              access_denied.html
+│  │              board_detail.html
+│  │              board_list.html
+│  │              company_login.html
+│  │              company_user_signup.html
+│  │              create_board.html
+│  │              episode_detail.html
+│  │              episode_list.html
+│  │              episode_modify.html
+│  │              login_user2.html
+│  │              main_page_episode_detail.html
+│  │              message_detail.html
+│  │              message_menu.html
+│  │              message_send.html
+│  │              message_sent.html
+│  │              modify_board.html
+│  │              modify_user.html
+│  │              myprofile.html
+│  │              my_favorite_webtoon.html
+│  │              my_webtoon.html
+│  │              navbar.html
+│  │              site_user_signup.html
+│  │              user_login.html
+│  │              webtoon_create_form.html
+│  │              webtoon_episode_create.html
+│  │              webtoon_like_list.html
+│  │              webtoon_list.html
+│  │              webtoon_modify.html
+│  │
+│  └─test
+│      └─java
+│          └─com
+│              └─example
+│                  └─fiction_place1
+│                          FictionPlace1ApplicationTests.java
+│
+└─upload
+        13_profile.png
 
 ## 🐞 트러블슈팅
 1. 사용자 인증 및 세션 관리 문제
