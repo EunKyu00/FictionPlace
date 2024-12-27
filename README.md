@@ -1,94 +1,61 @@
-## 📌 프로젝트 명
-픽션플레이스 - 웹툰 작가와 기업을 연결하는 플랫폼
+## 📌 픽션플레이스 (FictionPlace)
+웹툰 작가와 기업을 연결하는 매칭 플랫폼
 
-# 📝 프로젝트 소개
-프로젝트의 목적과 핵심 기능을 간단히 설명합니다.
-어떤 문제를 해결하고자 하는지 작성합니다.
-주요 대상 사용자에 대해 설명합니다.
-예시:
-픽션플레이스는 웹툰 작가와 기업을 매칭하여 웹툰 제작 및 협업을 돕는 플랫폼입니다.
+## 📅 개발 기간
+2024년 MM월 DD일 ~ 2024년 MM월 DD일
 
-# 🚀 주요 기능
-✅ 사용자 기능
-회원가입 및 로그인 (일반회원, 기업회원)
-게시글 CRUD
-웹툰 등록 및 관리
-웹툰 회차 등록 및 이미지 업로드
-관심 작품 등록 및 관리
-✅ 관리자 기능
-회원 관리
-게시판 관리
-통계 및 리포트
-🛠️ 기술 스택
-Backend:
-Java
-Spring Boot
-Spring Security
-Frontend:
-Thymeleaf
-HTML, CSS
-Database:
-MySQL
-Version Control:
-Git, GitHub
-Deployment:
-AWS (예: EC2, S3)
-⚙️ 프로젝트 구조
-arduino
-코드 복사
-/src
-│── main
-│   ├── java
-│   │   ├── com.example.fiction_place1
-│   │   │   ├── controller
-│   │   │   ├── service
-│   │   │   ├── repository
-│   │   │   ├── domain
-│   │   │   ├── config
-│   │── resources
-│   │   ├── templates
-│   │   ├── static
-│── test
-└── README.md
-# 📊 ERD (Entity Relationship Diagram)
-ERD 다이어그램을 첨부합니다.
-예시: ![ERD 이미지 삽입]
+## 💻 개발 환경
+Backend: Spring Boot, Java 17
+Frontend: Thymeleaf, HTML, CSS, JavaScript
+Database: MySQL
+Build Tool: Gradle
+Version Control: Git, GitHub
+IDE: IntelliJ IDEA, VS Code
 
-#🔗 API 명세서
-API 명세서를 제공하는 링크 또는 내용을 정리합니다.
-예시: API 명세서 바로가기
+## 🛠️ 기술 스택
+구분	기술
+Frontend	Thymeleaf, HTML5, CSS3, JavaScript
+Backend	Spring Boot, Java
+Database	MySQL
+Security	Spring Security, Session 기반 인증
+Build Tool	Gradle
+Version Control	Git & GitHub
+Deployment	TBD (예: AWS, Docker 등 추가 가능)
 
-# 💻 실행 방법
-Clone Repository
-bash
-코드 복사
-git clone https://github.com/username/fiction_place1.git
-cd fiction_place1
-환경 설정
-application.properties 파일을 설정합니다.
-Build & Run
-bash
-코드 복사
-./gradlew build
-java -jar build/libs/fiction_place1.jar
-접속
-http://localhost:8080
-# 🧑‍🤝‍🧑 팀원 소개
-이은규	백엔드 개발	GitHub
-길현수	프론트엔드 개발	GitHub
-#🗂️ 프로젝트 문서
-기획서
-설계서
-회의록
-# 📝 개발 기록 (Issue & Commit Convention)
-Issue 규칙: #IssueNumber - 작업 내용
-Commit 메시지 규칙: [타입] 작업 내용
-예시:
+## 🗂️ DB 테이블 설계
+주요 테이블
+회원 (siteUser)
 
-[Add] 회원가입 기능 구현
-[Fix] 로그인 버그 수정
-🛡️ 라이선스
-MIT License
-📞 문의 및 피드백
-이메일: example@example.com
-GitHub Issues: 바로가기
+일반회원 및 기업회원 정보 관리
+웹툰 (webtoon)
+
+웹툰 작품 정보 관리
+웹툰 에피소드 (webtoon_episode)
+
+각 웹툰의 회차 정보 관리
+게시판 (board)
+
+게시글 및 댓글 관리
+쪽지 (message)
+
+회원 간 메시지 송수신
+
+
+## 📊 E-R 다이어그램
+(E-R 다이어그램 이미지 또는 링크 첨부)
+
+## 👥 역할 분담
+이름	역할	담당 업무
+[이은규]	팀장 / Backend 개발	Spring Boot 기반 백엔드 개발, DB 설계 
+[길현수] 팀원 / Frontend 개발	Thymeleaf, HTML, CSS, JavaScript를 사용한 프론트엔드 개발 및 UI/UX 구현
+
+## 🐞 트러블슈팅
+1. 사용자 인증 및 세션 관리 문제
+문제: Principal 객체가 null 값을 반환
+해결 방법: 사용자 정보를 Session을 통해 직접 관리
+2. 웹툰 장르별 추천 기능 오류
+문제: 장르를 선택한 뒤 추천순 정렬이 제대로 동작하지 않음
+해결 방법: WebToonRepository에 findByGenreTypeIdOrderByLikesDesc 메서드 추가로 문제 해결
+## 📄 기타 참고사항
+프로젝트는 지속적으로 개선 및 업데이트될 예정입니다.
+버그나 개선사항이 있다면 이슈로 등록해 주세요.
