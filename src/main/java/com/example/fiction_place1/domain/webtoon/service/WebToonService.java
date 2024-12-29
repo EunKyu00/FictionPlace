@@ -112,6 +112,10 @@ public class WebToonService {
     public List<WebToon> findAll(){
         return webToonRepository.findAll();
     }
+    public List<WebToon> getWebtoonsByGenreSortedByLikes(Long genreTypeId) {
+        return webToonRepository.findByGenreType_IdOrderByLikesDesc(genreTypeId);
+    }
 }
+
 
 

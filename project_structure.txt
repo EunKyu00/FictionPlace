@@ -1,0 +1,612 @@
+폴더 PATH의 목록입니다.
+볼륨 일련 번호는 6AF2-F327입니다.
+C:.
+|   .gitattributes
+|   .gitignore
+|   build.gradle
+|   gradlew
+|   gradlew.bat
+|   HELP.md
+|   project_structure.txt
+|   settings.gradle
+|   
++---.gradle
+|   +---8.10.2
+|   |   |   gc.properties
+|   |   |   
+|   |   +---checksums
+|   |   |       checksums.lock
+|   |   |       md5-checksums.bin
+|   |   |       sha1-checksums.bin
+|   |   |       
+|   |   +---dependencies-accessors
+|   |   |       gc.properties
+|   |   |       
+|   |   +---executionHistory
+|   |   |       executionHistory.lock
+|   |   |       
+|   |   +---expanded
+|   |   +---fileChanges
+|   |   |       last-build.bin
+|   |   |       
+|   |   +---fileHashes
+|   |   |       fileHashes.bin
+|   |   |       fileHashes.lock
+|   |   |       
+|   |   \---vcsMetadata
+|   +---buildOutputCleanup
+|   |       buildOutputCleanup.lock
+|   |       cache.properties
+|   |       
+|   \---vcs-1
+|           gc.properties
+|           
++---.idea
+|       .gitignore
+|       compiler.xml
+|       dbnavigator.xml
+|       git_toolbox_blame.xml
+|       gradle.xml
+|       jarRepositories.xml
+|       misc.xml
+|       uiDesigner.xml
+|       vcs.xml
+|       workspace.xml
+|       
++---gradle
+|   \---wrapper
+|           gradle-wrapper.jar
+|           gradle-wrapper.properties
+|           
++---out
+|   \---production
+|       +---classes
+|       |   \---com
+|       |       \---example
+|       |           \---fiction_place1
+|       |               |   FictionPlace1Application.class
+|       |               |   
+|       |               +---domain
+|       |               |   +---board
+|       |               |   |   +---controller
+|       |               |   |   |       CreateBoardController.class
+|       |               |   |   |       DeleteBoardController.class
+|       |               |   |   |       ModifyBoardController.class
+|       |               |   |   |       
+|       |               |   |   +---entity
+|       |               |   |   |       Board$BoardBuilder.class
+|       |               |   |   |       Board$BoardBuilderImpl.class
+|       |               |   |   |       Board.class
+|       |               |   |   |       
+|       |               |   |   +---form
+|       |               |   |   |       BoardForm.class
+|       |               |   |   |       
+|       |               |   |   +---repository
+|       |               |   |   |       BoardRepository.class
+|       |               |   |   |       
+|       |               |   |   \---service
+|       |               |   |           BoardService.class
+|       |               |   |           
+|       |               |   +---board_type
+|       |               |   |   +---entity
+|       |               |   |   |       BoardType$BoardTypeBuilder.class
+|       |               |   |   |       BoardType$BoardTypeBuilderImpl.class
+|       |               |   |   |       BoardType.class
+|       |               |   |   |       
+|       |               |   |   +---repository
+|       |               |   |   |       BoardTypeRepository.class
+|       |               |   |   |       
+|       |               |   |   \---service
+|       |               |   |           BoardTypeService.class
+|       |               |   |           
+|       |               |   +---comment
+|       |               |   |   +---controller
+|       |               |   |   |       CommentController.class
+|       |               |   |   |       
+|       |               |   |   +---entity
+|       |               |   |   |       Comment$CommentBuilder.class
+|       |               |   |   |       Comment$CommentBuilderImpl.class
+|       |               |   |   |       Comment.class
+|       |               |   |   |       
+|       |               |   |   +---repository
+|       |               |   |   |       CommentRepository.class
+|       |               |   |   |       
+|       |               |   |   \---service
+|       |               |   |           CommentService.class
+|       |               |   |           
+|       |               |   +---favorite
+|       |               |   |   +---entity
+|       |               |   |   |       Favorite$FavoriteBuilder.class
+|       |               |   |   |       Favorite$FavoriteBuilderImpl.class
+|       |               |   |   |       Favorite.class
+|       |               |   |   |       
+|       |               |   |   +---repository
+|       |               |   |   |       FavoriteRepository.class
+|       |               |   |   |       
+|       |               |   |   \---service
+|       |               |   |           FavoriteService.class
+|       |               |   |           
+|       |               |   +---genre_type
+|       |               |   |   +---entity
+|       |               |   |   |       GenreType$GenreTypeBuilder.class
+|       |               |   |   |       GenreType$GenreTypeBuilderImpl.class
+|       |               |   |   |       GenreType.class
+|       |               |   |   |       
+|       |               |   |   +---repository
+|       |               |   |   |       GenreTypeRepository.class
+|       |               |   |   |       
+|       |               |   |   \---service
+|       |               |   |           GenreTypeService.class
+|       |               |   |           
+|       |               |   +---message
+|       |               |   |   +---controller
+|       |               |   |   |       MessageController.class
+|       |               |   |   |       
+|       |               |   |   +---entity
+|       |               |   |   |       Message$MessageBuilder.class
+|       |               |   |   |       Message$MessageBuilderImpl.class
+|       |               |   |   |       Message.class
+|       |               |   |   |       
+|       |               |   |   +---form
+|       |               |   |   |       MessageForm.class
+|       |               |   |   |       
+|       |               |   |   +---repository
+|       |               |   |   |       MessageRepository.class
+|       |               |   |   |       
+|       |               |   |   \---service
+|       |               |   |           MessageService.class
+|       |               |   |           
+|       |               |   +---profile
+|       |               |   |   +---controller
+|       |               |   |   |       MyProfileController.class
+|       |               |   |   |       
+|       |               |   |   +---entity
+|       |               |   |   |       MyProfile.class
+|       |               |   |   |       
+|       |               |   |   +---repository
+|       |               |   |   |       MyProfileRepository.class
+|       |               |   |   |       
+|       |               |   |   \---service
+|       |               |   |           MyProfileService.class
+|       |               |   |           
+|       |               |   +---recommend
+|       |               |   |   +---entity
+|       |               |   |   |       Recommend$RecommendBuilder.class
+|       |               |   |   |       Recommend$RecommendBuilderImpl.class
+|       |               |   |   |       Recommend.class
+|       |               |   |   |       
+|       |               |   |   +---repository
+|       |               |   |   |       RecommendRepository.class
+|       |               |   |   |       
+|       |               |   |   \---service
+|       |               |   |           RecommendService.class
+|       |               |   |           
+|       |               |   +---user
+|       |               |   |   +---controller
+|       |               |   |   |       CompanyUserController.class
+|       |               |   |   |       SiteUserController.class
+|       |               |   |   |       
+|       |               |   |   +---entity
+|       |               |   |   |       CompanyUser$CompanyUserBuilder.class
+|       |               |   |   |       CompanyUser$CompanyUserBuilderImpl.class
+|       |               |   |   |       CompanyUser.class
+|       |               |   |   |       SiteUser$SiteUserBuilder.class
+|       |               |   |   |       SiteUser$SiteUserBuilderImpl.class
+|       |               |   |   |       SiteUser.class
+|       |               |   |   |       User.class
+|       |               |   |   |       
+|       |               |   |   +---form
+|       |               |   |   |       CompanyUserCreateForm.class
+|       |               |   |   |       SiteUserCreateForm.class
+|       |               |   |   |       
+|       |               |   |   +---repository
+|       |               |   |   |       CompanyUserRepository.class
+|       |               |   |   |       SiteUserRepository.class
+|       |               |   |   |       
+|       |               |   |   \---service
+|       |               |   |           CompanyUserService.class
+|       |               |   |           SiteUserService.class
+|       |               |   |           
+|       |               |   +---webtoon
+|       |               |   |   +---controller
+|       |               |   |   |       FileController.class
+|       |               |   |   |       WebToonController.class
+|       |               |   |   |       
+|       |               |   |   +---entity
+|       |               |   |   |       WebToon$WebToonBuilder.class
+|       |               |   |   |       WebToon$WebToonBuilderImpl.class
+|       |               |   |   |       WebToon.class
+|       |               |   |   |       
+|       |               |   |   +---form
+|       |               |   |   |       WebToonForm.class
+|       |               |   |   |       
+|       |               |   |   +---repository
+|       |               |   |   |       WebToonRepository.class
+|       |               |   |   |       
+|       |               |   |   \---service
+|       |               |   |           FileService.class
+|       |               |   |           WebToonService.class
+|       |               |   |           
+|       |               |   \---webtoon_episode
+|       |               |       +---controller
+|       |               |       |       WebToonEpisodeController.class
+|       |               |       |       
+|       |               |       +---entity
+|       |               |       |       EpisodeImage$EpisodeImageBuilder.class
+|       |               |       |       EpisodeImage$EpisodeImageBuilderImpl.class
+|       |               |       |       EpisodeImage.class
+|       |               |       |       WebToonEpisode$WebToonEpisodeBuilder.class
+|       |               |       |       WebToonEpisode$WebToonEpisodeBuilderImpl.class
+|       |               |       |       WebToonEpisode.class
+|       |               |       |       
+|       |               |       +---form
+|       |               |       |       WebToonEpisodeForm.class
+|       |               |       |       
+|       |               |       +---repository
+|       |               |       |       EpisodeImageRepository.class
+|       |               |       |       WebToonEpisodeRepository.class
+|       |               |       |       
+|       |               |       \---service
+|       |               |               WebToonEpisodeService.class
+|       |               |               
+|       |               \---global
+|       |                   +---initData
+|       |                   |       Init.class
+|       |                   |       
+|       |                   +---jpa
+|       |                   |       BaseEntity$BaseEntityBuilder.class
+|       |                   |       BaseEntity$BaseEntityBuilderImpl.class
+|       |                   |       BaseEntity.class
+|       |                   |       
+|       |                   \---security
+|       |                           UserSecurityConfig.class
+|       |                           WebMvcConfig.class
+|       |                           
+|       \---resources
+|           |   application-dev.yml
+|           |   application-secret.yml.default
+|           |   application.properties
+|           |   application.yml
+|           |   
+|           +---static
+|           |   |   access_denied.css
+|           |   |   board_detail.css
+|           |   |   board_list.css
+|           |   |   create_board.css
+|           |   |   episode_detail.css
+|           |   |   episode_list.css
+|           |   |   episode_modify.css
+|           |   |   main_page_episode_detail.css
+|           |   |   modify_board.css
+|           |   |   my_favorite_webtoon.css
+|           |   |   my_webtoon.css
+|           |   |   webtoon_create_form.css
+|           |   |   webtoon_list.css
+|           |   |   webtoon_modify.css
+|           |   |   
+|           |   +---CSS
+|           |   |       companysignup.css
+|           |   |       company_login.css
+|           |   |       myprofile.css
+|           |   |       Navber.css
+|           |   |       siteusersignup.css
+|           |   |       userlogin.css
+|           |   |       user_modify.css
+|           |   |       Webtoon_list.css
+|           |   |       
+|           |   +---images
+|           |   |   |   logoimage.gif
+|           |   |   |   slick1.png
+|           |   |   |   slick2.png
+|           |   |   |   slick3.jpg
+|           |   |   |   unnamed.png
+|           |   |   |   
+|           |   |   \---cursor
+|           |   |           얼룩냥_연결.cur
+|           |   |           얼룩냥_일반.cur
+|           |   |           
+|           |   +---JS
+|           |   |       dropdown.js
+|           |   |       
+|           |   \---upload
+|           |           13_profile.png
+|           |           
+|           \---templates
+|                   access_denied.html
+|                   board_detail.html
+|                   board_list.html
+|                   company_login.html
+|                   company_user_signup.html
+|                   create_board.html
+|                   episode_detail.html
+|                   episode_list.html
+|                   episode_modify.html
+|                   login_user2.html
+|                   main_page_episode_detail.html
+|                   message_detail.html
+|                   message_menu.html
+|                   message_send.html
+|                   message_sent.html
+|                   modify_board.html
+|                   modify_user.html
+|                   myprofile.html
+|                   my_favorite_webtoon.html
+|                   my_webtoon.html
+|                   navbar.html
+|                   site_user_signup.html
+|                   user_login.html
+|                   webtoon_create_form.html
+|                   webtoon_episode_create.html
+|                   webtoon_like_list.html
+|                   webtoon_list.html
+|                   webtoon_modify.html
+|                   
++---src
+|   +---main
+|   |   +---generated
+|   |   +---java
+|   |   |   \---com
+|   |   |       \---example
+|   |   |           \---fiction_place1
+|   |   |               |   FictionPlace1Application.java
+|   |   |               |   
+|   |   |               +---domain
+|   |   |               |   +---board
+|   |   |               |   |   +---controller
+|   |   |               |   |   |       CreateBoardController.java
+|   |   |               |   |   |       DeleteBoardController.java
+|   |   |               |   |   |       ModifyBoardController.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---entity
+|   |   |               |   |   |       Board.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---form
+|   |   |               |   |   |       BoardForm.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---repository
+|   |   |               |   |   |       BoardRepository.java
+|   |   |               |   |   |       
+|   |   |               |   |   \---service
+|   |   |               |   |           BoardService.java
+|   |   |               |   |           
+|   |   |               |   +---board_type
+|   |   |               |   |   +---entity
+|   |   |               |   |   |       BoardType.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---repository
+|   |   |               |   |   |       BoardTypeRepository.java
+|   |   |               |   |   |       
+|   |   |               |   |   \---service
+|   |   |               |   |           BoardTypeService.java
+|   |   |               |   |           
+|   |   |               |   +---comment
+|   |   |               |   |   +---controller
+|   |   |               |   |   |       CommentController.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---entity
+|   |   |               |   |   |       Comment.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---repository
+|   |   |               |   |   |       CommentRepository.java
+|   |   |               |   |   |       
+|   |   |               |   |   \---service
+|   |   |               |   |           CommentService.java
+|   |   |               |   |           
+|   |   |               |   +---favorite
+|   |   |               |   |   +---entity
+|   |   |               |   |   |       Favorite.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---repository
+|   |   |               |   |   |       FavoriteRepository.java
+|   |   |               |   |   |       
+|   |   |               |   |   \---service
+|   |   |               |   |           FavoriteService.java
+|   |   |               |   |           
+|   |   |               |   +---genre_type
+|   |   |               |   |   +---entity
+|   |   |               |   |   |       GenreType.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---repository
+|   |   |               |   |   |       GenreTypeRepository.java
+|   |   |               |   |   |       
+|   |   |               |   |   \---service
+|   |   |               |   |           GenreTypeService.java
+|   |   |               |   |           
+|   |   |               |   +---message
+|   |   |               |   |   +---controller
+|   |   |               |   |   |       MessageController.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---entity
+|   |   |               |   |   |       Message.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---form
+|   |   |               |   |   |       MessageForm.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---repository
+|   |   |               |   |   |       MessageRepository.java
+|   |   |               |   |   |       
+|   |   |               |   |   \---service
+|   |   |               |   |           MessageService.java
+|   |   |               |   |           
+|   |   |               |   +---profile
+|   |   |               |   |   +---controller
+|   |   |               |   |   |       MyProfileController.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---entity
+|   |   |               |   |   |       MyProfile.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---repository
+|   |   |               |   |   |       MyProfileRepository.java
+|   |   |               |   |   |       
+|   |   |               |   |   \---service
+|   |   |               |   |           MyProfileService.java
+|   |   |               |   |           
+|   |   |               |   +---recommend
+|   |   |               |   |   +---entity
+|   |   |               |   |   |       Recommend.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---repository
+|   |   |               |   |   |       RecommendRepository.java
+|   |   |               |   |   |       
+|   |   |               |   |   \---service
+|   |   |               |   |           RecommendService.java
+|   |   |               |   |           
+|   |   |               |   +---user
+|   |   |               |   |   +---controller
+|   |   |               |   |   |       CompanyUserController.java
+|   |   |               |   |   |       LoginController.java
+|   |   |               |   |   |       SiteUserController.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---entity
+|   |   |               |   |   |       CompanyUser.java
+|   |   |               |   |   |       SiteUser.java
+|   |   |               |   |   |       User.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---form
+|   |   |               |   |   |       CompanyUserCreateForm.java
+|   |   |               |   |   |       SiteUserCreateForm.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---repository
+|   |   |               |   |   |       CompanyUserRepository.java
+|   |   |               |   |   |       SiteUserRepository.java
+|   |   |               |   |   |       
+|   |   |               |   |   \---service
+|   |   |               |   |           CompanyUserService.java
+|   |   |               |   |           SiteUserService.java
+|   |   |               |   |           
+|   |   |               |   +---webtoon
+|   |   |               |   |   +---controller
+|   |   |               |   |   |       FileController.java
+|   |   |               |   |   |       WebToonController.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---entity
+|   |   |               |   |   |       WebToon.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---form
+|   |   |               |   |   |       WebToonForm.java
+|   |   |               |   |   |       
+|   |   |               |   |   +---repository
+|   |   |               |   |   |       WebToonRepository.java
+|   |   |               |   |   |       
+|   |   |               |   |   \---service
+|   |   |               |   |           FileService.java
+|   |   |               |   |           WebToonService.java
+|   |   |               |   |           
+|   |   |               |   \---webtoon_episode
+|   |   |               |       +---controller
+|   |   |               |       |       WebToonEpisodeController.java
+|   |   |               |       |       
+|   |   |               |       +---entity
+|   |   |               |       |       EpisodeImage.java
+|   |   |               |       |       WebToonEpisode.java
+|   |   |               |       |       
+|   |   |               |       +---form
+|   |   |               |       |       WebToonEpisodeForm.java
+|   |   |               |       |       
+|   |   |               |       +---repository
+|   |   |               |       |       EpisodeImageRepository.java
+|   |   |               |       |       WebToonEpisodeRepository.java
+|   |   |               |       |       
+|   |   |               |       \---service
+|   |   |               |               WebToonEpisodeService.java
+|   |   |               |               
+|   |   |               \---global
+|   |   |                   +---initData
+|   |   |                   |       Init.java
+|   |   |                   |       
+|   |   |                   +---jpa
+|   |   |                   |       BaseEntity.java
+|   |   |                   |       
+|   |   |                   \---security
+|   |   |                           UserSecurityConfig.java
+|   |   |                           WebMvcConfig.java
+|   |   |                           
+|   |   \---resources
+|   |       |   application-dev.yml
+|   |       |   application-secret.yml.default
+|   |       |   application.properties
+|   |       |   application.yml
+|   |       |   
+|   |       +---static
+|   |       |   |   access_denied.css
+|   |       |   |   board_detail.css
+|   |       |   |   board_list.css
+|   |       |   |   create_board.css
+|   |       |   |   episode_detail.css
+|   |       |   |   episode_list.css
+|   |       |   |   episode_modify.css
+|   |       |   |   main_page_episode_detail.css
+|   |       |   |   modify_board.css
+|   |       |   |   my_favorite_webtoon.css
+|   |       |   |   my_webtoon.css
+|   |       |   |   webtoon_create_form.css
+|   |       |   |   webtoon_list.css
+|   |       |   |   webtoon_modify.css
+|   |       |   |   
+|   |       |   +---CSS
+|   |       |   |       companysignup.css
+|   |       |   |       company_login.css
+|   |       |   |       myprofile.css
+|   |       |   |       Navber.css
+|   |       |   |       siteusersignup.css
+|   |       |   |       userlogin.css
+|   |       |   |       user_modify.css
+|   |       |   |       Webtoon_list.css
+|   |       |   |       
+|   |       |   +---images
+|   |       |   |   |   logoimage.gif
+|   |       |   |   |   slick1.png
+|   |       |   |   |   slick2.png
+|   |       |   |   |   slick3.jpg
+|   |       |   |   |   unnamed.png
+|   |       |   |   |   
+|   |       |   |   \---cursor
+|   |       |   |           얼룩냥_연결.cur
+|   |       |   |           얼룩냥_일반.cur
+|   |       |   |           
+|   |       |   +---JS
+|   |       |   |       dropdown.js
+|   |       |   |       
+|   |       |   \---upload
+|   |       |           13_profile.png
+|   |       |           
+|   |       \---templates
+|   |               access_denied.html
+|   |               board_detail.html
+|   |               board_list.html
+|   |               company_login.html
+|   |               company_user_signup.html
+|   |               create_board.html
+|   |               episode_detail.html
+|   |               episode_list.html
+|   |               episode_modify.html
+|   |               login_user2.html
+|   |               main_page_episode_detail.html
+|   |               message_detail.html
+|   |               message_menu.html
+|   |               message_send.html
+|   |               message_sent.html
+|   |               modify_board.html
+|   |               modify_user.html
+|   |               myprofile.html
+|   |               my_favorite_webtoon.html
+|   |               my_webtoon.html
+|   |               navbar.html
+|   |               site_user_signup.html
+|   |               user_login.html
+|   |               webtoon_create_form.html
+|   |               webtoon_episode_create.html
+|   |               webtoon_like_list.html
+|   |               webtoon_list.html
+|   |               webtoon_modify.html
+|   |               
+|   \---test
+|       \---java
+|           \---com
+|               \---example
+|                   \---fiction_place1
+|                           FictionPlace1ApplicationTests.java
+|                           
+\---upload
+        13_profile.png
+        

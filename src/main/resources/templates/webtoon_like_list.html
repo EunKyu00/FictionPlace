@@ -58,14 +58,14 @@
 
   <!-- 장르 선택 바 -->
   <div class="genre-bar">
-    <div class="genre-button">전체</div>
-    <a href="/webtoons?genreId=1" class="genre-button">액션</a>
-    <a href="/webtoons?genreId=2" class="genre-button">로맨스</a>
-    <a href="/webtoons?genreId=3" class="genre-button">판타지</a>
-    <a href="/webtoons?genreId=4" class="genre-button">스릴러</a>
-    <a href="/webtoons?genreId=5" class="genre-button">성인</a>
-    <a href="/webtoons?genreId=6" class="genre-button">드라마</a>
-    <a href="/webtoons?genreId=7" class="genre-button">개그</a>
+    <a href="/webtoon/likes" class="genre-button" th:classappend="${selectedGenreId == null ? 'selected' : ''}">전체</a>
+    <a href="/webtoon/likes?genreId=1" class="genre-button" th:classappend="${selectedGenreId == 1 ? 'selected' : ''}">액션</a>
+    <a href="/webtoon/likes?genreId=2" class="genre-button" th:classappend="${selectedGenreId == 2 ? 'selected' : ''}">로맨스</a>
+    <a href="/webtoon/likes?genreId=3" class="genre-button" th:classappend="${selectedGenreId == 3 ? 'selected' : ''}">판타지</a>
+    <a href="/webtoon/likes?genreId=4" class="genre-button" th:classappend="${selectedGenreId == 4 ? 'selected' : ''}">스릴러</a>
+    <a href="/webtoon/likes?genreId=5" class="genre-button" th:classappend="${selectedGenreId == 5 ? 'selected' : ''}">성인</a>
+    <a href="/webtoon/likes?genreId=6" class="genre-button" th:classappend="${selectedGenreId == 6 ? 'selected' : ''}">드라마</a>
+    <a href="/webtoon/likes?genreId=7" class="genre-button" th:classappend="${selectedGenreId == 7 ? 'selected' : ''}">개그</a>
   </div>
 
   <!-- 웹툰 리스트 -->

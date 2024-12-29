@@ -21,6 +21,8 @@ public interface WebToonRepository extends JpaRepository<WebToon,Long> {
 
     List<WebToon> findAll();
 
+    List<WebToon> findByGenreType_IdOrderByLikesDesc(Long genreTypeId);
+
     // 장르 ID에 따른 웹툰 리스트
     List<WebToon> findByGenreTypeId(Long genreId);
 }

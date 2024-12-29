@@ -61,16 +61,6 @@ public class WebToonEpisodeController {
         return "webtoon_list";
     }
 
-    @GetMapping("/webtoon/likes")
-    public String getWebtoonsSortedByLikes(Model model) {
-        // likes 기준으로 정렬된 웹툰 리스트 가져오기
-        List<WebToon> sortedWebtoons = webToonService.getWebtoonsSortedByLikes();
-        // 모델에 정렬된 웹툰 리스트 추가
-        model.addAttribute("selectedWebtoons", sortedWebtoons);
-
-        return "webtoon_like_list"; // 웹툰 리스트를 보여줄 뷰 이름
-    }
-
 
     // 회차 등록 페이지
     @GetMapping("/webtoon/episodes/create/{id}")

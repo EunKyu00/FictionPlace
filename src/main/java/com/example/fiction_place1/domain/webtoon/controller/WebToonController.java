@@ -290,6 +290,23 @@ public class WebToonController {
         return "webtoon_list"; // 웹툰 리스트 페이지 반환
     }
 
+    @GetMapping("/webtoon/likes")
+    public String getWebtoonsSortedByLikes(@RequestParam(name = "genreId", required = false) Long genreId, Model model) {
+        List<WebToon> webtoons;
+
+        if (genreId != null) {
+            // 장르 ID가 있을 경우 해당 장르의 웹툰만 추천순으로 가져오기
+            webtoons = webToonService.getWebtoonsByGenreSortedByLikes(genreId);
+        } else {
+            // 장르 ID가 없을 경우 전체 웹툰을 추천순으로 가져오기
+            webtoons = webToonService.getWebtoonsSortedByLikes();
+        }
+
+        model.addAttribute("selectedWebtoons", webtoons);
+        model.addAttribute("selectedGenreId", genreId);
+
+        return "webtoon_like_list"; // 웹툰 리스트를 보여줄 뷰 이름
+    }
 }
 
 
