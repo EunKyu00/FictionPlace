@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>보낸 쪽지</title>
-    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+    <link rel="stylesheet" href="/topbar.css">
+    <link rel="stylesheet" href="/sidebar.css">
     <style>
         /* 전체 페이지의 레이아웃 설정 */
         body {
@@ -182,10 +183,11 @@
     </style>
 </head>
 <body>
-<div class="navbar" th:replace="~{navbar :: navbar}"></div>
+<div th:replace="~{topbar :: topbar}"></div>
+<div th:replace="~{sidebar :: sidebar}"></div>
 
 <div class="container">
-    <div class="content">
+    <div class="content message-content">
         <div class="tabs">
             <a th:href="@{/message/menu}" class="tab">받은 쪽지</a>
             <a th:href="@{/message/sent}" class="tab active">보낸 쪽지</a>

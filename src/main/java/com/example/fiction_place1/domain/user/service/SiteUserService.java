@@ -1,5 +1,6 @@
 package com.example.fiction_place1.domain.user.service;
 
+import com.example.fiction_place1.domain.board.entity.Board;
 import com.example.fiction_place1.domain.profile.entity.MyProfile;
 import com.example.fiction_place1.domain.profile.service.MyProfileService;
 import com.example.fiction_place1.domain.user.entity.SiteUser;
@@ -72,15 +73,36 @@ public class SiteUserService {
         return loggedInUser;
     }
 
-    //일반유저 수정 로직 (닉네임, 자기소개, 이메일)
-    public void updateUser(SiteUser currentUser, SiteUser updatedUser) {
-        currentUser.setNickname(updatedUser.getNickname());
-        currentUser.setEmail(updatedUser.getEmail());
-        if (!updatedUser.getPassword().isEmpty()) {
-            currentUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+    public void modifySiteUser(SiteUser siteUser, String nickname, String email, String password) {
+        // 이메일이나 닉네임 중복 체크 (비어 있지 않은 경우에만)
+        if (nickname != null && !nickname.isEmpty() && !nickname.equals(siteUser.getNickname()) && siteUserRepository.existsByNickname(nickname)) {
+            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
         }
-        siteUserRepository.save(currentUser);
+
+        if (email != null && !email.isEmpty() && !email.equals(siteUser.getEmail()) && siteUserRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+        }
+
+        // 닉네임이 입력되었으면 변경 (비어 있지 않은 경우에만)
+        if (nickname != null && !nickname.isEmpty()) {
+            siteUser.setNickname(nickname);
+        }
+
+        // 이메일이 입력되었으면 변경 (비어 있지 않은 경우에만)
+        if (email != null && !email.isEmpty()) {
+            siteUser.setEmail(email);
+        }
+
+        // 비밀번호가 비어 있지 않으면 변경
+        if (password != null && !password.isEmpty()) {
+            siteUser.setPassword(passwordEncoder.encode(password));
+        }
+
+        // 변경된 사용자 정보 저장
+        this.siteUserRepository.save(siteUser);
     }
+
+
     // findById 메서드 추가
     public SiteUser findById(Long id) {
         return siteUserRepository.findById(id).orElse(null);  // Optional을 null로 처리

@@ -1,0 +1,195 @@
+/* 전체 페이지 스타일 초기화 */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  height: 100%;
+}
+
+/* 네비게이션 바 스타일 */
+.top-bar {
+  position: fixed; /* 상단에 고정 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: #ffffff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* 항상 다른 요소 위에 표시 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px; /* 양쪽 여백 일정하게 유지 */
+  box-sizing: border-box;
+}
+
+/* 브랜드 섹션 */
+.project-brand {
+  display: flex;
+  align-items: center;
+}
+
+.project-brand .logo-image {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.project-brand .project-name a {
+  font-size: 20px;
+  color: #333;
+  text-decoration: none;
+  font-weight: normal; /* 글씨 진한 스타일 제거 */
+}
+
+.project-brand .project-name a:hover {
+  color: #4caf50;
+}
+
+/* 네비게이션 메뉴 스타일 */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+  margin-left: 100px; /* 브랜드와 메뉴 사이 여백 */
+  margin-right: 50px; /* 메뉴와 회원정보 사이 여백 더 축소 */
+}
+
+/* 네비게이션 링크 */
+.nav-links {
+  display: flex;
+  gap: 25px; /* 메뉴 간격 약간 축소 (기존 30px → 25px) */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-links li {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  padding: 10px 15px;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #4caf50;
+}
+
+/* 로그인/회원가입/로그아웃 섹션 */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* 버튼 간격을 더 크게 설정 */
+  margin-left: 0; /* 오른쪽 끝으로 정렬 */
+}
+
+/* 로그인 및 회원가입 (드롭다운을 위한 기본 스타일) */
+.login-type, .signup-type {
+  position: relative;
+  display: inline-block;
+  margin-right: 20px; /* 로그인과 회원가입 간격을 넓히기 위한 여백 추가 */
+}
+
+.login-type span, .signup-type span {
+  cursor: pointer;
+  font-weight: normal; /* 글씨 진한 스타일 제거 */
+}
+
+/* 로그인 및 회원가입 드롭다운 스타일 */
+.login-type ul, .signup-type ul {
+  display: none;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  list-style: none;
+  min-width: 160px;
+}
+
+.login-type:hover ul, .signup-type:hover ul {
+  display: block;
+}
+
+.login-type ul li, .signup-type ul li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.login-type ul li:last-child, .signup-type ul li:last-child {
+  border-bottom: none;
+}
+
+.login-type ul li a, .signup-type ul li a {
+  text-decoration: none;
+  color: #00796b;
+  font-weight: normal; /* 글씨 진한 스타일 제거 */
+}
+
+.login-type ul li a:hover, .signup-type ul li a:hover {
+  color: #004d40;
+}
+
+/* 로그아웃 버튼 */
+.logout-type {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* 닉네임과 버튼 사이 간격 더 축소 (기존 8px → 5px) */
+}
+
+.logout-type p {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.logout-type a {
+  background-color: #4caf50;;
+  color: white;
+  padding: 6px 12px; /* 버튼 패딩 축소 */
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.logout-type a:hover {
+  background-color: #0056b3;
+}
+
+/* 본문 내용 스타일 */
+.content {
+  margin-top: 70px; /* 네비게이션 바 아래로 본문을 이동 */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* 모바일 대응 */
+@media screen and (max-width: 768px) {
+  .top-bar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .user-actions {
+    margin-left: 0;
+    margin-top: 10px;
+    flex-direction: column;
+    gap: 15px;
+  }
+}

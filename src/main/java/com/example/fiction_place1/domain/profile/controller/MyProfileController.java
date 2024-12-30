@@ -38,10 +38,9 @@ public class MyProfileController {
 
     // 일반 사용자 프로필 보기
     @GetMapping("/profile/user/{id}")
-    public String getUserProfile(@PathVariable("id") Long id , Model model) {
-        //id로 사용자를 조회
-        SiteUser siteUser = siteUserService.findById(id);
-
+    public String getUserProfile(@PathVariable("id") Long id, Model model) {
+        // id로 사용자를 조회
+        SiteUser siteUser = siteUserService.findById(id); // id로 사용자 조회
 
         if (siteUser != null) {
             model.addAttribute("nickname", siteUser.getNickname());
@@ -49,25 +48,44 @@ public class MyProfileController {
         } else {
             model.addAttribute("message", "사용자를 찾을 수 없습니다.");
         }
-
-        return "myprofile";
+        return "myprofile"; // myprofile.html로 이동
     }
 
-    // 기업 프로필 보기
+
     @GetMapping("/profile/company/{id}")
     public String getCompanyProfile(@PathVariable("id") Long id, Model model) {
-        //id로 기업 조회
-        CompanyUser companyUser = companyUserService.findById(id);
+        // id로 기업 사용자를 조회
+        CompanyUser companyUser = companyUserService.findById(id); // id로 기업 사용자 조회
 
         if (companyUser != null) {
             model.addAttribute("companyName", companyUser.getCompanyName());
             model.addAttribute("email", companyUser.getEmail());
+            // 추가적인 기업회원 정보도 모델에 담을 수 있습니다.
         } else {
             model.addAttribute("message", "회사를 찾을 수 없습니다.");
         }
 
-        return "myprofile";
+        return "myprofile"; // myprofile.html로 이동
     }
+    @GetMapping("/profile/{id}")
+    public String userProfile(@PathVariable("id") Long id, Model model) {
+        // id로 사용자를 조회
+        SiteUser siteUser = siteUserService.findById(id); // id로 사용자 조회
+
+        if (siteUser != null) {
+            model.addAttribute("siteUser", siteUser);
+            model.addAttribute("nickname", siteUser.getNickname());
+            model.addAttribute("email", siteUser.getEmail());
+            // 작가의 웹툰 목록을 모델에 추가
+            model.addAttribute("webtoons", siteUser.getWebToons());
+        } else {
+            model.addAttribute("message", "사용자를 찾을 수 없습니다.");
+        }
+
+        return "profile"; // profile.html로 이동
+    }
+
+
     @PostMapping("/profile/user/{id}/upload-image")
     public ResponseEntity<String> uploadImage(
             @PathVariable("id") Long userId, // URL에서 사용자 ID 가져옴
@@ -138,23 +156,32 @@ public class MyProfileController {
     }
 
     //일반 유저 정보 변경
-    @GetMapping("/profile/user/{id}/modify")
-    public String userModifyForm (@PathVariable("id") Long id, HttpSession session, Model model) {
-        SiteUser loginUser = siteUserService.getLoggedInUser(session);
-        if(!loginUser.getId().equals(id)){
-            throw new IllegalStateException("접근권한 없음");
+    @GetMapping("/profile/user/modify")
+    public String userModifyForm(HttpSession session, Model model) {
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+
+        if (siteUser != null) {
+            model.addAttribute("user", siteUser);
         }
-         model.addAttribute("user", loginUser);
-        return "modify_user"; //수정화면
+
+        return "modify_user"; // 수정화면
     }
 
-    @PostMapping("/profile/user/{id}/modify")
-    public String updateUser(@PathVariable("id") Long id, @ModelAttribute SiteUser updateUser, @RequestParam(value = "profileImage", required = false) MultipartFile file, HttpSession session) {
-        SiteUser loginUser = siteUserService.getLoggedInUser(session);
-        if (!loginUser.getId().equals(id)) {
-            throw new IllegalStateException("접근 권한이 없습니다.");
+
+    @PostMapping("/profile/user/modify")
+    public String updateUser(HttpSession session,
+                             @RequestParam("nickname") String nickname,
+                             @RequestParam("email") String email,
+                             @RequestParam(value = "password", required = false) String password) {
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+
+        if (siteUser != null) {
+            // 비밀번호가 입력된 경우만 처리, 비어있으면 기존 비밀번호 유지
+            this.siteUserService.modifySiteUser(siteUser, nickname, email, password);
         }
-        siteUserService.updateUser(loginUser, updateUser);
-        return "redirect:/profile/user/{id}";
+
+        // 수정된 사용자 프로필 페이지로 리다이렉트
+        return "redirect:/profile/user/" + siteUser.getId();
     }
+
 }

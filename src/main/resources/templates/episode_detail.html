@@ -3,8 +3,11 @@
 <head>
     <title>웹툰 회차 상세</title>
     <link rel="stylesheet" href="/episode_detail.css">
+    <link rel="stylesheet" href="/topbar.css">
 </head>
 <body>
+<!-- 탑바 -->
+<div th:replace="~{topbar :: topbar}"></div>
 <div class="episode-detail">
     <h1 th:text="${episode.title}"></h1> <!-- 에피소드 제목 -->
 
