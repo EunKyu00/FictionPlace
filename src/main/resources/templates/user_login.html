@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>User Login</title>
     <link rel="stylesheet" href="/CSS/userlogin.css">
-    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+    <link rel="stylesheet" href="/topbar.css">
 </head>
 <body>
-<div th:replace="~{navbar :: navbar}"></div>
+<!-- 탑바 -->
+<div th:replace="~{topbar :: topbar}"></div>
 <!-- 로그인 폼 -->
 <form th:action="@{/login/user}" method="post">
     <h1>일반회원 로그인</h1>

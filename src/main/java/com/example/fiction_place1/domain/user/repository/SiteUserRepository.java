@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface SiteUserRepository extends JpaRepository<SiteUser,Long> {
     boolean existsByUsername(String username); // username 중복 확인
     boolean existsByEmail(String email);// email 중복 확인
+    boolean existsByNickname(String nickname);
+
     Optional<SiteUser> findByUsername(String username);
     Optional<SiteUser> findByNickname(String nickname);
 

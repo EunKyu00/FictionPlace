@@ -38,13 +38,13 @@
         </a>
     </div>
     <div class="sidebar-item">
-        <a th:href="@{/profile/user/{id}/modify(id=${id})}" class="sidebar-link">
+        <a th:href="@{/profile/user/modify}" class="sidebar-link">
             <span class="sidebar-icon">🖊️</span> 정보 수정
         </a>
     </div>
 </div>
 <div class="modify-type">
-<form th:action="@{/profile/user/{id}/modify(id=${user.id})}" th:object="${user}" method="post" class="user-modify-form">
+<form th:action="@{/profile/user/modify}" th:object="${user}" method="post" class="user-modify-form">
     <div>
         <label>닉네임:</label>
         <input type="text" th:field="*{nickname}" />

@@ -4,40 +4,54 @@
     <meta charset="UTF-8">
     <title>나의 웹툰</title>
     <link rel="stylesheet" href="/my_webtoon.css" />
+    <link rel="stylesheet" href="/topbar.css">
+    <link rel="stylesheet" href="/sidebar.css">
 </head>
 <body>
-<div th:if="${webtoons != null}">
-    <div class="webtoon-list">
-        <div th:each="webtoon : ${webtoons}" class="webtoon-card">
-            <a th:href="@{/webtoon/episode/list/{id}(id=${webtoon.id})}" style="text-decoration: none;">
-                <div class="webtoon-container">
-                    <img th:src="${webtoon.thumbnailImg}" alt="웹툰 썸네일" class="webtoon-thumbnail" />
-                    <div class="webtoon-info">
-                        <div class="webtoon-title" th:text="${webtoon.title}"></div>
-                        <!-- 장르 출력: genreTypename -->
-                        <div class="webtoon-genre" th:text="${webtoon.genreType.genreTypename}"></div> <!-- 장르 이름 출력 -->
-                        <div class="webtoon-content" th:text="${webtoon.content}"></div>
-                        <div class="webtoon-buttons">
-                            <a class="modify-btn" th:href="@{/webtoon/modify/{id}(id=${webtoon.id})}">
-                                수정
-                            </a>
-                            <a class="delete-btn" th:href="@{/webtoon/delete/{id}(id=${webtoon.id})}"
-                               onclick="return confirm('삭제하시겠습니까?');">
-                                삭제
-                            </a>
+<!-- 탑바 -->
+<div th:replace="~{topbar :: topbar}"></div>
+
+<!-- 사이드바 -->
+<div th:replace="~{sidebar :: sidebar}"></div>
+
+<!-- 콘텐츠 영역 -->
+<div class="content">
+    <h1>작품 관리</h1>
+
+    <div th:if="${webtoons != null}">
+        <ul class="webtoon-list">
+            <li th:each="webtoon : ${webtoons}" class="webtoon-card">
+                <a th:href="@{/webtoon/episode/list/{id}(id=${webtoon.id})}" style="text-decoration: none;">
+                    <div class="webtoon-container">
+                        <img th:src="${webtoon.thumbnailImg}" alt="웹툰 썸네일" class="webtoon-thumbnail" />
+                        <div class="webtoon-info">
+                            <div class="webtoon-title" th:text="${webtoon.title}"></div>
+                            <!-- 장르 출력: genreTypename -->
+                            <div class="webtoon-genre" th:text="${webtoon.genreType.genreTypename}"></div> <!-- 장르 이름 출력 -->
+                            <div class="webtoon-content" th:text="${webtoon.content}"></div>
+                            <div class="webtoon-buttons">
+                                <a class="modify-btn" th:href="@{/webtoon/modify/{id}(id=${webtoon.id})}">
+                                    수정
+                                </a>
+                                <a class="delete-btn" th:href="@{/webtoon/delete/{id}(id=${webtoon.id})}"
+                                   onclick="return confirm('삭제하시겠습니까?');">
+                                    삭제
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </li>
+        </ul>
     </div>
-</div>
-<!-- webtoons가 null일 때 웹툰 등록 버튼 보이기 -->
-<div th:if="${webtoons == null or webtoons.size() == 0}" class="no-webtoons-message">
-    <p>등록된 웹툰이 없습니다.</p>
-    <a th:href="@{/webtoon/create}">
-        <button class="create-webtoon-btn">웹툰 등록하러 가기</button>
-    </a>
+
+    <!-- webtoons가 null일 때 웹툰 등록 버튼 보이기 -->
+    <div th:if="${webtoons == null or webtoons.size() == 0}" class="no-webtoons-message">
+        <p>등록된 웹툰이 없습니다.</p>
+        <a th:href="@{/webtoon/create}">
+            <button class="create-webtoon-btn">웹툰 등록하러 가기</button>
+        </a>
+    </div>
 </div>
 </body>
 </html>

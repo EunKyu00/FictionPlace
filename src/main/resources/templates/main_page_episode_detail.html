@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <title>웹툰 에피소드</title>
     <link href="/main_page_episode_detail.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/topbar.css">
     <!-- Font Awesome 최신 CDN -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+<!-- 탑바 -->
+<div th:replace="~{topbar :: topbar}"></div>
 <div class="webtoon-container">
     <div class="webtoon-header">
         <img alt="웹툰 썸네일" class="webtoon-thumbnail" th:src="@{${webtoon.thumbnailImg}}"/>
@@ -22,6 +25,7 @@
     </div>
 
     <div class="webtoon-actions">
+        <a th:href="@{/profile/{id}(id=${webtoon.siteUser.id})}" class="profile-button">작가 프로필</a>
         <!-- 추천 버튼 -->
         <form method="POST" th:action="@{|/webtoon/recommend/${webtoon.id}|}">
             <button class="btn-recommend" type="submit">

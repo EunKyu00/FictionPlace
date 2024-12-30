@@ -186,6 +186,31 @@ public class MessageController {
         model.addAttribute("message", message);
         return "message_detail";  // 쪽지 디테일 페이지로 이동
     }
+    @GetMapping("/message/send/{id}")
+    public String profileMessageSend(@PathVariable("id") Long id,
+                                     @ModelAttribute("messageForm") MessageForm messageForm,
+                                     HttpSession session,
+                                     Model model) {
+        // 해당 id로 작가 찾기
+        SiteUser siteUser = siteUserService.findById(id);
+
+        if (siteUser == null) {
+            model.addAttribute("error", "작가를 찾을 수 없습니다.");
+            return "redirect:/message/menu";
+        }
+
+        // 메시지 폼에 받는 사람 설정
+        messageForm.setReceiver(siteUser.getNickname());
+
+        // 모델에 작가 정보와 메시지 폼 전달
+        model.addAttribute("messageForm", messageForm);
+        model.addAttribute("receiverNickname", siteUser.getNickname());
+
+        return "message_send";  // 메시지 보내기 페이지로 이동
+    }
+
+
+
     //TODO 삭제시 디비에서 완전히 삭제됨
 //    @GetMapping("/message/delete/{id}")
 //    public String deleteMessage(@PathVariable("id") Long messageId){

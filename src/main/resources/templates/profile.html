@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>작가 프로필</title>
+    <link rel="stylesheet" href="/profile.css">
+    <link rel="stylesheet" href="/topbar.css">
+    <link rel="stylesheet" href="/sidebar.css">
+</head>
+<body>
+<div th:replace="~{topbar :: topbar}"></div>
+<div th:replace="~{sidebar :: sidebar}"></div>
+
+<div class="content">
+    <h1>작가 프로필</h1>
+
+    <!-- 작가의 닉네임과 이메일 표시 -->
+    <div class="profile-info">
+        <p><strong>닉네임:</strong> <span th:text="${nickname}"></span></p>
+        <div class="email-button-container">
+            <p class="email"><strong>이메일:</strong> <span th:text="${email}"></span></p>
+            <a th:href="@{/message/send/{id}(id=${siteUser.id})}" class="message-button">쪽지 보내기</a>
+        </div>
+    </div>
+
+    <!-- 작가의 웹툰 목록 표시 -->
+    <div class="webtoons">
+        <h2>작가의 웹툰 목록</h2>
+        <ul>
+            <li th:each="webtoon : ${webtoons}">
+                <div class="webtoon-item">
+                    <!-- 썸네일 이미지 표시 -->
+                    <img th:src="@{${webtoon.thumbnailImg}}" alt="웹툰 썸네일" class="webtoon-thumbnail" />
+                    <div class="webtoon-details">
+                        <!-- 웹툰 제목 링크 -->
+                        <a th:href="@{/main/page/webtoon/episode/{id}(id=${webtoon.id})}" th:text="${webtoon.title}">웹툰 제목</a>
+                        <p th:text="'# ' + ${webtoon.genreType.genreTypename}"></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 사용자가 없을 때 메시지 표시 -->
+    <div th:if="${message}">
+        <p th:text="${message}"></p>
+    </div>
+</div>
+</body>
+</html>

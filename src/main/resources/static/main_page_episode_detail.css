@@ -1,11 +1,14 @@
 /* 전체 웹툰 컨테이너 */
+/* 웹툰 컨테이너 */
 .webtoon-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
     font-family: 'Noto Sans KR', sans-serif;
+    margin-top: 100px; /* 탑바의 높이에 맞게 조정 */
 }
+
 
 /* 웹툰 헤더: 썸네일과 제목, 작가 정보 */
 .webtoon-header {
@@ -130,11 +133,11 @@
 }
 
 .pagination a {
-            color: #007bff;
+            color: #4caf50;
             text-decoration: none;
             font-size: 1rem;
             padding: 5px 10px;
-            border: 1px solid #007bff;
+            border: 1px solid #4caf50;
             border-radius: 5px;
         }
 
@@ -150,10 +153,11 @@
 
 /* 추천 버튼 */
 .btn-recommend,
-.btn-favorite {
+.btn-favorite,
+.profile-button {
     width: 200px; /* 고정 너비 */
     height: 50px; /* 고정 높이 */
-    background-color: #007bff;
+    background-color: #4caf50;
     color: white;
     border: none;
     border-radius: 4px;
@@ -164,6 +168,10 @@
     gap: 10px;
     cursor: pointer;
     font-weight: bold;
+}
+.profile-button {
+    background-color: #4caf50; /* 기본 배경 색 */
+    text-decoration: none; /* 밑줄 제거 */
 }
 
 /* 추천 수 스타일 */
