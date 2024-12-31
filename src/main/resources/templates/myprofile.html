@@ -14,83 +14,90 @@
 <body>
 <div th:replace="~{navbar :: navbar}"></div>
 <div class="content_wrap">
-<!-- 사이드바 -->
-<div class="sidebar">
-    <div class="sidebar-item">
-        <a th:if="${loggedInUserId != null}"
-           th:href="@{/profile/user/{id}(id=${loggedInUserId})}"
-           class="sidebar-link">
-            <span class="sidebar-icon">🏠</span> 프로필 홈
-        </a>
-    </div>
-    <div class="sidebar-item">
-        <a th:href="@{/webtoon/create}" class="sidebar-link">
-            <span class="sidebar-icon">✏️</span> 작품 등록
-        </a>
-    </div>
-    <div class="sidebar-item">
-        <a th:href="@{/my/webtoon}" class="sidebar-link">
-            <span class="sidebar-icon">📋</span> 작품 관리
-        </a>
-    </div>
-    <div class="sidebar-item">
-        <a th:href="@{/my/favorite/webtoon}" class="sidebar-link">
-            <span class="sidebar-icon">❤️</span> 관심 작품
-        </a>
-    </div>
-    <div class="sidebar-item">
-        <a th:href="@{/message/menu}" class="sidebar-link">
-            <span class="sidebar-icon">✉️</span> 쪽지함
-        </a>
-    </div>
-    <div class="sidebar-item">
-            <a  th:if="${loggedInUserId != null}"
-                th:href="@{/profile/user/{id}/modify(id=${loggedInUserId})}" class="sidebar-link">
+    <!-- 사이드바 -->
+    <div class="sidebar">
+        <div class="sidebar-item">
+            <!-- 일반 사용자를 위한 링크 -->
+            <a th:if="${session.loginUser != null}"
+               th:href="@{/profile/user/{id}(id=${session.loginUser.id})}"
+               class="sidebar-link">
+                <span class="sidebar-icon">🏠</span> 프로필 홈
+            </a>
+
+            <!-- 회사 사용자를 위한 링크 -->
+            <a th:if="${session.loginCompanyUser != null and session.loginCompanyUser.id != null}"
+               th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}"
+               class="sidebar-link">
+                <span class="sidebar-icon">🏢</span> 회사 프로필 홈
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/webtoon/create}" class="sidebar-link">
+                <span class="sidebar-icon">✏️</span> 작품 등록
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/my/webtoon}" class="sidebar-link">
+                <span class="sidebar-icon">📋</span> 작품 관리
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/my/favorite/webtoon}" class="sidebar-link">
+                <span class="sidebar-icon">❤️</span> 관심 작품
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/message/menu}" class="sidebar-link">
+                <span class="sidebar-icon">✉️</span> 쪽지함
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:if="${session.loginUser != null}"
+               th:href="@{/profile/user/{id}/modify(id=${session.loginUser.id})}" class="sidebar-link">
                 <span class="sidebar-icon">🖊️</span> 정보 수정
             </a>
             <!-- 회사 사용자를 위한 링크 -->
-            <a th:if="${companyuser != null and companyuser.id != null}"
-               th:href="@{/profile/company/{id}(id=${id})}" class="sidebar-link">
+            <a th:if="${session.loginCompanyUser != null and session.loginCompanyUser.id != null}"
+               th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}" class="sidebar-link">
                 <span class="sidebar-icon">🖊️</span> 정보 수정
             </a>
-    </div>
-</div>
-
-<!-- 프로필 홈 -->
-<div class="profile_home">
-    <!-- 프로필 이미지 영역 -->
-    <div class="profile-container">
-        <!-- 로그인된 사용자 ID -->
-        <input type="hidden" id="loggedInUserId" th:value="${loggedInUserId}">
-
-        <!-- 프로필 이미지 -->
-        <img
-                id="profileImage"
-                th:src="${session.profileImageUrl}"
-                class="profile-img"
-                onclick="selectImageFile()"
-        >
-
-        <!-- 파일 업로드 -->
-        <input type="file" id="imageFile" accept="image/*" style="display: none;" onchange="initCropper()">
-    </div>
-
-    <!-- 크롭 이미지 영역 (크롭 후 사용자가 확인 가능한 이미지 표시) -->
-    <div class="crop-container" id="cropContainer" style="display: none;">
-        <img id="croppedImage" class="cropped-img">
-        <div class="crop-buttons">
-            <button id="saveButton" onclick="uploadCroppedImage()">저장</button>
-            <button id="cancelButton" onclick="cancelCrop()">취소</button>
         </div>
     </div>
-    <div class="my-info">
-        <div class="profile_nickname">닉네임 :</div>
-        <div id="profile-nickname" th:text="${nickname}"></div>
-        <div class="email">Email :</div>
-        <div id="profile-email" th:text="${email}"></div>
-        <div id="description" th:text="${description}"></div>
+    <!-- 프로필 홈 -->
+    <div class="profile_home">
+        <!-- 프로필 이미지 영역 -->
+        <div class="profile-container">
+            <!-- 로그인된 사용자 ID -->
+            <input type="hidden" id="loggedInUserId" th:value="${loggedInUserId}">
+
+            <!-- 프로필 이미지 -->
+            <img
+                    id="profileImage"
+                    th:src="${session.profileImageUrl}"
+                    class="profile-img"
+                    onclick="selectImageFile()"
+            >
+
+            <!-- 파일 업로드 -->
+            <input type="file" id="imageFile" accept="image/*" style="display: none;" onchange="initCropper()">
+        </div>
+
+        <!-- 크롭 이미지 영역 (크롭 후 사용자가 확인 가능한 이미지 표시) -->
+        <div class="crop-container" id="cropContainer" style="display: none;">
+            <img id="croppedImage" class="cropped-img">
+            <div class="crop-buttons">
+                <button id="saveButton" onclick="uploadCroppedImage()">저장</button>
+                <button id="cancelButton" onclick="cancelCrop()">취소</button>
+            </div>
+        </div>
+        <div class="my-info">
+            <div class="profile_nickname">닉네임 :</div>
+            <div id="profile-nickname" th:text="${nickname}"></div>
+            <div class="email">Email :</div>
+            <div id="profile-email" th:text="${email}"></div>
+            <div id="description" th:text="${description}"></div>
+        </div>
     </div>
-</div>
 </div>
 
 <script>

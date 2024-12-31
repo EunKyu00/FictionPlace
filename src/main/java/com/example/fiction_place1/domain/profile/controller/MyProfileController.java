@@ -28,7 +28,6 @@ public class MyProfileController {
         SiteUser loggedInUser = siteUserService.getLoggedInUser(session);
         if (loggedInUser != null) {
             System.out.println("로그인된 사용자 ID: " + loggedInUser.getId());
-            model.addAttribute("loggedInUserId", loggedInUser.getId());
         } else {
             System.out.println("로그인된 사용자 없음");
             model.addAttribute("loggedInUserId", null);

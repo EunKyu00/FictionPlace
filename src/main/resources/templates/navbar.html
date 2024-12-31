@@ -6,6 +6,7 @@
     <title>Fiction Place Navbar</title>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/CSS/Navber.css">
+
 </head>
 <body>
 <!-- Navbar Component -->
@@ -60,12 +61,12 @@
         <!-- 로그인 상태 -->
         <div th:if="${session.loginUser != null}" class="logout-type">
             <!-- 일반회원 -->
-            <p><span th:text="${session.loginUser.nickname}"></span>  </p>
+            <p><span th:text="${session.loginUser.nickname}"></span></p>
             <a href="/user/logout" class="logout-btn">로그아웃</a>
         </div>
         <div th:if="${session.loginCompanyUser != null}" class="logout-type">
             <!-- 기업회원 -->
-            <p><span th:text="${session.loginCompanyUser.companyName}"></span> </p>
+            <p><span th:text="${session.loginCompanyUser.companyName}"></span></p>
             <a href="/company/logout" class="logout-btn">로그아웃</a>
         </div>
     </nav>
@@ -76,5 +77,6 @@
         <div class="search-icon"></div>
     </div>
 </div>
+
 </body>
 </html>

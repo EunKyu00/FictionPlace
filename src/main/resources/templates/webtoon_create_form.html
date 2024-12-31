@@ -1,116 +1,133 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>웹툰 등록</title>
-  <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
-  <link rel="stylesheet" href="/webtoon_create_form.css">
+    <meta charset="UTF-8">
+    <title>웹툰 등록</title>
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+    <link rel="stylesheet" href="/webtoon_create_form.css">
 </head>
 <body>
 <div th:replace="~{navbar :: navbar}"></div>
-<!-- 사이드바 -->
 <div class="content_wrap">
-  <div class="sidebar">
+<!-- 사이드바 -->
+<div class="sidebar">
     <div class="sidebar-item">
-      <a th:if="${loginUser != null}"
-         th:href="@{/profile/user/{id}(id=${loginUser})}"
-         class="sidebar-link">
-        <span class="sidebar-icon">🏠</span> 프로필 홈
-      </a>
+        <!-- 일반 사용자를 위한 링크 -->
+        <a th:if="${session.loginUser != null}"
+           th:href="@{/profile/user/{id}(id=${session.loginUser.id})}"
+           class="sidebar-link">
+            <span class="sidebar-icon">🏠</span> 프로필 홈
+        </a>
+
+        <!-- 회사 사용자를 위한 링크 -->
+        <a th:if="${session.loginCompanyUser != null}"
+           th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}"
+           class="sidebar-link">
+            <span class="sidebar-icon">🏢</span> 회사 프로필 홈
+        </a>
     </div>
     <div class="sidebar-item">
-      <a th:href="@{/webtoon/create}" class="sidebar-link">
-        <span class="sidebar-icon">✏️</span> 작품 등록
-      </a>
+        <a th:href="@{/webtoon/create}" class="sidebar-link">
+            <span class="sidebar-icon">✏️</span> 작품 등록
+        </a>
     </div>
     <div class="sidebar-item">
-      <a th:href="@{/my/webtoon}" class="sidebar-link">
-        <span class="sidebar-icon">📋</span> 작품 관리
-      </a>
+        <a th:href="@{/my/webtoon}" class="sidebar-link">
+            <span class="sidebar-icon">📋</span> 작품 관리
+        </a>
     </div>
     <div class="sidebar-item">
-      <a th:href="@{/my/favorite/webtoon}" class="sidebar-link">
-        <span class="sidebar-icon">❤️</span> 관심 작품
-      </a>
+        <a th:href="@{/my/favorite/webtoon}" class="sidebar-link">
+            <span class="sidebar-icon">❤️</span> 관심 작품
+        </a>
     </div>
     <div class="sidebar-item">
-      <a th:href="@{/message/menu}" class="sidebar-link">
-        <span class="sidebar-icon">✉️</span> 쪽지함
-      </a>
+        <a th:href="@{/message/menu}" class="sidebar-link">
+            <span class="sidebar-icon">✉️</span> 쪽지함
+        </a>
     </div>
     <div class="sidebar-item">
-      <a th:href="@{/profile/user/{id}/modify(id=${loginUser})}" class="sidebar-link">
-        <span class="sidebar-icon">🖊️</span> 정보 수정
-      </a>
+        <a th:if="${session.loginUser != null}"
+           th:href="@{/profile/user/{id}/modify(id=${session.loginUser.id})}" class="sidebar-link">
+            <span class="sidebar-icon">🖊️</span> 정보 수정
+        </a>
+        <!-- 회사 사용자를 위한 링크 -->
+        <a th:if="${session.loginCompanyUser != null}"
+           th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}" class="sidebar-link">
+            <span class="sidebar-icon">🖊️</span> 정보 수정
+        </a>
     </div>
-  </div>
-  <div class="image-preview">
+</div>
+<div class="image-preview">
     <div class="container">
-      <h2>웹툰 등록</h2>
+        <h2>웹툰 등록</h2>
 
-      <form action="#" th:action="@{/webtoon/create}" th:object="${webToonForm}" method="post" enctype="multipart/form-data" class="create-form">
-        <div class="title">
-          <label for="title">제목</label>
-          <input type="text" id="title" th:field="*{title}" placeholder="웹툰 제목을 입력하세요"/>
-          <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error">Title Error</span>
-        </div>
+        <form action="#" th:action="@{/webtoon/create}" th:object="${webToonForm}" method="post"
+              enctype="multipart/form-data" class="create-form">
+            <div class="title">
+                <label for="title">제목</label>
+                <input type="text" id="title" th:field="*{title}" placeholder="웹툰 제목을 입력하세요"/>
+                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error">Title Error</span>
+            </div>
 
-        <div class="content">
-          <label for="content">내용</label>
-          <textarea id="content" th:field="*{content}" placeholder="웹툰 내용을 입력하세요"></textarea>
-          <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="error">Content Error</span>
-        </div>
+            <div class="content">
+                <label for="content">내용</label>
+                <textarea id="content" th:field="*{content}" placeholder="웹툰 내용을 입력하세요"></textarea>
+                <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="error">Content Error</span>
+            </div>
 
-        <div class="genre">
-          <label for="genreTypeId">장르</label>
-          <select id="genreTypeId" th:field="*{genreTypeId}">
-            <option value="" disabled selected>장르를 선택하세요</option>
-            <option th:each="genre : ${genreTypes}" th:value="${genre.id}" th:text="${genre.genreTypename}"></option>
-          </select>
-          <span th:if="${#fields.hasErrors('genreTypeId')}" th:errors="*{genreTypeId}" class="error">Genre Error</span>
-        </div>
+            <div class="genre">
+                <label for="genreTypeId">장르</label>
+                <select id="genreTypeId" th:field="*{genreTypeId}">
+                    <option value="" disabled selected>장르를 선택하세요</option>
+                    <option th:each="genre : ${genreTypes}" th:value="${genre.id}"
+                            th:text="${genre.genreTypename}"></option>
+                </select>
+                <span th:if="${#fields.hasErrors('genreTypeId')}" th:errors="*{genreTypeId}"
+                      class="error">Genre Error</span>
+            </div>
 
-        <div class="image-card">
-          <label for="thumbnailImg">썸네일 이미지</label>
-          <input type="file" id="thumbnailImg" name="thumbnailImg" accept="image/*"/>
-          <span th:if="${#fields.hasErrors('thumbnailImg')}" th:errors="*{thumbnailImg}" class="error">Thumbnail Image Error</span>
-        </div>
+            <div class="image-card">
+                <label for="thumbnailImg">썸네일 이미지</label>
+                <input type="file" id="thumbnailImg" name="thumbnailImg" accept="image/*"/>
+                <span th:if="${#fields.hasErrors('thumbnailImg')}" th:errors="*{thumbnailImg}" class="error">Thumbnail Image Error</span>
+            </div>
 
-        <div class="create-btn">
-          <button type="submit">등록</button>
-        </div>
-        <span th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></span>
-      </form>
+            <div class="create-btn">
+                <button type="submit">등록</button>
+            </div>
+            <span th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></span>
+        </form>
     </div>
-  </div>
-  <div class="preview">
+</div>
+<div class="preview">
     <img id="imagePreview" src="" alt="썸네일 사진 크기는 160x207 입니다"/>
-  </div>
+</div>
 </div>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-      const thumbnailInput = document.getElementById('thumbnailImg');
-      const imagePreview = document.getElementById('imagePreview');
+    document.addEventListener('DOMContentLoaded', function () {
+        const thumbnailInput = document.getElementById('thumbnailImg');
+        const imagePreview = document.getElementById('imagePreview');
 
-      thumbnailInput.addEventListener('change', function () {
-          const file = this.files[0];
+        thumbnailInput.addEventListener('change', function () {
+            const file = this.files[0];
 
-          if (file) {
-              // 이미지 미리보기 설정
-              const reader = new FileReader();
-              reader.onload = function (e) {
-                  imagePreview.src = e.target.result;
-                  imagePreview.style.display = 'block'; // 이미지 표시
-              }
-              reader.readAsDataURL(file);
-          } else {
-              // 파일이 선택되지 않은 경우
-              fileNameSpan.textContent = '';
-              imagePreview.src = '';
-              imagePreview.style.display = 'none'; // 이미지 숨김
-          }
-      });
-  });
+            if (file) {
+                // 이미지 미리보기 설정
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block'; // 이미지 표시
+                }
+                reader.readAsDataURL(file);
+            } else {
+                // 파일이 선택되지 않은 경우
+                fileNameSpan.textContent = '';
+                imagePreview.src = '';
+                imagePreview.style.display = 'none'; // 이미지 숨김
+            }
+        });
+    });
 </script>
 </body>
 </html>

@@ -11,65 +11,80 @@
 <body>
 <div th:replace="~{navbar :: navbar}"></div>
 <div class="content_wrap">
-<!-- 사이드바 -->
-<div class="sidebar">
-    <div class="sidebar-item">
-        <a th:if="${user.Id != null}"
-           th:href="@{/profile/user/{id}(id=${user.Id})}"
-           class="sidebar-link">
-            <span class="sidebar-icon">🏠</span> 프로필 홈
-        </a>
+    <!-- 사이드바 -->
+    <div class="sidebar">
+        <div class="sidebar-item">
+            <!-- 일반 사용자를 위한 링크 -->
+            <a th:if="${session.loginUser != null}"
+               th:href="@{/profile/user/{id}(id=${session.loginUser.id})}"
+               class="sidebar-link">
+                <span class="sidebar-icon">🏠</span> 프로필 홈
+            </a>
+
+            <!-- 회사 사용자를 위한 링크 -->
+            <a th:if="${session.loginCompanyUser != null}"
+               th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}"
+               class="sidebar-link">
+                <span class="sidebar-icon">🏢</span> 회사 프로필 홈
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/webtoon/create}" class="sidebar-link">
+                <span class="sidebar-icon">✏️</span> 작품 등록
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/my/webtoon}" class="sidebar-link">
+                <span class="sidebar-icon">📋</span> 작품 관리
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/my/favorite/webtoon}" class="sidebar-link">
+                <span class="sidebar-icon">❤️</span> 관심 작품
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:href="@{/message/menu}" class="sidebar-link">
+                <span class="sidebar-icon">✉️</span> 쪽지함
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a th:if="${session.loginUser != null}"
+               th:href="@{/profile/user/{id}/modify(id=${session.loginUser.id})}" class="sidebar-link">
+                <span class="sidebar-icon">🖊️</span> 정보 수정
+            </a>
+            <!-- 회사 사용자를 위한 링크 -->
+            <a th:if="${session.loginCompanyUser != null}"
+               th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}" class="sidebar-link">
+                <span class="sidebar-icon">🖊️</span> 정보 수정
+            </a>
+        </div>
     </div>
-    <div class="sidebar-item">
-        <a th:href="@{/webtoon/create}" class="sidebar-link">
-            <span class="sidebar-icon">✏️</span> 작품 등록
-        </a>
+    <div class="modify-type">
+        <form th:action="@{/profile/user/{id}/modify(id=${user.id})}" th:object="${user}" method="post"
+              class="user-modify-form">
+            <h2>사용자 이용정보 입력</h2>
+            <div class="nickname">
+                <label>닉네임:</label>
+                <input type="text" th:field="*{nickname}"/>
+            </div>
+            <div class="email">
+                <label>이메일:</label>
+                <input type="email" th:field="*{email}"/>
+            </div>
+            <div class="password">
+                <label>비밀번호:</label>
+                <input type="password" th:field="*{password}"/>
+            </div>
+            <div class="description">
+                <label>자기소개:</label>
+                <textarea id="description" th:field="*{myProfile.description}"></textarea>
+            </div>
+            <div class="modify-btn">
+                <button type="submit">수정</button>
+            </div>
+        </form>
     </div>
-    <div class="sidebar-item">
-        <a th:href="@{/my/webtoon}" class="sidebar-link">
-            <span class="sidebar-icon">📋</span> 작품 관리
-        </a>
-    </div>
-    <div class="sidebar-item">
-        <a th:href="@{/my/favorite/webtoon}" class="sidebar-link">
-            <span class="sidebar-icon">❤️</span> 관심 작품
-        </a>
-    </div>
-    <div class="sidebar-item">
-        <a th:href="@{/message/menu}" class="sidebar-link">
-            <span class="sidebar-icon">✉️</span> 쪽지함
-        </a>
-    </div>
-    <div class="sidebar-item">
-        <a th:href="@{/profile/user/{id}/modify(id=${id})}" class="sidebar-link">
-            <span class="sidebar-icon">🖊️</span> 정보 수정
-        </a>
-    </div>
-</div>
-<div class="modify-type">
-<form th:action="@{/profile/user/{id}/modify(id=${user.id})}" th:object="${user}" method="post" class="user-modify-form">
-    <h2>사용자 이용정보 입력</h2>
-    <div class="nickname">
-        <label>닉네임:</label>
-        <input type="text" th:field="*{nickname}" />
-    </div>
-    <div class="email">
-        <label>이메일:</label>
-        <input type="email" th:field="*{email}" />
-    </div>
-    <div class="password">
-        <label>비밀번호:</label>
-        <input type="password" th:field="*{password}" />
-    </div>
-    <div class="description">
-        <label>자기소개:</label>
-        <textarea id="description" th:field="*{myProfile.description}"></textarea>
-    </div>
-    <div class="modify-btn">
-        <button type="submit">수정</button>
-    </div>
-</form>
-</div>
 </div>
 </body>
 </html>
