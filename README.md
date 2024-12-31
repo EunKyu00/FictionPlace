@@ -385,6 +385,8 @@ src
   - WebtoonRepository를 통해 장르별 필터링 및 추천 순 정렬을 분리하여 처리했습니다.
 </details>
 
+---
+
 <details>
   <summary>📑 길현수</summary>
   - 추가 예정
