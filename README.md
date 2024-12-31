@@ -380,6 +380,18 @@ src
 - 해결 방법
   - WebtoonRepository를 통해 장르별 필터링 및 추천 순 정렬을 분리하여 처리했습니다.
 
+
+<details>
+  <summary>📑 1번 항목</summary>
+  첫 번째 항목 내용입니다.
+</details>
+
+<details>
+  <summary>📑 2번 항목</summary>
+  두 번째 항목 내용입니다.
+</details>
+
+
 ## 📈 아쉬웠던 점
 
 - 프로젝트 초기 단계에서 설계의 중요성을 간과하여 중간에 여러 번 구조를 수정해야 했다.
