@@ -6,14 +6,62 @@ body {
     padding: 20px;
 }
 
+.content_wrap {
+    display: flex;
+    min-height: calc(100vh - 70px);
+}
+
+.sidebar {
+  width: 17%;/* 네비게이션 바 아래부터 화면 끝까지 차지 */
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+.icon-status {
+  display: none;
+}
+.profile-link {
+  text-decoration: none !important;
+}
+
+.sidebar-item a {
+  display: flex;
+  margin-top: 25px; /* 각 항목 사이의 간격 */
+  cursor: pointer;
+  color: #000000 !important;
+  font-family: "Rubik", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.408px;
+  text-decoration: none !important;
+}
+
+.sidebar-item:hover {
+  color: #414141 !important; /* 항목에 마우스를 올렸을 때 색상 변경 */
+}
+
+.sidebar-icon {
+  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
+  color: #7b7b7b; /* 기본 아이콘 색상 */
+}
+
+.sidebar-item:hover .sidebar-icon {
+  color: #414141 !important; /* 호버 시 아이콘 색상 변경 */
+}
+
+.sidebar-item:first-child {
+  margin-top: 20px;
+}
+
 /* 폼 컨테이너 스타일 */
 form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 0 auto;
+    padding: 60px 100px 0;
+    min-width: 600px;
     display: flex;
     flex-direction: column; /* 세로 방향으로 정렬 */
 }
@@ -63,8 +111,8 @@ textarea:focus {
 }
 
 .thumbnail-container img {
-    max-width: 150px;
-    max-height: 150px;
+    width: 160px;
+    height: 207px;
     border-radius: 8px;
     margin-bottom: 10px;
 }
@@ -77,7 +125,7 @@ textarea:focus {
 button.btn {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #202020   ;
     color: white;
     font-size: 16px;
     border: none;

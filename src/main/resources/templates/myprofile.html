@@ -64,143 +64,39 @@
         </div>
     </div>
     <!-- 프로필 홈 -->
-    <div class="profile_home">
-        <!-- 프로필 이미지 영역 -->
-        <div class="profile-container">
-            <!-- 로그인된 사용자 ID -->
-            <input type="hidden" id="loggedInUserId" th:value="${loggedInUserId}">
-
-            <!-- 프로필 이미지 -->
-            <img
-                    id="profileImage"
-                    th:src="${session.profileImageUrl}"
-                    class="profile-img"
-                    onclick="selectImageFile()"
-            >
-
-            <!-- 파일 업로드 -->
-            <input type="file" id="imageFile" accept="image/*" style="display: none;" onchange="initCropper()">
-        </div>
-
-        <!-- 크롭 이미지 영역 (크롭 후 사용자가 확인 가능한 이미지 표시) -->
-        <div class="crop-container" id="cropContainer" style="display: none;">
-            <img id="croppedImage" class="cropped-img">
-            <div class="crop-buttons">
-                <button id="saveButton" onclick="uploadCroppedImage()">저장</button>
-                <button id="cancelButton" onclick="cancelCrop()">취소</button>
+    <div class="home-profile">
+        <section class="profile_container">
+            <div class="profile_img_section">
+                <img class="profile_img-LG"
+                     th:src="${session.profileImageUrl}"/>
             </div>
-        </div>
-        <div class="my-info">
-            <div class="profile_nickname">닉네임 :</div>
-            <div id="profile-nickname" th:text="${nickname}"></div>
-            <div class="email">Email :</div>
-            <div id="profile-email" th:text="${email}"></div>
-            <div id="description" th:text="${description}"></div>
+
+            <div class="profile_desc_section">
+                <h2 th:text="${nickname}"></h2>
+                <h3 th:text="${email}"></h3>
+                <p class="description" th:text="${description}"></p>
+
+                <div class="interests">
+                    <span class="interests_item">Technology</span>
+                    <span class="interests_item">Management</span>
+                    <span class="interests_item">Leadership</span>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="info">
+            <ul>
+                <li>
+                    <div class="link_img_wrapper">
+                        <img class="link_img" th:src="${session.profileImageUrl}" alt="">
+                    </div>
+                    <p class="wt-title">제목</p>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
-
-<script>
-    let cropper;
-    let croppedCanvas;
-
-    function selectImageFile() {
-        // 프로필 이미지를 클릭하면 파일 선택 창을 엽니다.
-        document.getElementById('imageFile').click();
-    }
-
-    function initCropper() {
-        const imageFile = document.getElementById('imageFile').files[0];
-        if (imageFile) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const imageElement = document.getElementById('croppedImage');
-                imageElement.src = e.target.result;
-
-                // 크롭 컨테이너 보이기
-                document.getElementById('cropContainer').style.display = 'block';
-
-                // 기존 크로퍼가 있을 경우 제거 후 다시 초기화
-                if (cropper) {
-                    cropper.destroy();
-                }
-
-                // Cropper.js 초기화
-                cropper = new Cropper(imageElement, {
-                    aspectRatio: 1,
-                    viewMode: 1,
-                    autoCropArea: 1,
-                    movable: true,
-                    zoomable: true,
-                    rotatable: true,
-                    scalable: true,
-                    cropBoxResizable: false,
-                    background: false,
-                    modal: true
-                });
-            };
-            reader.readAsDataURL(imageFile);
-        }
-    }
-
-    function uploadCroppedImage() {
-        if (!cropper) return; // 크로퍼가 초기화되지 않았다면 종료
-
-        croppedCanvas = cropper.getCroppedCanvas();
-        croppedCanvas.toBlob((blob) => {
-            let formData = new FormData();
-            formData.append('image', blob, 'profile.png'); // 크롭된 이미지를 Blob으로 추가
-
-            // 현재 로그인된 사용자 ID를 가져와 URL을 생성
-            const loggedInUserIdElement = document.getElementById("loggedInUserId");
-            console.log("현재 loggedInUserIdElement:", loggedInUserIdElement); // 요소 확인
-             console.log("현재 loggedInUserId 값:", loggedInUserIdElement?.value); // 값 확인
-            if (!loggedInUserIdElement || !loggedInUserIdElement.value) {
-                alert("로그인된 사용자 정보를 찾을 수 없습니다.");
-                return;
-            }
-
-            const loggedInUserId = loggedInUserIdElement.value;
-
-            // 이미지 업로드 요청
-            fetch(`http://localhost:8080/profile/user/${loggedInUserId}/upload-image`, {
-                method: 'POST',
-                body: formData,
-                credentials: 'include' // 인증된 요청을 위해 쿠키 포함
-            }).then(response => {
-                if (response.ok) {
-                    response.text().then((imagePath) => {
-                        // 업로드된 이미지 경로를 사용하여 프로필 이미지를 업데이트
-                        document.getElementById('profileImage').src = `${imagePath}?t=${new Date().getTime()}`;
-                        alert('프로필 이미지 업로드 성공');
-                        // 크롭 영역 숨기기
-                        document.getElementById('cropContainer').style.display = 'none';
-                    });
-                } else {
-                    alert('프로필 이미지 업로드 실패');
-                }
-            }).catch(error => {
-                console.error('에러 발생:', error);
-            });
-        }, 'image/png');
-    }
-
-    function cancelCrop() {
-        // 크롭 작업 취소 시 크롭 영역 숨기기
-        document.getElementById('cropContainer').style.display = 'none';
-        if (cropper) {
-            cropper.destroy(); // 크로퍼 제거
-        }
-        document.getElementById('croppedImage').src = ''; // 크롭된 이미지 초기화
-    }
-</script>
-
-<!-- 크로퍼 css -->
-<!-- Cropper.js CSS -->
-<!-- Cropper.js JavaScript -->
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"
-></script>
 <script src="/JS/dropdown.js"></script>
 </body>
 </html>

@@ -3,9 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>웹툰 수정</title>
+    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
     <link rel="stylesheet" href="/webtoon_modify.css" />
 </head>
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
+<div class="content_wrap">
+<!-- 사이드바 -->
+<div class="sidebar">
+    <div class="sidebar-item">
+        <!-- 일반 사용자를 위한 링크 -->
+        <a th:if="${session.loginUser != null}"
+           th:href="@{/profile/user/{id}(id=${session.loginUser.id})}"
+           class="sidebar-link">
+            <span class="sidebar-icon">🏠</span> 프로필 홈
+        </a>
+
+        <!-- 회사 사용자를 위한 링크 -->
+        <a th:if="${session.loginCompanyUser != null and session.loginCompanyUser.id != null}"
+           th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}"
+           class="sidebar-link">
+            <span class="sidebar-icon">🏢</span> 회사 프로필 홈
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/webtoon/create}" class="sidebar-link">
+            <span class="sidebar-icon">✏️</span> 작품 등록
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/my/webtoon}" class="sidebar-link">
+            <span class="sidebar-icon">📋</span> 작품 관리
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/my/favorite/webtoon}" class="sidebar-link">
+            <span class="sidebar-icon">❤️</span> 관심 작품
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:href="@{/message/menu}" class="sidebar-link">
+            <span class="sidebar-icon">✉️</span> 쪽지함
+        </a>
+    </div>
+    <div class="sidebar-item">
+        <a th:if="${session.loginUser != null}"
+           th:href="@{/profile/user/{id}/modify(id=${session.loginUser.id})}" class="sidebar-link">
+            <span class="sidebar-icon">🖊️</span> 정보 수정
+        </a>
+        <!-- 회사 사용자를 위한 링크 -->
+        <a th:if="${session.loginCompanyUser != null and session.loginCompanyUser.id != null}"
+           th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}" class="sidebar-link">
+            <span class="sidebar-icon">🖊️</span> 정보 수정
+        </a>
+    </div>
+</div>
 <form th:action="@{/webtoon/modify/{id}(id=${webtoon.id})}" method="post" enctype="multipart/form-data">
     <!-- 웹툰 제목 -->
     <div class="form-group">
@@ -49,7 +101,7 @@
     <!-- 수정 버튼 -->
     <button type="submit" class="btn">수정</button>
 </form>
-
+</div>
 <script>
     // 썸네일 이미지 미리보기 함수
     function previewThumbnail() {

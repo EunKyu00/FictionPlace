@@ -53,115 +53,6 @@ body {
   margin-top: 20px;
 }
 
-/* 전체 부모 컨테이너 */
-.profile_home {
-    display: flex; /* 요소를 가로로 정렬 */
-    align-items: flex-start; /* 세로 정렬 기준을 위로 설정 */
-    justify-content: flex-start; /* 가로 정렬 기준을 왼쪽으로 설정 */
-    gap: 10px; /* 요소 간격 */
-    margin: 60px 0 50px 6%;
-    width: 59%;
-    padding: 30px;
-    border: 1px solid;
-    border-radius: 20px;
-    background-color: #eaeaea;
-}
-
-/* 프로필 이미지 컨테이너 */
-.profile-container {
-    box-sizing: border-box;
-    width: 200px;
-    height: 200px;
-    background-color: #d3d3d3;
-    border: 1px solid #000000;
-    border-radius: 30px;
-    overflow: hidden;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* 프로필 이미지 */
-.profile-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* 프로필 정보 컨테이너 */
-.profile-info {
-    display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    gap: 10px; /* 요소 간 간격 */
-    flex: 1; /* 프로필 정보 영역이 남은 공간을 차지 */
-}
-
-/* 닉네임 스타일 */
-#profile-nickname {
-    font-family: "Rubik";
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 22px;
-    color: #000000;
-}
-
-/* 이메일 스타일 */
-#profile-email {
-    font-family: "Roboto";
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    color: #000000;
-}
-
-/* 자기소개 카드 */
-.discription-card {
-    width: 50%;
-    height: 150px;
-    resize: none;
-    overflow: auto;
-    background: #ffffff;
-    border: 1px solid #000000;
-    border-radius: 8px;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-/* 자기소개 텍스트 */
-.discription-card .discription {
-    font-family: "Roboto";
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    color: #333333;
-}
-.crop-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.crop-container img {
-    max-width: 100%;
-    max-height: 80vh;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.upload-input {
-  display: none;
-}
 
 
 
@@ -171,18 +62,178 @@ body {
     cursor: not-allowed;
 }
 
-.my-info {
-    gap: 24px;
-    padding: 10px;
-    width: 70%;
+
+/* 오픈소스,*/
+
+h2 {
+  font-family: "Poppins";
+  font-size: 36px;
+
+  margin-bottom: 15px;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: 500;
+  color: rgba(34, 34, 34, 0.5);
+
+  margin-bottom: 25px;
+  margin-top: 0px;
+}
+
+h3,
+span,
+p {
+  font-family: "Avenir";
+}
+
+.profile_container,
+.back {
+  margin: 60px 100px 0px;
+  max-width: 900px;
+  display: flex;
+  overflow-x: hidden;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  color: rgba(34, 34, 34, 0.5);
+}
+
+.back i {
+  margin-right: 15px;
+}
+
+.profile_img-LG {
+  height: 400px;
+  width: 300px;
+  border-radius: 40px;
+
+  object-fit: cover;
+  object-position: 50% 50%;
+
+  background-position: 40% 50%;
+}
+
+.info {
+    margin-top: 40px;
+    padding: 0 100px;
+}
+
+.flag {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto auto;
+}
+
+.description {
+  margin-bottom: 30px;
+  margin-top: 0px;
+}
+
+.profile_img_section {
+  margin-right: 50px;
+}
+
+.profile_desc_section {
+  display: flex;
+  flex-direction: column;
+
+  margin-left: 50px;
+}
+
+.interests_item {
+  display: inline-block;
+  padding: 5px 15px;
+  margin-right: 7.5px;
+  margin-bottom: 10px;
+  line-height: 35px;
+  background-color: #e6e6e6;
+  border-radius: 5px;
+
+  color: rgba(34, 34, 34, 0.5);
+}
+
+
+.link_img_wrapper {
+  width: 160px;
+  height: 207px;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  position: relative;
+}
+
+.link_img {
+  height: 207px;
+  width: 160px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto auto;
+}
+
+ul {
+  padding: 0px;
+}
+
+li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+li p {
+  margin-left: 30px;
+  color: rgba(34, 34, 34, 0.5);
+}
+
+@media screen and (max-width: 1000px) {
+  .profile_container,
+  .info,
+  .back {
+    margin: 60px 33px 0px;
+  }
+
+  .profile_container {
+    flex-direction: column;
+  }
+
+  .profile_img_section {
+    margin: 0 auto;
+  }
+
+  .profile_img-LG {
+    width: 300px;
+    height: 300px;
+    border-radius: 100%;
+  }
+
+  .flag_wrapper {
+  }
+
+  .profile_desc_section {
+    margin-left: 0px;
+    margin-bottom: 10px;
+    margin-top: -40px;
+  }
+
+}
+
+.home-profile {
     display: flex;
     flex-direction: column;
 }
 
-#description {
-    border: 1px solid;
-    padding: 10px;
-    border-radius: 10px;
-    height: 150px;
-    background-color: #fff;
+.wt-title {
+    flex-grow: 1;
+    margin: 0;
+
 }
