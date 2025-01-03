@@ -90,7 +90,7 @@ p {
 .profile_container,
 .back {
   margin: 60px 100px 0px;
-  max-width: 900px;
+  max-width: 1200px;
   display: flex;
   overflow-x: hidden;
 }

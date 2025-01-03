@@ -147,3 +147,7 @@
  a button:hover {
      background-color: #007bb5;
  }
+
+.list-number {
+    display:flex;
+}
