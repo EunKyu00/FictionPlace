@@ -69,7 +69,6 @@
 
 - **데이터베이스**
   - **MariaDB**
-  - **PostgreSQL**
 
 - **도구**
   - **ERDCloud**
