@@ -1,0 +1,60 @@
+/* 사이드바 스타일 */
+.sidebar {
+  width: 200px;
+  position: fixed; /* 왼쪽에 고정 */
+  top: 70px; /* 탑바 높이만큼 아래로 설정 */
+  left: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1; /* 탑바가 사이드바 위에 오도록 설정 */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가로 중앙 정렬 */
+}
+
+/* 사이드바 아이템 간격 */
+.sidebar-item {
+  margin-bottom: 20px;
+  width: 100%; /* 아이템이 사이드바 너비에 맞춰지도록 설정 */
+  text-align: center; /* 메뉴 항목을 중앙 정렬 */
+}
+
+/* 링크 스타일 */
+.sidebar-link {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 아이템 내용도 중앙 정렬 */
+  padding: 10px 15px; /* 클릭 영역 넓히기 */
+  transition: background-color 0.3s; /* 배경 색상 변경 시 부드러운 전환 효과 */
+}
+
+/* 호버 시 배경 색상 변경 */
+.sidebar-link:hover {
+  background-color: #f0f0f0; /* 호버 시 배경 색상 변경 */
+  color: #007bff; /* 호버 시 텍스트 색상 변경 (옵션) */
+}
+
+/* 아이콘 스타일 */
+.sidebar-icon {
+  margin-right: 10px;
+}
+
+/* 본문 내용 스타일 */
+.content {
+  margin-left: 220px; /* 사이드바 공간을 확보 */
+  padding: 20px;
+  width: calc(100% - 220px); /* 사이드바 너비를 제외한 공간을 채움 */
+  margin-top: 70px; /* 탑바 높이만큼 위쪽 여백 추가 */
+}
+/* 콘텐츠와 사이드바 사이의 간격을 조정하는 클래스 */
+.message-content {
+    margin-left: 250px;  /* 사이드바와 메시지 리스트 간의 간격을 더 넓게 설정 */
+    padding: 20px;
+    width: calc(100% - 250px);  /* 사이드바 너비를 제외한 공간을 채움 */
+    margin-top: 70px;  /* 탑바 높이만큼 위쪽 여백 추가 */
+}

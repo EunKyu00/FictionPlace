@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>받은 쪽지</title>
-    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+    <link rel="stylesheet" href="/topbar.css">
+    <link rel="stylesheet" href="/sidebar.css">
     <style>
         /* 전체 페이지의 레이아웃 설정 */
         body {
@@ -12,18 +13,6 @@
             margin: 0;
             padding: 0;
             background-color: #f4f7fc;
-        }
-
-        /* 네비바 고정 위치 */
-        .navbar {
-            width: 100%;
-            margin: 0 auto;
-            padding: 0;
-            position: fixed;  /* 네비바를 상단에 고정 */
-            top: 0;
-            left: 0;
-            background-color: #fff;  /* 배경색 */
-            z-index: 1000;  /* 다른 콘텐츠 위에 표시되도록 설정 */
         }
 
         /* 메뉴와 메시지 리스트 배치 */
@@ -181,10 +170,11 @@
     </style>
 </head>
 <body>
-<div class="navbar" th:replace="~{navbar :: navbar}"></div>
+<div th:replace="~{topbar :: topbar}"></div>
+<div th:replace="~{sidebar :: sidebar}"></div>
 
 <div class="container">
-    <div class="content">
+    <div class="content message-content">
         <div class="tabs">
             <a class="tab active" th:href="@{/message/menu}">받은 쪽지</a>
             <a class="tab" th:href="@{/message/sent}">보낸 쪽지</a>

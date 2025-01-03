@@ -1,90 +1,95 @@
-/* 기본 스타일 */
+/* 페이지 전체 스타일 */
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
+    background-color: #f7f7f7;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
 }
 
+/* 제목 스타일 */
 h1 {
     text-align: center;
     margin-top: 20px;
-    font-size: 24px;
+    font-size: 32px;
     color: #333;
 }
 
-/* 웹툰 리스트 스타일 */
+/* 웹툰 항목 리스트 */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+/* 각 웹툰 항목 스타일 */
 .webtoon-item {
     display: flex;
-    align-items: center; /* 이미지와 텍스트 수직 정렬 */
-    margin: 20px auto;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    max-width: 800px;
-    padding: 10px;
-    transition: transform 0.2s;
-}
-
-.webtoon-item:hover {
-    transform: scale(1.05);
-}
-
-/* 웹툰 썸네일 스타일 */
-.webtoon-thumbnail {
-    width: 120px;
-    height: 180px;
-    object-fit: cover;
-    margin-right: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    gap: 20px; /* 항목 간 간격 추가 */
 }
 
-/* 웹툰 세부 정보 스타일 */
+/* 썸네일 이미지 스타일 */
+.webtoon-thumbnail {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+    border-right: 1px solid #ddd;
+}
+
+/* 웹툰 세부 정보 영역 */
 .webtoon-details {
+    padding: 15px;
+    flex-grow: 1;
     display: flex;
-    flex-direction: column; /* 세로로 배치 */
-    justify-content: flex-start; /* 세로 정렬 */
-    align-items: flex-start; /* 왼쪽 정렬 */
-    height: 180px; /* 썸네일과 높이를 맞추기 위해 설정 */
+    flex-direction: column;
+    justify-content: flex-start; /* 세로로 위에서부터 정렬 */
 }
 
+/* 웹툰 제목 스타일 */
 .webtoon-details h2 {
     font-size: 20px;
-    margin: 0 0 10px 0; /* 위쪽 간격 0, 아래쪽 간격 10px */
     color: #333;
+    margin-bottom: 10px;
 }
 
+/* 웹툰 장르와 작가 이름 스타일 */
 .webtoon-details p {
     font-size: 14px;
-    color: #666;
-    margin: 5px 0; /* 항목 간격 */
+    color: #777;
+    margin: 5px 0;
+    text-align: left; /* 왼쪽 정렬로 수정 */
 }
 
-/* 장르 텍스트 스타일 */
-.webtoon-details p:first-child {
+/* 작가 프로필 버튼 스타일 */
+.profile-button {
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: auto; /* 왼쪽 여백을 자동으로 주어 오른쪽 정렬 */
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
     font-weight: bold;
-    color: #007bff;
-}
-
-/* 작가 이름 스타일 */
-.webtoon-details p:last-child {
-    font-weight: bold;
-    color: #007bff;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.webtoon-details p:last-child:hover {
-    color: #0056b3;
-}
-
-/* 빈 리스트나 메시지 출력 스타일 */
-div p {
+    transition: background-color 0.3s ease;
+    width: 150px;
     text-align: center;
-    font-size: 18px;
-    color: #888;
+    box-sizing: border-box;
 }
 
+.profile-button:hover {
+    background-color: #388e3c;
+}
 
+/* 비어있는 목록 메시지 스타일 */
+p {
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+}

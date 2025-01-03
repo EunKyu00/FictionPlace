@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>사용자 회원가입</title>
     <link rel="stylesheet" href="/CSS/siteusersignup.css">
-    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+    <link rel="stylesheet" href="/topbar.css">
     <link rel="stylesheet" href="/images/logoimage.gif">
 </head>
 <body>
-<div th:replace="~{navbar :: navbar}"></div>
+<!-- 탑바 -->
+<div th:replace="~{topbar :: topbar}"></div>
 <div class="container">
     <img src="/images/logoimage.gif" alt="signuplogo" class="signup-logo-image" />
     <h2>사용자 회원가입</h2>
