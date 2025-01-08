@@ -67,11 +67,12 @@
 
  /* 웹툰 썸네일 이미지 스타일 */
  .webtoon-thumbnail {
-     width: 150px;
-     height: 150px;
+     width: 160px;
+     height: 207px;
      border-radius: 8px;
      object-fit: cover;
      margin-bottom: 20px;
+     margin-top: 45px;
  }
 
  /* 회차 목록 제목 스타일 */
@@ -150,4 +151,6 @@
 
 .list-number {
     display:flex;
+    flex-grow: 1;
+    padding: 20px 50px;
 }
