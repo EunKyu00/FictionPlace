@@ -79,7 +79,7 @@ public class WebToonController {
     @PostMapping("/webtoon/create")
     public String webToonCreate(@Valid WebToonForm webToonForm, BindingResult bindingResult,
                                 HttpSession session,
-                                @RequestParam("thumbnailImg") MultipartFile thumbnailImg,
+                                @RequestParam(value = "thumbnailImg", required = false) MultipartFile thumbnailImg,
                                 Model model) throws IOException {
 
         // 유효성 검사 실패 시 폼과 장르 목록을 다시 보여줌
@@ -94,11 +94,8 @@ public class WebToonController {
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
 
         if (siteUser != null) {
-            // 이미지 업로드 후 경로를 가져오기
-            String thumbnailPath = fileService.uploadImage(thumbnailImg);  // 이미지 경로 얻기
-            // 웹툰 생성 처리 (이미지 경로를 포함)
             webToonService.createWebToon(webToonForm.getTitle(), webToonForm.getContent(),
-                    webToonForm.getGenreTypeId(), siteUser, thumbnailPath);  // 경로 전달
+                    webToonForm.getGenreTypeId(), siteUser, thumbnailImg);  // 경로 전달
         }
 
         // 성공적으로 등록된 후 리다이렉트

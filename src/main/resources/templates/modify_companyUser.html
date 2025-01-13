@@ -13,10 +13,10 @@
 <div th:replace="~{sidebar :: sidebar}"></div>
 
 <div class="modify-type">
-    <form th:action="@{/profile/user/modify}" th:object="${user}" method="post" class="user-modify-form">
+    <form th:action="@{/profile/companyUser/modify}" th:object="${companyUser}" method="post" class="user-modify-form">
         <div>
-            <label>닉네임:</label>
-            <input type="text" th:field="*{nickname}" />
+            <label>기업명:</label>
+            <input type="text" th:field="*{companyName}" />
         </div>
         <div>
             <label>이메일:</label>

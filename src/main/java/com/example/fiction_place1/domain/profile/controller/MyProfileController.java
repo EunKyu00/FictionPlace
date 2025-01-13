@@ -51,7 +51,7 @@ public class MyProfileController {
         return "myprofile"; // myprofile.html로 이동
     }
 
-
+    //기업회원 프로필
     @GetMapping("/profile/company/{id}")
     public String getCompanyProfile(@PathVariable("id") Long id, Model model) {
         // id로 기업 사용자를 조회
@@ -67,6 +67,8 @@ public class MyProfileController {
 
         return "myprofile"; // myprofile.html로 이동
     }
+
+    //작가 프로필 버튼 프로필(작가 작품 정보)
     @GetMapping("/profile/{id}")
     public String userProfile(@PathVariable("id") Long id, Model model) {
         // id로 사용자를 조회
@@ -93,8 +95,8 @@ public class MyProfileController {
             @RequestParam("image") MultipartFile imageFile // 업로드된 이미지 파일
     ) {
         // 세션에서 로그인된 사용자 정보 가져오기
-        SiteUser loggedInUser = (SiteUser) session.getAttribute("loginUser");
-        if (loggedInUser == null || !loggedInUser.getId().equals(userId)) {
+        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+        if (siteUser == null || !siteUser.getId().equals(userId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("접근 권한이 없습니다.");
         }
@@ -155,7 +157,6 @@ public class MyProfileController {
         }
     }
 
-    //일반 유저 정보 변경
     @GetMapping("/profile/user/modify")
     public String userModifyForm(HttpSession session, Model model) {
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
@@ -167,21 +168,59 @@ public class MyProfileController {
         return "modify_user"; // 수정화면
     }
 
-
     @PostMapping("/profile/user/modify")
     public String updateUser(HttpSession session,
                              @RequestParam("nickname") String nickname,
                              @RequestParam("email") String email,
-                             @RequestParam(value = "password", required = false) String password) {
+                             @RequestParam(value = "password", required = false) String password,
+                             Model model) {
         SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
 
         if (siteUser != null) {
-            // 비밀번호가 입력된 경우만 처리, 비어있으면 기존 비밀번호 유지
-            this.siteUserService.modifySiteUser(siteUser, nickname, email, password);
+            try {
+                siteUserService.modifySiteUser(siteUser, nickname, email, password);
+                model.addAttribute("user", siteUser); // 수정된 user 객체를 다시 model에 추가
+            } catch (IllegalArgumentException e) {
+                // 예외 발생 시 errorMessage에 에러 메시지를 담아서 전달
+                model.addAttribute("errorMessage", e.getMessage());
+                model.addAttribute("user", siteUser); // 예외 발생 시 user 객체도 다시 전달
+                return "modify_user";  // 수정 화면으로 돌아감
+            }
         }
 
         // 수정된 사용자 프로필 페이지로 리다이렉트
         return "redirect:/profile/user/" + siteUser.getId();
+    }
+
+
+    @GetMapping("/profile/companyUser/modify")
+    public String updateCompanyUser(HttpSession session, Model model){
+        CompanyUser companyUser = (CompanyUser)session.getAttribute("loginCompanyUser");
+
+        if (companyUser != null){
+            model.addAttribute("companyUser",companyUser);
+        }
+        return "modify_companyUser";
+    }
+
+    @PostMapping("/profile/companyUser/modify")
+    public String updateCompanyUser(HttpSession session, @RequestParam("companyName") String companyName,
+                                    @RequestParam("email") String email,
+                                    @RequestParam(value = "password", required = false) String password,
+                                    Model model){
+        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+
+        if (companyUser != null) {
+            try {
+                companyUserService.modifyCompanyUser(companyUser,companyName,email,password);
+                model.addAttribute("companyUser",companyUser);
+            }catch (IllegalArgumentException e){
+                model.addAttribute("errorMessage",e.getMessage());
+                model.addAttribute("companyUser",companyUser);
+                return "modify_companyUser";
+            }
+        }
+        return "redirect:/profile/company/" + companyUser.getId();
     }
 
 }

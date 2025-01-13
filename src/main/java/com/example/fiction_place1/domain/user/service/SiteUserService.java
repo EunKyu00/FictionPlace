@@ -60,19 +60,6 @@ public class SiteUserService {
         return user; // 로그인 성공 시 사용자 정보 반환
     }
 
-    // 현재 로그인한 사용자 가져오기
-    public SiteUser getLoggedInUser(HttpSession session) {
-        // 세션에서 사용자 정보 가져오기
-        SiteUser loggedInUser = (SiteUser) session.getAttribute("loginUser");
-
-        // 로그인된 사용자가 없는 경우 예외 발생
-        if (loggedInUser == null) {
-            throw new IllegalStateException("로그인된 사용자가 없습니다.");
-        }
-
-        return loggedInUser;
-    }
-
     public void modifySiteUser(SiteUser siteUser, String nickname, String email, String password) {
         // 이메일이나 닉네임 중복 체크 (비어 있지 않은 경우에만)
         if (nickname != null && !nickname.isEmpty() && !nickname.equals(siteUser.getNickname()) && siteUserRepository.existsByNickname(nickname)) {
