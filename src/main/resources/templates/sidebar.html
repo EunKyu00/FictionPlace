@@ -41,7 +41,8 @@
         </div>
 
         <div class="sidebar-item">
-            <a th:href="@{/profile/user/modify}" class="sidebar-link">
+            <!-- loginUser일 경우 user 수정 페이지로 이동 -->
+            <a th:href="@{${session.loginUser != null} ? '/profile/user/modify' : '/profile/companyUser/modify'}" class="sidebar-link">
                 <span class="sidebar-icon">🖊️</span> 정보 수정
             </a>
         </div>

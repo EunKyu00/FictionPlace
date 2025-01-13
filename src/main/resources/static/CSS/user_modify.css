@@ -2,21 +2,6 @@ body {
     background-color: #f9f9f9;
 }
 
-/* 슬라이더 css */
-.sidebar {
-  position: fixed; /* 사이드바를 화면의 왼쪽에 고정 */
-  top: 70px; /* 네비게이션 바 바로 아래에 위치 */
-  left: 0;
-  width: 17%;
-  height: calc(100% - 80px); /* 네비게이션 바 아래부터 화면 끝까지 차지 */
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  z-index: 800; /* 다른 요소들 위에 보이도록 설정 */
-}
 .icon-status {
   display: none;
 }
@@ -24,36 +9,6 @@ body {
   text-decoration: none !important;
 }
 
-.sidebar-item a {
-  display: flex;
-  margin-top: 25px; /* 각 항목 사이의 간격 */
-  cursor: pointer;
-  color: #000000 !important;
-  font-family: "Rubik", sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 22px;
-  letter-spacing: -0.408px;
-  text-decoration: none !important;
-}
-
-.sidebar-item:hover {
-  color: #414141 !important; /* 항목에 마우스를 올렸을 때 색상 변경 */
-}
-
-.sidebar-icon {
-  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
-  color: #7b7b7b; /* 기본 아이콘 색상 */
-}
-
-.sidebar-item:hover .sidebar-icon {
-  color: #414141 !important; /* 호버 시 아이콘 색상 변경 */
-}
-
-.sidebar-item:first-child {
-  margin-top: 20px;
-}
 /* 정보 수정 폼 */
 .modify-type {
     position: absolute;

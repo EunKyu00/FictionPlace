@@ -31,7 +31,7 @@ public class WebToonService {
     private final SiteUserRepository siteUserRepository;
     private final FileService fileService; // 파일 업로드를 위한 서비스
 
-    public void createWebToon(String title, String content, Long genreTypeId, SiteUser siteUser, String thumbnailPath) throws IOException {
+    public void createWebToon(String title, String content, Long genreTypeId, SiteUser siteUser, MultipartFile thumbnailImg) throws IOException {
 
         // GenreType 객체 조회
         GenreType genreType = this.genreTypeRepository.findById(genreTypeId)
@@ -45,8 +45,9 @@ public class WebToonService {
         webToon.setGenreType(genreType);
 
         // 대표 이미지 경로 설정
-        if (thumbnailPath != null && !thumbnailPath.isEmpty()) {
-            webToon.setThumbnailImg(thumbnailPath);  // 경로 설정
+        if (thumbnailImg != null && !thumbnailImg.isEmpty()) {
+            String thumbnailUrl = fileService.uploadImage(thumbnailImg);
+            webToon.setThumbnailImg(thumbnailUrl);
         }
 
         // 작성자 설정
@@ -102,6 +103,7 @@ public class WebToonService {
         }
         webToonRepository.save(webToon);
     }
+
     public List<WebToon> searchWebToon(String keyword) {
         return webToonRepository.findByTitleContainingOrSiteUser_NicknameContaining(
                 keyword, keyword);
