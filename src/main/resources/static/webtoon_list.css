@@ -6,8 +6,7 @@
 .webtoon-container {
     display: grid; /* 그리드 레이아웃 사용 */
     grid-template-columns: repeat(5, 1fr); /* 5개의 열로 구성 */
-    gap: 20px; /* 카드 간 간격 */
-    padding: 20px;
+    padding: 40px;
     justify-items: center; /* 카드들을 중앙 정렬 */
     box-sizing: border-box; /* 패딩 포함 크기 */
 }
@@ -83,7 +82,7 @@ a {
     cursor: pointer;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #f8f8f8;
+    background-color: #fff;
     transition: background-color 0.3s;
 
 }
@@ -149,5 +148,49 @@ input[type="text"]::placeholder {
 .genre-button:hover {
     background-color: #ddd;
 }
+.pagination {
+    display: flex; /* 가로 정렬 */
+    justify-content: center; /* 가운데 정렬 */
+    align-items: center; /* 수직 정렬 */
+    gap: 5px; /* 항목 간 간격 */
+    margin-top: 30px; /* 위쪽 여백 */
+    margin-bottom: 50px; /* 아래쪽 여백 */
+    font-family: Arial, sans-serif;
+    flex-wrap: nowrap; /* 줄바꿈 방지 */
+}
+
+.pagination a,
+.pagination .current-page {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    display: inline-block; /* 인라인 요소로 유지 */
+    border: 1px solid transparent; /* 기본적으로 테두리는 투명 */
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination .current-page {
+    background-color: #d4f5d4; /* 연한 초록색 배경 */
+    font-weight: bold;
+    color: #000;
+    border: 1px solid #d4f5d4; /* 현재 페이지 버튼 테두리 */
+}
+
+.pagination a:first-child,
+.pagination a:last-child {
+    font-weight: bold;
+}
+
+.pagination a.disabled {
+    pointer-events: none;
+    color: #ccc;
+}
+
+
 
 

@@ -35,6 +35,7 @@
                         <!-- 웹툰 제목 링크 -->
                         <a th:href="@{/main/page/webtoon/episode/{id}(id=${webtoon.id})}" th:text="${webtoon.title}">웹툰 제목</a>
                         <p th:text="'# ' + ${webtoon.genreType.genreTypename}"></p>
+                        <p th:text="${webtoon.content}"></p>
                     </div>
                 </div>
             </li>

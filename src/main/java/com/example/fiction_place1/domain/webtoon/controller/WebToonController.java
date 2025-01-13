@@ -14,6 +14,9 @@ import com.example.fiction_place1.domain.webtoon.service.WebToonService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -268,26 +271,36 @@ public class WebToonController {
         return "webtoon_list";
     }
 
-    //장르별 웹툰
     @GetMapping("/webtoons")
-    public String getWebtoonsByGenre(@RequestParam(name = "genreId", required = false) Long genreId, Model model) {
-        List<WebToon> webtoons;
+    public String getWebtoonsByGenre(
+            @RequestParam(name = "genreId", required = false) Long genreId,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<WebToon> webtoonsPage;
 
         if (genreId != null) {
-            // 장르 ID가 있으면 해당 장르의 웹툰만 조회
-            webtoons = webToonService.getWebtoonsByGenreId(genreId);
+            // 장르 ID가 있으면 해당 장르의 웹툰만 조회 (페이징 적용)
+            webtoonsPage = webToonService.getWebtoonsByGenreId(genreId, pageable);
+            model.addAttribute("selectedGenreId", genreId);
         } else {
-            // 장르 ID가 없으면 모든 웹툰 조회
-            webtoons = webToonService.findAll();
+            // 장르 ID가 없으면 모든 웹툰 조회 (페이징 적용)
+            webtoonsPage = webToonService.findAll(pageable);
         }
-        model.addAttribute("selectedGenreId", genreId);
-        model.addAttribute("selectedWebtoons", webtoons);
 
-        // 장르 선택에 따른 메시지 전달 (선택된 장르가 없으면 기본 메시지)
+        List<WebToon> webtoons = webtoonsPage.getContent();
+        model.addAttribute("selectedWebtoons", webtoons);
+        model.addAttribute("currentPage", webtoonsPage.getNumber());
+        model.addAttribute("totalPages", webtoonsPage.getTotalPages());
+        model.addAttribute("pageSize", size);
+
+        // 장르 선택에 따른 메시지 전달
         String nullMessage = (genreId != null) ? "선택된 장르의 웹툰이 없습니다." : "모든 웹툰을 확인하세요.";
         model.addAttribute("nullMessage", nullMessage);
 
-        return "webtoon_list"; // 웹툰 리스트 페이지 반환
+        return "webtoon_list";
     }
 
     @GetMapping("/webtoon/likes")

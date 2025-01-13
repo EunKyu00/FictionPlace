@@ -13,32 +13,40 @@
                 <span class="sidebar-icon">🏠</span> 프로필 홈
             </a>
         </div>
-        <div class="sidebar-item">
+
+        <!-- 로그인된 사용자만 작품 등록 링크를 표시 -->
+        <div class="sidebar-item" th:if="${session.loginUser != null}">
             <a th:href="@{/webtoon/create}" class="sidebar-link">
                 <span class="sidebar-icon">✏️</span> 작품 등록
             </a>
         </div>
-        <div class="sidebar-item">
+
+        <!-- 로그인된 사용자만 작품 관리 링크를 표시 -->
+        <div class="sidebar-item" th:if="${session.loginUser != null}">
             <a th:href="@{/my/webtoon}" class="sidebar-link">
                 <span class="sidebar-icon">📋</span> 작품 관리
             </a>
         </div>
+
         <div class="sidebar-item">
             <a th:href="@{/my/favorite/webtoon}" class="sidebar-link">
                 <span class="sidebar-icon">❤️</span> 관심 작품
             </a>
         </div>
+
         <div class="sidebar-item">
             <a th:href="@{/message/menu}" class="sidebar-link">
                 <span class="sidebar-icon">✉️</span> 쪽지함
             </a>
         </div>
+
         <div class="sidebar-item">
-            <a th:href="@{/profile/user/{id}/modify(id=${id})}" class="sidebar-link">
+            <a th:href="@{/profile/user/modify}" class="sidebar-link">
                 <span class="sidebar-icon">🖊️</span> 정보 수정
             </a>
         </div>
     </div>
 </div>
+
 </body>
 </html>
