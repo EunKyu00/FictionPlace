@@ -68,7 +68,8 @@
                             <div class="webtoon-title" th:text="${webtoon.title}"></div>
                             <!-- 장르 출력: genreTypename -->
                             <div class="webtoon-genre" th:text="${webtoon.genreType.genreTypename}"></div>
-                            <!-- 장르 이름 출력 -->
+                            <!-- 장르 이름
+                            출력 -->
                             <div class="webtoon-content" th:text="${webtoon.content}"></div>
                             <div class="webtoon-buttons">
                                 <a class="modify-btn" th:href="@{/webtoon/modify/{id}(id=${webtoon.id})}">
