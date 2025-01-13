@@ -23,7 +23,5 @@ public class EpisodeImage extends BaseEntity {
 
     @Column(name = "image_order") // imageOrder로 컬럼 이름 변경 (필요시)
     private Integer order; // 이미지 순서를 위한 필드
-
-    // 생성자, getter, setter 등 추가
 }
 

@@ -6,11 +6,12 @@
     <title>기업 회원가입</title>
     <!-- CSS 파일 연결 -->
     <link rel="stylesheet" href="/CSS/companysignup.css">
-    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+    <link rel="stylesheet" href="/topbar.css">
     <link rel="stylesheet" href="/images/logoimage.gif">
 </head>
 <body>
-<div th:replace="~{navbar :: navbar}"></div>
+<!-- 탑바 -->
+<div th:replace="~{topbar :: topbar}"></div>
 <div class="container">
     <img src="/images/logoimage.gif" alt="signuplogo" class="signup-logo-image" />
 

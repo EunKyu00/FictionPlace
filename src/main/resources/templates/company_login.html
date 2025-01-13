@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>기업 회원 로그인</title>
     <link rel="stylesheet" href="/CSS/company_login.css">
-    <link rel="stylesheet" th:href="@{/CSS/Navber.css}">
+    <link rel="stylesheet" href="/topbar.css">
 </head>
 <body>
-<div th:replace="~{navbar :: navbar}"></div>
+<!-- 탑바 -->
+<div th:replace="~{topbar :: topbar}"></div>
 <form th:action="@{/login/company}" method="post">
     <h1>기업 회원 로그인</h1>
 

@@ -59,21 +59,35 @@ public class CompanyUserService {
 
         return companyUser;
     }
-
-    // 현재 로그인한 회사 사용자 가져오기
-    public CompanyUser getLoggedInCompanyUser(HttpSession session) {
-        // 세션에서 회사 사용자 정보 가져오기
-        CompanyUser loggedInCompanyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
-
-        // 로그인된 회사 사용자가 없는 경우 예외 발생
-        if (loggedInCompanyUser == null) {
-            throw new IllegalStateException("로그인된 회사 사용자가 없습니다.");
-        }
-
-        return loggedInCompanyUser;
-    }
     // findById 메서드 추가
     public CompanyUser findById(Long id) {
         return companyUserRepository.findById(id).orElse(null);  // Optional을 null로 처리
+    }
+
+    public void modifyCompanyUser(CompanyUser companyUser, String companyName, String email, String password){
+        if (companyName != null && !companyName.isEmpty() && !companyName.equals(companyUser.getCompanyName()) && companyUserRepository.existsByCompanyName(companyName)){
+            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
+        }
+        if (email != null && !email.isEmpty() && !email.equals(companyUser.getEmail()) && companyUserRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+        }
+
+        // 닉네임이 입력되었으면 변경 (비어 있지 않은 경우에만)
+        if (companyName != null && !companyName.isEmpty()) {
+            companyUser.setCompanyName(companyName);
+        }
+
+        // 이메일이 입력되었으면 변경 (비어 있지 않은 경우에만)
+        if (email != null && !email.isEmpty()) {
+            companyUser.setEmail(email);
+        }
+
+        // 비밀번호가 비어 있지 않으면 변경
+        if (password != null && !password.isEmpty()) {
+            companyUser.setPassword(passwordEncoder.encode(password));
+        }
+
+        // 변경된 사용자 정보 저장
+        this.companyUserRepository.save(companyUser);
     }
 }

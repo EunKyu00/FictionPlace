@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiction Place Navbar</title>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/topbar.css">
+</head>
+<body>
+<!-- Navbar Component -->
+<div th:fragment="topbar" class="top-bar">
+    <!-- Logo Section -->
+    <div class="project-brand">
+        <a href="/">
+            <img src="/images/logoimage.gif" alt="Logo" class="logo-image">
+        </a>
+        <div class="project-name">
+            <a href="/">Fiction Place</a>
+        </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="navigation">
+        <ul class="nav-links">
+            <li><a href="/">웹툰</a></li>
+            <li><a href="/board">게시판</a></li>
+            <li th:if="${session.loginUser != null}">
+                <!-- 일반회원 프로필 -->
+                <a th:if="${session.loginUser != null}"
+                   th:href="@{/profile/user/{id}(id=${session.loginUser.id})}">프로필</a>
+                <span th:if="${session.loginUser == null}">프로필 정보가 없습니다.</span>
+            </li>
+            <li th:if="${session.loginCompanyUser != null}">
+                <!-- 기업회원 프로필 -->
+                <a th:if="${session.loginCompanyUser != null}"
+                   th:href="@{/profile/company/{id}(id=${session.loginCompanyUser.id})}">프로필</a>
+                <span th:if="${session.loginCompanyUser == null}">프로필 정보가 없습니다.</span>
+            </li>
+        </ul>
+
+        <!-- 비로그인 상태 -->
+        <div th:if="${session.loginUser == null and session.loginCompanyUser == null}" class="login-signup-container">
+            <div class="login-type">
+                <span>로그인</span>
+                <ul class="dropdown">
+                    <li><a href="/login/user">일반회원 로그인</a></li>
+                    <li><a href="/login/company">기업회원 로그인</a></li>
+                </ul>
+            </div>
+            <div class="signup-type">
+                <span>회원가입</span>
+                <ul class="dropdown">
+                    <li><a href="/signup/user">일반 회원가입</a></li>
+                    <li><a href="/signup/company">기업 회원가입</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 로그인 상태 -->
+        <div th:if="${session.loginUser != null}" class="logout-type">
+            <!-- 일반회원 -->
+            <p>안녕하세요 <span th:text="${session.loginUser.nickname}"></span> 님</p>
+            <a href="/user/logout" class="logout-btn">로그아웃</a>
+        </div>
+        <div th:if="${session.loginCompanyUser != null}" class="logout-type">
+            <!-- 기업회원 -->
+            <p>안녕하세요 <span th:text="${session.loginCompanyUser.companyName}"></span> 님</p>
+            <a href="/company/logout" class="logout-btn">로그아웃</a>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

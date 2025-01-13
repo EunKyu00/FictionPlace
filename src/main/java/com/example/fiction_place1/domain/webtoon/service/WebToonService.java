@@ -10,6 +10,8 @@ import com.example.fiction_place1.domain.webtoon.repository.WebToonRepository;
 import com.example.fiction_place1.domain.webtoon_episode.entity.WebToonEpisode;
 import com.example.fiction_place1.domain.webtoon_episode.repository.WebToonEpisodeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +31,7 @@ public class WebToonService {
     private final SiteUserRepository siteUserRepository;
     private final FileService fileService; // 파일 업로드를 위한 서비스
 
-    public void createWebToon(String title, String content, Long genreTypeId, SiteUser siteUser, String thumbnailPath) throws IOException {
+    public void createWebToon(String title, String content, Long genreTypeId, SiteUser siteUser, MultipartFile thumbnailImg) throws IOException {
 
         // GenreType 객체 조회
         GenreType genreType = this.genreTypeRepository.findById(genreTypeId)
@@ -43,8 +45,9 @@ public class WebToonService {
         webToon.setGenreType(genreType);
 
         // 대표 이미지 경로 설정
-        if (thumbnailPath != null && !thumbnailPath.isEmpty()) {
-            webToon.setThumbnailImg(thumbnailPath);  // 경로 설정
+        if (thumbnailImg != null && !thumbnailImg.isEmpty()) {
+            String thumbnailUrl = fileService.uploadImage(thumbnailImg);
+            webToon.setThumbnailImg(thumbnailUrl);
         }
 
         // 작성자 설정
@@ -68,6 +71,10 @@ public class WebToonService {
     public List<WebToon> findSelectedWebtoons() {
         // 예시: "isSelected" 필드가 true인 웹툰만 가져오기
         return webToonRepository.findByIsSelectedTrue();
+    }
+
+    public Page<WebToon> findSelectedWebtoonsWithPagination(Pageable pageable) {
+        return webToonRepository.findByIsSelectedTrue(pageable);
     }
 
     public WebToon save(WebToon webToon) {
@@ -96,6 +103,7 @@ public class WebToonService {
         }
         webToonRepository.save(webToon);
     }
+
     public List<WebToon> searchWebToon(String keyword) {
         return webToonRepository.findByTitleContainingOrSiteUser_NicknameContaining(
                 keyword, keyword);
@@ -105,13 +113,15 @@ public class WebToonService {
         return webToonRepository.findAll(Sort.by(Sort.Order.desc("likes"))); // likes 기준 내림차순
     }
 
-    public List<WebToon> getWebtoonsByGenreId(Long genreId) {
-        return webToonRepository.findByGenreTypeId(genreId);
+    public Page<WebToon> findAll(Pageable pageable) {
+        return webToonRepository.findAll(pageable);
     }
 
-    public List<WebToon> findAll(){
-        return webToonRepository.findAll();
+    // 장르 ID가 있으면 해당 장르의 웹툰만 조회
+    public Page<WebToon> getWebtoonsByGenreId(Long genreId,Pageable pageable) {
+        return webToonRepository.findByGenreTypeId(genreId,pageable);
     }
+
     public List<WebToon> getWebtoonsByGenreSortedByLikes(Long genreTypeId) {
         return webToonRepository.findByGenreType_IdOrderByLikesDesc(genreTypeId);
     }
