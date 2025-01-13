@@ -100,6 +100,7 @@ html, body {
 .login-type span, .signup-type span {
   cursor: pointer;
   font-weight: normal; /* 글씨 진한 스타일 제거 */
+  padding: 15px;
 }
 
 /* 로그인 및 회원가입 드롭다운 스타일 */

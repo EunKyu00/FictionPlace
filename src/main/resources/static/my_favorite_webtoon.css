@@ -32,6 +32,7 @@ ul {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     gap: 20px; /* 항목 간 간격 추가 */
+    width: 90%;
 }
 
 /* 썸네일 이미지 스타일 */

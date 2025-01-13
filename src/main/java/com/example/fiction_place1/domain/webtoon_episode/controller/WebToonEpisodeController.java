@@ -42,14 +42,17 @@ public class WebToonEpisodeController {
     private final FileService fileService;
 
     @GetMapping("/")
-    public String getAllWebtoons(Model model) {
-        // 데이터베이스에서 선택된 웹툰 정보 가져오기
-        List<WebToon> selectedWebtoons = webToonService.findSelectedWebtoons();
+    public String getAllWebtoons(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            Model model) {
 
-        // 에피소드 중 isSelected가 true인 에피소드가 하나라도 있는 웹툰만 필터링
-        List<WebToon> webtoonsWithSelectedEpisodes = selectedWebtoons.stream()
+        Pageable pageable = PageRequest.of(page, size);
+        Page<WebToon> webtoonsPage = webToonService.findSelectedWebtoonsWithPagination(pageable);
+
+        List<WebToon> webtoonsWithSelectedEpisodes = webtoonsPage.getContent().stream()
                 .filter(webtoon -> webtoon.getWebtoonEpisodes().stream()
-                        .anyMatch(episode -> episode.isSelected())) // isSelected가 true인 에피소드가 있는 웹툰만 남기기
+                        .anyMatch(episode -> episode.isSelected()))
                 .collect(Collectors.toList());
 
         if (webtoonsWithSelectedEpisodes.isEmpty()) {
@@ -58,8 +61,13 @@ public class WebToonEpisodeController {
             model.addAttribute("selectedWebtoons", webtoonsWithSelectedEpisodes);
         }
 
+        model.addAttribute("currentPage", webtoonsPage.getNumber());
+        model.addAttribute("totalPages", webtoonsPage.getTotalPages());
+        model.addAttribute("pageSize", size);
+
         return "webtoon_list";
     }
+
 
 
     // 회차 등록 페이지

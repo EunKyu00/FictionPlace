@@ -46,10 +46,10 @@
 
 /* 본문 내용 스타일 */
 .content {
-  margin-left: 220px; /* 사이드바 공간을 확보 */
-  padding: 20px;
-  width: calc(100% - 220px); /* 사이드바 너비를 제외한 공간을 채움 */
-  margin-top: 70px; /* 탑바 높이만큼 위쪽 여백 추가 */
+    margin-left: 280px;
+    padding: 20px;
+    width: calc(100% - 220px);
+    margin-top: 80px;
 }
 /* 콘텐츠와 사이드바 사이의 간격을 조정하는 클래스 */
 .message-content {

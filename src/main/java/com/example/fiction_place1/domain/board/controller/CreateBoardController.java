@@ -129,7 +129,6 @@ public class CreateBoardController {
         // 댓글 목록 가져오기
         List<Comment> comments = commentService.getCommentsByBoard(board);
 
-
         model.addAttribute("board", board);
         model.addAttribute("comments", comments);
         model.addAttribute("isAuthor", isAuthor);

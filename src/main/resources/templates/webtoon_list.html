@@ -83,6 +83,38 @@
             <p th:text="${nullMessage != null ? nullMessage : '등록된 웹툰이 없습니다.'}"></p>
         </div>
     </div>
+    <div class="pagination">
+        <!-- 처음 페이지로 이동 -->
+        <a th:class="${currentPage != null && currentPage == 0 ? 'disabled' : ''}"
+           th:href="@{${selectedGenreId != null} ? '/webtoons?genreId=' + ${selectedGenreId} + '&page=0&size=' + ${pageSize} : '/?page=0&size=' + ${pageSize}}">«</a>
+
+        <!-- 이전 페이지로 이동 -->
+        <a th:class="${currentPage != null && currentPage == 0 ? 'disabled' : ''}"
+           th:href="@{${selectedGenreId != null} ? '/webtoons?genreId=' + ${selectedGenreId} + '&page=' + (${currentPage != null ? currentPage : 0} - 1) + '&size=' + ${pageSize} : '/?page=' + (${currentPage != null ? currentPage : 0} - 1) + '&size=' + ${pageSize}}">‹</a>
+
+        <!-- 페이지 번호 목록 -->
+        <span th:if="${totalPages != null && totalPages > 0}">
+        <span th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:if="${pageNumber != (currentPage != null ? currentPage : 0)}"
+               th:href="@{${selectedGenreId != null} ? '/webtoons?genreId=' + ${selectedGenreId} + '&page=' + ${pageNumber} + '&size=' + ${pageSize} : '/?page=' + ${pageNumber} + '&size=' + ${pageSize}}">
+                <span th:text="${pageNumber + 1}"></span>
+            </a>
+            <span th:if="${pageNumber == (currentPage != null ? currentPage : 0)}" class="current-page" th:text="${pageNumber + 1}"></span>
+        </span>
+    </span>
+        <span th:if="${totalPages == 0}">
+        <span class="current-page">1</span>
+    </span>
+
+        <!-- 다음 페이지로 이동 -->
+        <a th:class="${currentPage != null && currentPage + 1 >= totalPages ? 'disabled' : ''}"
+           th:href="@{${selectedGenreId != null} ? '/webtoons?genreId=' + ${selectedGenreId} + '&page=' + (${currentPage != null ? currentPage : 0} + 1) + '&size=' + ${pageSize} : '/?page=' + (${currentPage != null ? currentPage : 0} + 1) + '&size=' + ${pageSize}}">›</a>
+
+        <!-- 마지막 페이지로 이동 -->
+        <a th:class="${currentPage != null && currentPage + 1 >= totalPages ? 'disabled' : ''}"
+           th:href="@{${selectedGenreId != null} ? '/webtoons?genreId=' + ${selectedGenreId} + '&page=' + (${totalPages != null ? totalPages - 1 : 0}) + '&size=' + ${pageSize} : '/?page=' + (${totalPages != null ? totalPages - 1 : 0}) + '&size=' + ${pageSize}}">»</a>
+    </div>
+
 </div>
 
 <!-- Slick 슬라이더 스크립트 -->
