@@ -1,3 +1,7 @@
+
+body {
+    background-color: #f6f6f6;
+}
 .toonlist-container {
     display: flex;
     min-height: calc(100vh - 70px);
@@ -51,129 +55,81 @@
 }
 
 .container {
-    flex-grow: 1;
-    padding: 50px;
+    width: 1000px;
+    flex-shrink: 0;
 }
 
-.webtoon-card {
-    width: 85%;
+.webtoon-list {
+    padding: 32px 0 50px 30px;
 }
-/* 웹툰 카드 컨테이너 */
-.webtoon-container {
-    display: flex;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 8px;
-    background-color: #fff;
-    position: relative;
+
+.webtoon-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 10px;
+    gap: 15px;
 }
 
 /* 썸네일 이미지 */
 .webtoon-thumbnail {
     width: 160px;
-    height: 120px;
+    height: 207px;
     object-fit: cover;
-    margin-right: 20px;
 }
 
-/* 웹툰 정보 (제목, 장르, 내용) */
-.webtoon-info {
+.webtoon-content {
+    white-space: normal;        /* 줄바꿈을 정상적으로 허용 */
+    word-wrap: break-word;      /* 구형 문법 */
+    overflow-wrap: break-word;  /* 최신 문법 */
+    word-break: break-all;      /* 영어 단어도 글자 단위로 줄바꿈(필요 시) */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 272px;
+    margin-top: 5px;
+    flex-grow: 0.9;
+}
+
+.webtoon-container {
     display: flex;
-    flex-grow: 1;
-    padding: 15px;
+    column-gap: 10px;
+}
+
+.webtoon-card {
+    width: 100%;
+    background: #fff;
+    padding: 19px;
+    max-width: 480px;
+    border-radius: 3px;
+    border: 1px solid #ebebeb;
+}
+
+.webtoon-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
 }
 
-.webtoon-info > a {
-    flex-grow: 1;
-}
-
-/* 웹툰 제목 스타일 */
-.webtoon-title {
-    font-weight: bold;
-    font-size: 1.2em;
-    margin-bottom: 5px;
-    color: #101010;
-}
-
-/* 장르 스타일 */
 .webtoon-genre {
-    font-size: 0.9em;
-    color: #777;
-    margin-bottom: 10px; /* 제목과 내용 사이의 간격 */
+    margin-top: 6px;
 }
 
-/* 웹툰 내용 스타일 */
-.webtoon-content {
-    font-size: 0.9em;
-    color: #555;
-}
-
-/* 버튼들이 위치할 컨테이너 */
 .webtoon-buttons {
-    display: flex;
-    gap: 10px;
-    align-self: center;
+    margin-bottom: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 12px;
+    padding-top: 10px;
 }
 
-/* 수정 버튼 */
-.modify-btn {
-    padding: 8px 15px;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
-    font-size: 1em;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.modify-btn:hover {
-    background-color: #45a049;
-}
-
-/* 삭제 버튼 */
-.delete-btn {
-    padding: 8px 15px;
-    background-color: #f44336;
-    color: white;
-    text-decoration: none;
-    font-size: 1em;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.delete-btn:hover {
-    background-color: #e53935;
-}
-.no-webtoons-message {
-    text-align: center; /* 가운데 정렬 */
-    padding: 20px; /* 여백 추가 */
-    background-color: #f9f9f9; /* 배경 색 */
-    border: 1px solid #ddd; /* 테두리 */
-    border-radius: 10px; /* 모서리 둥글게 */
-    width: 300px; /* 너비 설정 */
-    margin: 50px auto; /* 화면 가운데 배치 */
-    height: 180px;
-}
-
-.no-webtoons-message p {
-    font-size: 16px; /* 글자 크기 */
-    color: #333; /* 글자 색 */
-    margin-bottom: 20px; /* 문단 간격 */
-}
-
-.create-webtoon-btn {
-    padding: 10px 20px; /* 버튼 크기 */
-    font-size: 14px; /* 버튼 글자 크기 */
-    background-color: #393939; /* 버튼 배경 색 */
-    color: white; /* 버튼 글자 색 */
-    border: none; /* 테두리 없애기 */
-    border-radius: 5px; /* 버튼 모서리 둥글게 */
-    cursor: pointer; /* 커서 모양 */
-    transition: background-color 0.3s ease; /* 마우스 오버시 색 변경 효과 */
-}
-
-.create-webtoon-btn:hover {
-    background-color: #0056b3; /* 마우스 오버 시 색 변경 */
+.webtoon-buttons a {
+    display: block;
+    text-align: center;
+    padding: 10px 20px;
+    background-color: #f0f0f0; /* 버튼 배경색 */
+    border-radius: 8px; /* 버튼 모서리 둥글게 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: #333; /* 텍스트 색상 */
+    font-size: 0.87rem;
 }
