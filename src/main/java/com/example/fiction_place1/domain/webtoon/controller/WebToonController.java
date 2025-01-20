@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +28,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -148,39 +151,58 @@ public class WebToonController {
         return "redirect:/my/webtoon";  // 수정 후 리다이렉트 할 페이지 (예: 웹툰 목록 페이지)
     }
 
-    //웹툰 추천
     @PostMapping("/webtoon/recommend/{id}")
-    public String likeWebToon(@PathVariable("id") Long id, HttpSession session, Model model, RedirectAttributes redirectAttributes){
-        SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
-        CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
-        WebToon webToon = webToonService.findById(id);
+    @ResponseBody
+    public Map<String, Object> likeWebToon(@PathVariable("id") Long id, HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            SiteUser siteUser = (SiteUser) session.getAttribute("loginUser");
+            CompanyUser companyUser = (CompanyUser) session.getAttribute("loginCompanyUser");
+            WebToon webToon = webToonService.findById(id);
 
-        if (siteUser == null && companyUser == null){
-            redirectAttributes.addFlashAttribute("message","로그인 후 이용해주세요.");
-            return String.format("redirect:/main/page/webtoon/episode/%s", id);
-        }
-        // 추천 여부 확인
-        boolean hasRecommended = false;
-
-        if (siteUser != null) {
-            hasRecommended = recommendService.hasSiteUserRecommended(siteUser, webToon);
-        } else if (companyUser != null) {
-            hasRecommended = recommendService.hasCompanyUserRecommended(companyUser, webToon);
-        }
-
-        if (hasRecommended) {
-            redirectAttributes.addFlashAttribute("message", "이미 추천하셨습니다!");
-        } else {
-            if (siteUser != null) {
-                recommendService.addSiteUserRecommendation(siteUser, webToon);
-            } else if (companyUser != null) {
-                recommendService.addCompanyUserRecommendation(companyUser, webToon);
+            if (webToon == null) {
+                response.put("success", false);
+                response.put("message", "웹툰을 찾을 수 없습니다.");
+                return response;
             }
-            redirectAttributes.addFlashAttribute("message", "추천이 완료되었습니다!");
-        }
 
-        return String.format("redirect:/main/page/webtoon/episode/%s", id);
+            // 로그인 여부 확인
+            if (siteUser == null && companyUser == null) {
+                response.put("success", false);
+                response.put("message", "로그인 후 이용해주세요.");
+                return response;
+            }
+
+            // 추천 여부 확인
+            boolean hasRecommended = false;
+            if (siteUser != null) {
+                hasRecommended = recommendService.hasSiteUserRecommended(siteUser, webToon);
+            } else if (companyUser != null) {
+                hasRecommended = recommendService.hasCompanyUserRecommended(companyUser, webToon);
+            }
+
+            if (hasRecommended) {
+                response.put("success", false);
+                response.put("message", "이미 추천하셨습니다!");
+            } else {
+                if (siteUser != null) {
+                    recommendService.addSiteUserRecommendation(siteUser, webToon);
+                } else if (companyUser != null) {
+                    recommendService.addCompanyUserRecommendation(companyUser, webToon);
+                }
+                response.put("success", true);
+                response.put("message", "추천이 완료되었습니다!");
+                response.put("likes", webToon.getLikes()); // 추천 수 갱신
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "추천 처리 중 오류가 발생했습니다.");
+            e.printStackTrace();  // 예외 로그 출력
+        }
+        return response;
     }
+
+
 
     //관심작품 등록 처리
     @PostMapping("/webtoon/favorite/{id}")
@@ -241,32 +263,46 @@ public class WebToonController {
     //웹툰 검색 기능
     @GetMapping("/webtoon/search")
     public String webToonSearch(Model model,
-                                @RequestParam(value = "keyword", required = false) String keyword) {
-        List<WebToon> searchResults = new ArrayList<>();
+                                @RequestParam(value = "keyword", required = false) String keyword,
+                                @RequestParam(value = "page", defaultValue = "0") int page,  // 페이지 번호
+                                @RequestParam(value = "size", defaultValue = "10") int size) {  // 페이지 크기
 
-        // 전체 웹툰 목록 가져오기
-        List<WebToon> webToons = webToonService.findSelectedWebtoons();
+        // Pageable 객체 생성 (page, size, 정렬 기준 설정)
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("likes")));  // likes 기준 내림차순으로 정렬
 
-        // 검색어가 없을 경우
+        Page<WebToon> searchResultsPage;
+
+        // 전체 웹툰 목록 가져오기 (검색어가 없을 경우)
         if (keyword == null || keyword.trim().isEmpty()) {
             model.addAttribute("nullMessage", "※ 검색어를 입력해주세요. ※");
-            model.addAttribute("selectedWebtoons", webToons); // 전체 웹툰 목록 표시
+
+            // 페이지네이션을 위한 전체 웹툰 목록
+            searchResultsPage = webToonService.findAll(pageable);
+            model.addAttribute("selectedWebtoons", searchResultsPage.getContent()); // 해당 페이지의 웹툰 목록만 표시
             model.addAttribute("keyword", ""); // 검색어를 빈 값으로 설정
         } else {
-            // 검색어가 있을 경우 검색된 웹툰 목록을 가져오기
-            searchResults = webToonService.searchWebToon(keyword);
+            // 검색어가 있을 경우 검색된 웹툰 목록을 가져오기 (페이징 적용)
+            searchResultsPage = webToonService.searchWebToon(keyword, pageable);
 
-            if (searchResults.isEmpty()) {
-                model.addAttribute("searchErrorMessage", "※ 검색된 웹툰이 없습니다. ※"); // 검색 결과 없음 메시지
-                model.addAttribute("selectedWebtoons", webToons); // 전체 웹툰 목록 표시
+            if (searchResultsPage.getTotalElements() == 0) {
+                model.addAttribute("searchErrorMessage", "※ 검색된 웹툰이 없습니다. ※");
+                // 검색 결과가 없을 때 전체 목록 표시
+                searchResultsPage = webToonService.findAll(pageable);
+                model.addAttribute("selectedWebtoons", searchResultsPage.getContent());
             } else {
-                model.addAttribute("selectedWebtoons", searchResults); // 검색된 웹툰만 표시
+                model.addAttribute("selectedWebtoons", searchResultsPage.getContent()); // 검색된 웹툰 목록만 표시
             }
             model.addAttribute("keyword", keyword); // 검색어 유지
         }
 
-        return "webtoon_list";
+        // 페이징 관련 속성들 추가
+        model.addAttribute("currentPage", searchResultsPage.getNumber()); // 현재 페이지
+        model.addAttribute("totalPages", searchResultsPage.getTotalPages()); // 전체 페이지 수
+        model.addAttribute("pageSize", size); // 한 페이지에 표시할 웹툰 수
+
+        return "webtoon_list";  // 웹툰 리스트를 보여줄 뷰 이름
     }
+
 
     @GetMapping("/webtoons")
     public String getWebtoonsByGenre(
@@ -301,21 +337,36 @@ public class WebToonController {
     }
 
     @GetMapping("/webtoon/likes")
-    public String getWebtoonsSortedByLikes(@RequestParam(name = "genreId", required = false) Long genreId, Model model) {
-        List<WebToon> webtoons;
+    public String getWebtoonsSortedByLikes(
+            @RequestParam(name = "genreId", required = false) Long genreId,
+            @RequestParam(value = "page", defaultValue = "0") int page,  // 페이지 번호
+            @RequestParam(value = "size", defaultValue = "10") int size, // 페이지 크기
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);  // Pageable 객체 생성
+        Page<WebToon> webtoonsPage;
 
         if (genreId != null) {
-            // 장르 ID가 있을 경우 해당 장르의 웹툰만 추천순으로 가져오기
-            webtoons = webToonService.getWebtoonsByGenreSortedByLikes(genreId);
+            // 장르 ID가 있을 경우 해당 장르의 웹툰만 추천순으로 가져오기 (페이징 적용)
+            webtoonsPage = webToonService.getWebtoonsByGenreSortedByLikes(genreId, pageable);
+            model.addAttribute("selectedGenreId", genreId);
         } else {
-            // 장르 ID가 없을 경우 전체 웹툰을 추천순으로 가져오기
-            webtoons = webToonService.getWebtoonsSortedByLikes();
+            // 장르 ID가 없을 경우 전체 웹툰을 추천순으로 가져오기 (페이징 적용)
+            webtoonsPage = webToonService.getWebtoonsSortedByLikes(pageable);
         }
 
+        List<WebToon> webtoons = webtoonsPage.getContent();  // 현재 페이지의 웹툰 목록
         model.addAttribute("selectedWebtoons", webtoons);
-        model.addAttribute("selectedGenreId", genreId);
+        model.addAttribute("currentPage", webtoonsPage.getNumber());
+        model.addAttribute("totalPages", webtoonsPage.getTotalPages());
+        model.addAttribute("pageSize", size);
 
         return "webtoon_like_list"; // 웹툰 리스트를 보여줄 뷰 이름
+    }
+
+    @GetMapping("/aaa")
+    public String aaa (){
+        return "aaa";
     }
 }
 
