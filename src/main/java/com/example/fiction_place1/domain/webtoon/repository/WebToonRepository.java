@@ -4,6 +4,7 @@ import com.example.fiction_place1.domain.user.entity.SiteUser;
 import com.example.fiction_place1.domain.webtoon.entity.WebToon;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -18,11 +19,11 @@ public interface WebToonRepository extends JpaRepository<WebToon,Long> {
 
     List<WebToon> findAllById(Iterable<Long> ids);
 
-    List<WebToon> findByTitleContainingOrSiteUser_NicknameContaining(String title, String nickname);
+    Page<WebToon> findByTitleContainingOrSiteUser_NicknameContaining(String title, String nickname,Pageable pageable);
 
     Page<WebToon> findAll(Pageable pageable);
 
-    List<WebToon> findByGenreType_IdOrderByLikesDesc(Long genreTypeId);
+    Page<WebToon> findByGenreType_IdOrderByLikesDesc(Long genreTypeId,Pageable pageable);
 
     // 장르 ID에 따른 웹툰 리스트
     Page<WebToon> findByGenreTypeId(Long genreId,Pageable pageable);

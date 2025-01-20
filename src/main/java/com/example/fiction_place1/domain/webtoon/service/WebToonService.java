@@ -11,6 +11,7 @@ import com.example.fiction_place1.domain.webtoon_episode.entity.WebToonEpisode;
 import com.example.fiction_place1.domain.webtoon_episode.repository.WebToonEpisodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -104,13 +105,8 @@ public class WebToonService {
         webToonRepository.save(webToon);
     }
 
-    public List<WebToon> searchWebToon(String keyword) {
-        return webToonRepository.findByTitleContainingOrSiteUser_NicknameContaining(
-                keyword, keyword);
-    }
-    //전체목록 추천순
-    public List<WebToon> getWebtoonsSortedByLikes() {
-        return webToonRepository.findAll(Sort.by(Sort.Order.desc("likes"))); // likes 기준 내림차순
+    public Page<WebToon> searchWebToon(String keyword, Pageable pageable) {
+        return webToonRepository.findByTitleContainingOrSiteUser_NicknameContaining(keyword,keyword,pageable);
     }
 
     public Page<WebToon> findAll(Pageable pageable) {
@@ -122,9 +118,19 @@ public class WebToonService {
         return webToonRepository.findByGenreTypeId(genreId,pageable);
     }
 
-    public List<WebToon> getWebtoonsByGenreSortedByLikes(Long genreTypeId) {
-        return webToonRepository.findByGenreType_IdOrderByLikesDesc(genreTypeId);
+    // 장르별 웹툰 추천순 페이징 처리
+    public Page<WebToon> getWebtoonsByGenreSortedByLikes(Long genreTypeId, Pageable pageable) {
+        return webToonRepository.findByGenreType_IdOrderByLikesDesc(genreTypeId, pageable);
     }
+
+    // 전체 목록 추천순 페이징 처리
+    public Page<WebToon> getWebtoonsSortedByLikes(Pageable pageable) {
+        // Pageable에 Sort를 포함시켜서 호출
+        Pageable sortedByLikes = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.desc("likes")));
+        return webToonRepository.findAll(sortedByLikes);
+    }
+
+
 }
 
 

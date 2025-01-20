@@ -5,8 +5,10 @@
     <title>웹툰 에피소드</title>
     <link href="/main_page_episode_detail.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/topbar.css">
-    <!-- Font Awesome 최신 CDN -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <!-- jQuery CDN 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <!-- 탑바 -->
@@ -26,12 +28,11 @@
 
     <div class="webtoon-actions">
         <a th:href="@{/profile/{id}(id=${webtoon.siteUser.id})}" class="profile-button">작가 프로필</a>
-        <!-- 추천 버튼 -->
-        <form method="POST" th:action="@{|/webtoon/recommend/${webtoon.id}|}">
-            <button class="btn-recommend" type="submit">
-                추천 <span class="recommend-count" th:text="${webtoon.likes}"></span>
-            </button>
-        </form>
+
+        <!-- 추천 버튼 (AJAX로 처리) -->
+        <button class="btn-recommend" id="recommend-btn">
+            추천 <span class="recommend-count" th:text="${webtoon.likes}"></span>
+        </button>
 
         <!-- 관심작품 버튼 -->
         <form method="POST" th:action="@{/webtoon/favorite/{id}(id=${webtoon.id})}">
@@ -47,7 +48,6 @@
     <div class="error-message" th:if="${message}">
         <p th:text="${message}"></p>
     </div>
-
 
     <!-- 에피소드 리스트 -->
     <ul class="episode-list">
@@ -75,5 +75,34 @@
         </span>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        // 웹툰 ID 가져오기 (Thymeleaf 변수 전달)
+        var webtoonId = [[${webtoon.id}]]; // Thymeleaf 변수를 JavaScript 변수로 전달
+
+        // 추천 버튼 클릭 이벤트 처리
+        $('#recommend-btn').click(function (e) {
+            e.preventDefault(); // form 제출 방지
+
+            $.ajax({
+                url: '/webtoon/recommend/' + webtoonId, // 추천 URL
+                method: 'POST',
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message); // "추천이 완료되었습니다!" 메시지 표시
+                        $('.recommend-count').text(response.likes); // 좋아요 수 갱신
+                    } else {
+                        alert(response.message); // "이미 추천하셨습니다!" 메시지
+                    }
+                },
+                error: function () {
+                    alert('추천 처리 중 오류가 발생했습니다.');
+                }
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

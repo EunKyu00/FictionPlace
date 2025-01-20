@@ -96,16 +96,17 @@ a {
 .input-container {
     position: relative;
     width: 100%;
-    max-width: 500px; /* 최대 너비 */
+    max-width: 700px; /* 최대 너비 */
 }
 
 input[type="text"] {
-    width: 100%;
-    padding: 10px 40px 10px 10px; /* 오른쪽 여백을 충분히 줘서 아이콘 공간 확보 */
-    font-size: 1rem;
+    width: 260px; /* 입력창 너비 고정 */
+    height: 40px; /* 입력창 높이 고정 */
+    padding: 10px 40px 10px 10px; /* 패딩 유지 */
+    font-size: 1rem; /* 텍스트 크기 줄임 */
     border-radius: 5px;
     border: 1px solid #ccc;
-    box-sizing: border-box; /* padding을 포함한 너비 계산 */
+    box-sizing: border-box; /* 패딩 포함 크기 계산 */
 }
 
 .search-icon {
