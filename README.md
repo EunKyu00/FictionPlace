@@ -69,6 +69,7 @@
   - **HTML / CSS**
   - **JavaScript**
   - **JQuery**
+  - **Ajax**
 
 - **데이터베이스**
   - **MariaDB**
