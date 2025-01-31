@@ -1,7 +1,8 @@
-![메인페이지](https://github.com/user-attachments/assets/e580e5db-a87a-4fc3-8eaa-1afa41aef838) 
-
 ## 📌 픽션플레이스 (FictionPlace)
 - 웹툰 작가와 기업을 연결하는 매칭 플랫폼
+
+**메인페이지**
+![메인페이지](https://github.com/user-attachments/assets/e580e5db-a87a-4fc3-8eaa-1afa41aef838) 
 
 ## 📅 개발 기간
 - 2024년 11월 17일 ~ 2024년 12월 20일 (총 33일)
