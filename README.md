@@ -102,7 +102,10 @@
 ![Frame 2](https://github.com/user-attachments/assets/a26b7273-ae9c-433c-8c08-8790e26c43f7)
 
 ## 🎬 소개영상
-- [소개영상](https://www.youtube.com/watch?v=P1Mu25DWq70&t=3s)
+<a href="https://www.youtube.com/watch?v=P1Mu25DWq70&t=3s" target="_blank">
+    <img src="https://img.youtube.com/vi/P1Mu25DWq70/maxresdefault.jpg" alt="소개영상" />
+</a>
+
   
 ## 👥 역할 분담
 | 이름     | 역할               | 담당 업무                                                            |
